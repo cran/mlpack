@@ -1,4 +1,4 @@
-ec2b89cd5323a77c9cf1512be3e53aaf *DESCRIPTION
+f610b774bb7c099104475b9d3afb4b90 *DESCRIPTION
 ca3c29eb743d1c26a17cafb9a4558520 *LICENSE
 daf1f3f67dfd8a78f7834a66e6071b34 *NAMESPACE
 b4885833f8840159f979c054bc92fa33 *R/RcppExports.R
@@ -111,7 +111,7 @@ dcf4aa3bed1c92d3c0083bf065ed2e68 *src/adaboost.cpp
 2f0e4f257d82b3bd6765e13705ad99b0 *src/bayesian_linear_regression.cpp
 819e588765774b00391e4a664f5eb703 *src/boost/serialization/archive_exception.cpp
 76c85daeaf0f99095e82bb7d8108be29 *src/boost/serialization/basic_archive.cpp
-426c475614118b2c0c97692e6a83f798 *src/boost/serialization/basic_iarchive.cpp
+55336a7cae9fb17e1f3a53722a713538 *src/boost/serialization/basic_iarchive.cpp
 75daf60d079b4b838811d63a92e5fb63 *src/boost/serialization/basic_iserializer.cpp
 936f2b8952f365bfd81be2fd2f366046 *src/boost/serialization/basic_oarchive.cpp
 36bdf6add1d656a05db5210f80e26305 *src/boost/serialization/basic_oserializer.cpp
@@ -491,7 +491,7 @@ d242162a4ee6dae67e9672be4297f6d6 *src/mlpack/core/util/param_checks.hpp
 b3e47b0a7b89323b19fd9dde080f318b *src/mlpack/core/util/param_data.hpp
 90c8290214c0210d4b141cfc34d8d32c *src/mlpack/core/util/prefixedoutstream.cpp
 0c2814d0ceca1e6d5a20b4af742c015b *src/mlpack/core/util/prefixedoutstream.hpp
-a058020c9da562d450638629469bc8d3 *src/mlpack/core/util/prefixedoutstream_impl.hpp
+1d46214fc1300afb2a1bf794f7b690c3 *src/mlpack/core/util/prefixedoutstream_impl.hpp
 3ac5588f4bb9a62a9de9b44c17943142 *src/mlpack/core/util/program_doc.cpp
 8aa348ef31ae2e1ffd30b9904360cee0 *src/mlpack/core/util/program_doc.hpp
 2530d9bb5059f9a61a344b8df4576643 *src/mlpack/core/util/sfinae_utility.hpp
@@ -905,7 +905,7 @@ d9112defc5ec1d75b143fe18df9a6226 *src/mlpack/methods/gmm/diagonal_gmm.hpp
 68d63240868316dcc4a677eb2c742d99 *src/mlpack/methods/gmm/diagonal_gmm_impl.hpp
 c0645c12e8dae6ddaac80ba05a398748 *src/mlpack/methods/gmm/eigenvalue_ratio_constraint.hpp
 63ba1b9c78f37ce1e1310febbe010a5c *src/mlpack/methods/gmm/em_fit.hpp
-557b678b80a6fd4dcac2fac0ad14daf8 *src/mlpack/methods/gmm/em_fit_impl.hpp
+0fb9fefd3a1101f0921a493ab24537f3 *src/mlpack/methods/gmm/em_fit_impl.hpp
 200e679911333cc67b06fccad67efcbe *src/mlpack/methods/gmm/gmm.cpp
 6c462d13f8080dac748468b838f89365 *src/mlpack/methods/gmm/gmm.hpp
 b026516777e3677dd835d3390dc2deff *src/mlpack/methods/gmm/gmm_generate_main.cpp
@@ -916,7 +916,7 @@ d05af44fa23751d4bae2860cb3deea7e *src/mlpack/methods/gmm/gmm_impl.hpp
 58aafdbcd8de4449a41e9495b8b3d693 *src/mlpack/methods/gmm/positive_definite_constraint.hpp
 b397a685a2a1c0ed4d0c41b90c9ca0da *src/mlpack/methods/hmm/hmm.hpp
 835230ffe1ebcf78a995e9414a12c1b1 *src/mlpack/methods/hmm/hmm_generate_main.cpp
-b15754b57bcdea584e8c1a128c56f462 *src/mlpack/methods/hmm/hmm_impl.hpp
+a7ec6c5adc7b017e68f07d864e590545 *src/mlpack/methods/hmm/hmm_impl.hpp
 b5753904d678f78dcd194002925e17d6 *src/mlpack/methods/hmm/hmm_loglik_main.cpp
 6cab8a6a6ef37ffb1b34f5436f3b85a4 *src/mlpack/methods/hmm/hmm_model.hpp
 10345fcb7c1726a776dd0d8bdffca727 *src/mlpack/methods/hmm/hmm_regression.hpp
@@ -1093,10 +1093,10 @@ d1e396cc8e8a7e25b3c6a132cbe496e5 *src/mlpack/methods/range_search/range_search_m
 0876bd98edb8089206f62ac0f2576117 *src/mlpack/methods/range_search/rs_model.hpp
 bb5de58d433a2a937a980a1677dddcd1 *src/mlpack/methods/range_search/rs_model_impl.hpp
 b355e3c88c75321e232f03f48487b921 *src/mlpack/methods/rann/krann_main.cpp
-91fb59cdc30aebf37d0ca6c451f34d01 *src/mlpack/methods/rann/ra_model.hpp
-75e40972f55342724972f639fd4608f8 *src/mlpack/methods/rann/ra_model_impl.hpp
+458dd8bb06888c816e59e7a36cd74177 *src/mlpack/methods/rann/ra_model.hpp
+4277f8dd5abe41d7adffbdccb1f3fcbb *src/mlpack/methods/rann/ra_model_impl.hpp
 309780dddd65eb0483095a9d9929d0fc *src/mlpack/methods/rann/ra_query_stat.hpp
-d4062ce04e84f7be8efd06cbbe480311 *src/mlpack/methods/rann/ra_search.hpp
+378236aaf72b0d38dbfd10b9f653b6c8 *src/mlpack/methods/rann/ra_search.hpp
 2c74075abc332bf6c07e41b93af9a7d8 *src/mlpack/methods/rann/ra_search_impl.hpp
 3b112c5d2126df064eb0360f01c89b4b *src/mlpack/methods/rann/ra_search_rules.hpp
 f86ecddd464a008cde2b0bc6e535b21a *src/mlpack/methods/rann/ra_search_rules_impl.hpp

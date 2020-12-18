@@ -427,7 +427,11 @@ basic_iarchive_impl::load_pointer(
     class_id_type cid;
     load(ar, cid);
 
+#if BOOST_VERSION >= 107300
+    if(BOOST_SERIALIZATION_NULL_POINTER_TAG == cid){
+#else
     if(NULL_POINTER_TAG == cid){
+#endif
         t = NULL;
         return bpis_ptr;
     }

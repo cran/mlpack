@@ -1,7 +1,7 @@
 Package: mlpack
 Title: 'Rcpp' Integration for the 'mlpack' Library
-Version: 3.4.2
-Date: 2020-12-08
+Version: 3.4.2.1
+Date: 2020-12-14
 Authors@R: c(
     person("Yashwant", "Singh Parihar", email = "yashwantsingh.sngh@gmail.com", role = c("aut", "ctb", "cph")),
     person("Ryan", "Curtin", email = "ryan@ratml.org", role = c("aut", "ctb", "cph", "cre")),
@@ -155,7 +155,7 @@ LazyData: true
 RoxygenNote: 7.1.1
 Encoding: UTF-8
 NeedsCompilation: yes
-Packaged: 2020-12-08 13:54:43 UTC; ryan
+Packaged: 2020-12-15 02:01:30 UTC; ryan
 Author: Yashwant Singh Parihar [aut, ctb, cph],
   Ryan Curtin [aut, ctb, cph, cre],
   Dirk Eddelbuettel [aut, ctb, cph],
@@ -291,4 +291,4 @@ Author: Yashwant Singh Parihar [aut, ctb, cph],
   Alex Nguyen [ctb, cph]
 Maintainer: Ryan Curtin <ryan@ratml.org>
 Repository: CRAN
-Date/Publication: 2020-12-08 17:40:06 UTC
+Date/Publication: 2020-12-18 23:20:02 UTC
