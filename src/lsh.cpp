@@ -8,10 +8,16 @@
 #define BINDING_TYPE BINDING_TYPE_R
 #include <mlpack/methods/lsh/lsh_main.cpp>
 
+#define Realloc(p,n,t) (t *) R_chk_realloc( (void *)(p), (R_SIZE_T)((n) * sizeof(t)) )
+#define Free(p)        (R_chk_free( (void *)(p) ), (p) = NULL)
+
 // [[Rcpp::export]]
-void lsh_mlpackMain()
+void lsh_call(SEXP params, SEXP timers)
 {
-  mlpackMain();
+  util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
+  util::Timers& t = *Rcpp::as<Rcpp::XPtr<util::Timers>>(timers);
+
+  BINDING_FUNCTION(p, t);
 }
 
 // Any implementations of methods for dealing with model pointers will be put
@@ -19,17 +25,33 @@ void lsh_mlpackMain()
 
 // Get the pointer to a LSHSearch<> parameter.
 // [[Rcpp::export]]
-SEXP IO_GetParamLSHSearchPtr(const std::string& paramName)
+SEXP GetParamLSHSearchPtr(SEXP params,
+                                   const std::string& paramName,
+                                   SEXP inputModels)
 {
-  return std::move((Rcpp::XPtr<LSHSearch<>>) IO::GetParam<LSHSearch<>*>(paramName));
+  util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
+  Rcpp::List inputModelsList(inputModels);
+  LSHSearch<>* modelPtr = p.Get<LSHSearch<>*>(paramName);
+  for (int i = 0; i < inputModelsList.length(); ++i)
+  {
+    Rcpp::XPtr<LSHSearch<>> inputModel =
+        Rcpp::as<Rcpp::XPtr<LSHSearch<>>>(inputModelsList[i]);
+    // Don't create a new XPtr---just reuse the one given as input, so that we
+    // don't end up deleting it twice.
+    if (inputModel.get() == modelPtr)
+      return inputModel;
+  }
+
+  return std::move((Rcpp::XPtr<LSHSearch<>>) p.Get<LSHSearch<>*>(paramName));
 }
 
 // Set the pointer to a LSHSearch<> parameter.
 // [[Rcpp::export]]
-void IO_SetParamLSHSearchPtr(const std::string& paramName, SEXP ptr)
+void SetParamLSHSearchPtr(SEXP params, const std::string& paramName, SEXP ptr)
 {
-  IO::GetParam<LSHSearch<>*>(paramName) =  Rcpp::as<Rcpp::XPtr<LSHSearch<>>>(ptr);
-  IO::SetPassed(paramName);
+  util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
+  p.Get<LSHSearch<>*>(paramName) = Rcpp::as<Rcpp::XPtr<LSHSearch<>>>(ptr);
+  p.SetPassed(paramName);
 }
 
 // Serialize a LSHSearch<> pointer.
@@ -38,9 +60,9 @@ Rcpp::RawVector SerializeLSHSearchPtr(SEXP ptr)
 {
   std::ostringstream oss;
   {
-    boost::archive::binary_oarchive oa(oss);
-    oa << boost::serialization::make_nvp("LSHSearch",
-          *Rcpp::as<Rcpp::XPtr<LSHSearch<>>>(ptr));
+    cereal::BinaryOutputArchive oa(oss);
+    oa(cereal::make_nvp("LSHSearch",
+          *Rcpp::as<Rcpp::XPtr<LSHSearch<>>>(ptr)));
   }
 
   Rcpp::RawVector raw_vec(oss.str().size());
@@ -60,8 +82,8 @@ SEXP DeserializeLSHSearchPtr(Rcpp::RawVector str)
 
   std::istringstream iss(std::string((char *) &str[0], str.size()));
   {
-    boost::archive::binary_iarchive ia(iss);
-    ia >> boost::serialization::make_nvp("LSHSearch", *ptr);
+    cereal::BinaryInputArchive ia(iss);
+    ia(cereal::make_nvp("LSHSearch", *ptr));
   }
 
   // R will be responsible for freeing this.

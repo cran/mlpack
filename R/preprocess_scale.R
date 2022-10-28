@@ -92,65 +92,69 @@ preprocess_scale <- function(input,
                              scaler_method=NA,
                              seed=NA,
                              verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("Scale Data")
+  # Create parameters and timers objects.
+  p <- CreateParams("preprocess_scale")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
-  IO_SetParamMat("input", to_matrix(input))
+  # Process each input argument before calling the binding.
+  SetParamMat(p, "input", to_matrix(input))
 
   if (!identical(epsilon, NA)) {
-    IO_SetParamDouble("epsilon", epsilon)
+    SetParamDouble(p, "epsilon", epsilon)
   }
 
   if (!identical(input_model, NA)) {
-    IO_SetParamScalingModelPtr("input_model", input_model)
+    SetParamScalingModelPtr(p, "input_model", input_model)
+    # Add to the list of input models we received.
+    inputModels <- append(inputModels, input_model)
   }
 
   if (!identical(inverse_scaling, FALSE)) {
-    IO_SetParamBool("inverse_scaling", inverse_scaling)
+    SetParamBool(p, "inverse_scaling", inverse_scaling)
   }
 
   if (!identical(max_value, NA)) {
-    IO_SetParamInt("max_value", max_value)
+    SetParamInt(p, "max_value", max_value)
   }
 
   if (!identical(min_value, NA)) {
-    IO_SetParamInt("min_value", min_value)
+    SetParamInt(p, "min_value", min_value)
   }
 
   if (!identical(scaler_method, NA)) {
-    IO_SetParamString("scaler_method", scaler_method)
+    SetParamString(p, "scaler_method", scaler_method)
   }
 
   if (!identical(seed, NA)) {
-    IO_SetParamInt("seed", seed)
+    SetParamInt(p, "seed", seed)
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("output")
-  IO_SetPassed("output_model")
+  SetPassed(p, "output")
+  SetPassed(p, "output_model")
 
   # Call the program.
-  preprocess_scale_mlpackMain()
+  preprocess_scale_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
-  output_model <- IO_GetParamScalingModelPtr("output_model")
+  output_model <- GetParamScalingModelPtr(p, "output_model", inputModels)
   attr(output_model, "type") <- "ScalingModel"
 
   # Extract the results in order.
   out <- list(
-      "output" = IO_GetParamMat("output"),
+      "output" = GetParamMat(p, "output"),
       "output_model" = output_model
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

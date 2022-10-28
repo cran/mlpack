@@ -74,118 +74,122 @@ test_r_binding <- function(double_in,
                            urow_in=NA,
                            vector_in=NA,
                            verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("R binding test")
+  # Create parameters and timers objects.
+  p <- CreateParams("test_R_binding")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
-  IO_SetParamDouble("double_in", double_in)
+  # Process each input argument before calling the binding.
+  SetParamDouble(p, "double_in", double_in)
 
-  IO_SetParamInt("int_in", int_in)
+  SetParamInt(p, "int_in", int_in)
 
-  IO_SetParamString("string_in", string_in)
+  SetParamString(p, "string_in", string_in)
 
   if (!identical(build_model, FALSE)) {
-    IO_SetParamBool("build_model", build_model)
+    SetParamBool(p, "build_model", build_model)
   }
 
   if (!identical(col_in, NA)) {
-    IO_SetParamCol("col_in", to_matrix(col_in))
+    SetParamCol(p, "col_in", to_matrix(col_in))
   }
 
   if (!identical(flag1, FALSE)) {
-    IO_SetParamBool("flag1", flag1)
+    SetParamBool(p, "flag1", flag1)
   }
 
   if (!identical(flag2, FALSE)) {
-    IO_SetParamBool("flag2", flag2)
+    SetParamBool(p, "flag2", flag2)
   }
 
   if (!identical(matrix_and_info_in, NA)) {
     matrix_and_info_in <- to_matrix_with_info(matrix_and_info_in)
-    IO_SetParamMatWithInfo("matrix_and_info_in", matrix_and_info_in$info, matrix_and_info_in$data)
+    SetParamMatWithInfo(p, "matrix_and_info_in", matrix_and_info_in$info, matrix_and_info_in$data)
   }
 
   if (!identical(matrix_in, NA)) {
-    IO_SetParamMat("matrix_in", to_matrix(matrix_in))
+    SetParamMat(p, "matrix_in", to_matrix(matrix_in))
   }
 
   if (!identical(model_in, NA)) {
-    IO_SetParamGaussianKernelPtr("model_in", model_in)
+    SetParamGaussianKernelPtr(p, "model_in", model_in)
+    # Add to the list of input models we received.
+    inputModels <- append(inputModels, model_in)
   }
 
   if (!identical(row_in, NA)) {
-    IO_SetParamRow("row_in", to_matrix(row_in))
+    SetParamRow(p, "row_in", to_matrix(row_in))
   }
 
   if (!identical(str_vector_in, NA)) {
-    IO_SetParamVecString("str_vector_in", str_vector_in)
+    SetParamVecString(p, "str_vector_in", str_vector_in)
   }
 
   if (!identical(ucol_in, NA)) {
-    IO_SetParamUCol("ucol_in", to_matrix(ucol_in))
+    SetParamUCol(p, "ucol_in", to_matrix(ucol_in))
   }
 
   if (!identical(umatrix_in, NA)) {
-    IO_SetParamUMat("umatrix_in", to_matrix(umatrix_in))
+    SetParamUMat(p, "umatrix_in", to_matrix(umatrix_in))
   }
 
   if (!identical(urow_in, NA)) {
-    IO_SetParamURow("urow_in", to_matrix(urow_in))
+    SetParamURow(p, "urow_in", to_matrix(urow_in))
   }
 
   if (!identical(vector_in, NA)) {
-    IO_SetParamVecInt("vector_in", vector_in)
+    SetParamVecInt(p, "vector_in", vector_in)
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("col_out")
-  IO_SetPassed("double_out")
-  IO_SetPassed("int_out")
-  IO_SetPassed("matrix_and_info_out")
-  IO_SetPassed("matrix_out")
-  IO_SetPassed("model_bw_out")
-  IO_SetPassed("model_out")
-  IO_SetPassed("row_out")
-  IO_SetPassed("str_vector_out")
-  IO_SetPassed("string_out")
-  IO_SetPassed("ucol_out")
-  IO_SetPassed("umatrix_out")
-  IO_SetPassed("urow_out")
-  IO_SetPassed("vector_out")
+  SetPassed(p, "col_out")
+  SetPassed(p, "double_out")
+  SetPassed(p, "int_out")
+  SetPassed(p, "matrix_and_info_out")
+  SetPassed(p, "matrix_out")
+  SetPassed(p, "model_bw_out")
+  SetPassed(p, "model_out")
+  SetPassed(p, "row_out")
+  SetPassed(p, "str_vector_out")
+  SetPassed(p, "string_out")
+  SetPassed(p, "ucol_out")
+  SetPassed(p, "umatrix_out")
+  SetPassed(p, "urow_out")
+  SetPassed(p, "vector_out")
 
   # Call the program.
-  test_r_binding_mlpackMain()
+  test_r_binding_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
-  model_out <- IO_GetParamGaussianKernelPtr("model_out")
+  model_out <- GetParamGaussianKernelPtr(p, "model_out", inputModels)
   attr(model_out, "type") <- "GaussianKernel"
 
   # Extract the results in order.
   out <- list(
-      "col_out" = IO_GetParamCol("col_out"),
-      "double_out" = IO_GetParamDouble("double_out"),
-      "int_out" = IO_GetParamInt("int_out"),
-      "matrix_and_info_out" = IO_GetParamMat("matrix_and_info_out"),
-      "matrix_out" = IO_GetParamMat("matrix_out"),
-      "model_bw_out" = IO_GetParamDouble("model_bw_out"),
+      "col_out" = GetParamCol(p, "col_out"),
+      "double_out" = GetParamDouble(p, "double_out"),
+      "int_out" = GetParamInt(p, "int_out"),
+      "matrix_and_info_out" = GetParamMat(p, "matrix_and_info_out"),
+      "matrix_out" = GetParamMat(p, "matrix_out"),
+      "model_bw_out" = GetParamDouble(p, "model_bw_out"),
       "model_out" = model_out,
-      "row_out" = IO_GetParamRow("row_out"),
-      "str_vector_out" = IO_GetParamVecString("str_vector_out"),
-      "string_out" = IO_GetParamString("string_out"),
-      "ucol_out" = IO_GetParamUCol("ucol_out"),
-      "umatrix_out" = IO_GetParamUMat("umatrix_out"),
-      "urow_out" = IO_GetParamURow("urow_out"),
-      "vector_out" = IO_GetParamVecInt("vector_out")
+      "row_out" = GetParamRow(p, "row_out"),
+      "str_vector_out" = GetParamVecString(p, "str_vector_out"),
+      "string_out" = GetParamString(p, "string_out"),
+      "ucol_out" = GetParamUCol(p, "ucol_out"),
+      "umatrix_out" = GetParamUMat(p, "umatrix_out"),
+      "urow_out" = GetParamURow(p, "urow_out"),
+      "vector_out" = GetParamVecInt(p, "vector_out")
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

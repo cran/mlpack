@@ -61,59 +61,61 @@ radical <- function(input,
                     seed=NA,
                     sweeps=NA,
                     verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("RADICAL")
+  # Create parameters and timers objects.
+  p <- CreateParams("radical")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
-  IO_SetParamMat("input", to_matrix(input))
+  # Process each input argument before calling the binding.
+  SetParamMat(p, "input", to_matrix(input))
 
   if (!identical(angles, NA)) {
-    IO_SetParamInt("angles", angles)
+    SetParamInt(p, "angles", angles)
   }
 
   if (!identical(noise_std_dev, NA)) {
-    IO_SetParamDouble("noise_std_dev", noise_std_dev)
+    SetParamDouble(p, "noise_std_dev", noise_std_dev)
   }
 
   if (!identical(objective, FALSE)) {
-    IO_SetParamBool("objective", objective)
+    SetParamBool(p, "objective", objective)
   }
 
   if (!identical(replicates, NA)) {
-    IO_SetParamInt("replicates", replicates)
+    SetParamInt(p, "replicates", replicates)
   }
 
   if (!identical(seed, NA)) {
-    IO_SetParamInt("seed", seed)
+    SetParamInt(p, "seed", seed)
   }
 
   if (!identical(sweeps, NA)) {
-    IO_SetParamInt("sweeps", sweeps)
+    SetParamInt(p, "sweeps", sweeps)
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("output_ic")
-  IO_SetPassed("output_unmixing")
+  SetPassed(p, "output_ic")
+  SetPassed(p, "output_unmixing")
 
   # Call the program.
-  radical_mlpackMain()
+  radical_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
 
   # Extract the results in order.
   out <- list(
-      "output_ic" = IO_GetParamMat("output_ic"),
-      "output_unmixing" = IO_GetParamMat("output_unmixing")
+      "output_ic" = GetParamMat(p, "output_ic"),
+      "output_unmixing" = GetParamMat(p, "output_unmixing")
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

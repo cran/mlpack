@@ -17,7 +17,8 @@ random_forest(
   test = NA,
   test_labels = NA,
   training = NA,
-  verbose = FALSE
+  verbose = FALSE,
+  warm_start = FALSE
 )
 }
 \arguments{
@@ -59,6 +60,10 @@ desired (integer row).}
 \item{verbose}{Display informational messages and the full list of
 parameters and timers at the end of execution.  Default value "FALSE"
 (logical).}
+
+\item{warm_start}{If true and passed along with `training` and
+`input_model` then trains more trees on top of existing model.  Default
+value "FALSE" (logical).}
 }
 \value{
 A list with several components:

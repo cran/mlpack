@@ -85,67 +85,71 @@ adaboost <- function(input_model=NA,
                      training=NA,
                      verbose=FALSE,
                      weak_learner=NA) {
-  # Restore IO settings.
-  IO_RestoreSettings("AdaBoost")
+  # Create parameters and timers objects.
+  p <- CreateParams("adaboost")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
+  # Process each input argument before calling the binding.
   if (!identical(input_model, NA)) {
-    IO_SetParamAdaBoostModelPtr("input_model", input_model)
+    SetParamAdaBoostModelPtr(p, "input_model", input_model)
+    # Add to the list of input models we received.
+    inputModels <- append(inputModels, input_model)
   }
 
   if (!identical(iterations, NA)) {
-    IO_SetParamInt("iterations", iterations)
+    SetParamInt(p, "iterations", iterations)
   }
 
   if (!identical(labels, NA)) {
-    IO_SetParamURow("labels", to_matrix(labels))
+    SetParamURow(p, "labels", to_matrix(labels))
   }
 
   if (!identical(test, NA)) {
-    IO_SetParamMat("test", to_matrix(test))
+    SetParamMat(p, "test", to_matrix(test))
   }
 
   if (!identical(tolerance, NA)) {
-    IO_SetParamDouble("tolerance", tolerance)
+    SetParamDouble(p, "tolerance", tolerance)
   }
 
   if (!identical(training, NA)) {
-    IO_SetParamMat("training", to_matrix(training))
+    SetParamMat(p, "training", to_matrix(training))
   }
 
   if (!identical(weak_learner, NA)) {
-    IO_SetParamString("weak_learner", weak_learner)
+    SetParamString(p, "weak_learner", weak_learner)
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("output")
-  IO_SetPassed("output_model")
-  IO_SetPassed("predictions")
-  IO_SetPassed("probabilities")
+  SetPassed(p, "output")
+  SetPassed(p, "output_model")
+  SetPassed(p, "predictions")
+  SetPassed(p, "probabilities")
 
   # Call the program.
-  adaboost_mlpackMain()
+  adaboost_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
-  output_model <- IO_GetParamAdaBoostModelPtr("output_model")
+  output_model <- GetParamAdaBoostModelPtr(p, "output_model", inputModels)
   attr(output_model, "type") <- "AdaBoostModel"
 
   # Extract the results in order.
   out <- list(
-      "output" = IO_GetParamURow("output"),
+      "output" = GetParamURow(p, "output"),
       "output_model" = output_model,
-      "predictions" = IO_GetParamURow("predictions"),
-      "probabilities" = IO_GetParamMat("probabilities")
+      "predictions" = GetParamURow(p, "predictions"),
+      "probabilities" = GetParamMat(p, "probabilities")
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

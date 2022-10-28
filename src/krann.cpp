@@ -8,39 +8,61 @@
 #define BINDING_TYPE BINDING_TYPE_R
 #include <mlpack/methods/rann/krann_main.cpp>
 
+#define Realloc(p,n,t) (t *) R_chk_realloc( (void *)(p), (R_SIZE_T)((n) * sizeof(t)) )
+#define Free(p)        (R_chk_free( (void *)(p) ), (p) = NULL)
+
 // [[Rcpp::export]]
-void krann_mlpackMain()
+void krann_call(SEXP params, SEXP timers)
 {
-  mlpackMain();
+  util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
+  util::Timers& t = *Rcpp::as<Rcpp::XPtr<util::Timers>>(timers);
+
+  BINDING_FUNCTION(p, t);
 }
 
 // Any implementations of methods for dealing with model pointers will be put
 // below this comment, if needed.
 
-// Get the pointer to a RANNModel parameter.
+// Get the pointer to a RAModel parameter.
 // [[Rcpp::export]]
-SEXP IO_GetParamRANNModelPtr(const std::string& paramName)
+SEXP GetParamRAModelPtr(SEXP params,
+                                   const std::string& paramName,
+                                   SEXP inputModels)
 {
-  return std::move((Rcpp::XPtr<RANNModel>) IO::GetParam<RANNModel*>(paramName));
+  util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
+  Rcpp::List inputModelsList(inputModels);
+  RAModel* modelPtr = p.Get<RAModel*>(paramName);
+  for (int i = 0; i < inputModelsList.length(); ++i)
+  {
+    Rcpp::XPtr<RAModel> inputModel =
+        Rcpp::as<Rcpp::XPtr<RAModel>>(inputModelsList[i]);
+    // Don't create a new XPtr---just reuse the one given as input, so that we
+    // don't end up deleting it twice.
+    if (inputModel.get() == modelPtr)
+      return inputModel;
+  }
+
+  return std::move((Rcpp::XPtr<RAModel>) p.Get<RAModel*>(paramName));
 }
 
-// Set the pointer to a RANNModel parameter.
+// Set the pointer to a RAModel parameter.
 // [[Rcpp::export]]
-void IO_SetParamRANNModelPtr(const std::string& paramName, SEXP ptr)
+void SetParamRAModelPtr(SEXP params, const std::string& paramName, SEXP ptr)
 {
-  IO::GetParam<RANNModel*>(paramName) =  Rcpp::as<Rcpp::XPtr<RANNModel>>(ptr);
-  IO::SetPassed(paramName);
+  util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
+  p.Get<RAModel*>(paramName) = Rcpp::as<Rcpp::XPtr<RAModel>>(ptr);
+  p.SetPassed(paramName);
 }
 
-// Serialize a RANNModel pointer.
+// Serialize a RAModel pointer.
 // [[Rcpp::export]]
-Rcpp::RawVector SerializeRANNModelPtr(SEXP ptr)
+Rcpp::RawVector SerializeRAModelPtr(SEXP ptr)
 {
   std::ostringstream oss;
   {
-    boost::archive::binary_oarchive oa(oss);
-    oa << boost::serialization::make_nvp("RANNModel",
-          *Rcpp::as<Rcpp::XPtr<RANNModel>>(ptr));
+    cereal::BinaryOutputArchive oa(oss);
+    oa(cereal::make_nvp("RAModel",
+          *Rcpp::as<Rcpp::XPtr<RAModel>>(ptr)));
   }
 
   Rcpp::RawVector raw_vec(oss.str().size());
@@ -48,24 +70,24 @@ Rcpp::RawVector SerializeRANNModelPtr(SEXP ptr)
   // Copy the string buffer so we can return one that won't get deallocated when
   // we exit this function.
   memcpy(&raw_vec[0], oss.str().c_str(), oss.str().size());
-  raw_vec.attr("type") = "RANNModel";
+  raw_vec.attr("type") = "RAModel";
   return raw_vec;
 }
 
-// Deserialize a RANNModel pointer.
+// Deserialize a RAModel pointer.
 // [[Rcpp::export]]
-SEXP DeserializeRANNModelPtr(Rcpp::RawVector str)
+SEXP DeserializeRAModelPtr(Rcpp::RawVector str)
 {
-  RANNModel* ptr = new RANNModel();
+  RAModel* ptr = new RAModel();
 
   std::istringstream iss(std::string((char *) &str[0], str.size()));
   {
-    boost::archive::binary_iarchive ia(iss);
-    ia >> boost::serialization::make_nvp("RANNModel", *ptr);
+    cereal::BinaryInputArchive ia(iss);
+    ia(cereal::make_nvp("RAModel", *ptr));
   }
 
   // R will be responsible for freeing this.
-  return std::move((Rcpp::XPtr<RANNModel>)ptr);
+  return std::move((Rcpp::XPtr<RAModel>)ptr);
 }
 
 

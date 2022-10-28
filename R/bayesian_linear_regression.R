@@ -92,61 +92,65 @@ bayesian_linear_regression <- function(center=FALSE,
                                        scale=FALSE,
                                        test=NA,
                                        verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("BayesianLinearRegression")
+  # Create parameters and timers objects.
+  p <- CreateParams("bayesian_linear_regression")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
+  # Process each input argument before calling the binding.
   if (!identical(center, FALSE)) {
-    IO_SetParamBool("center", center)
+    SetParamBool(p, "center", center)
   }
 
   if (!identical(input, NA)) {
-    IO_SetParamMat("input", to_matrix(input))
+    SetParamMat(p, "input", to_matrix(input))
   }
 
   if (!identical(input_model, NA)) {
-    IO_SetParamBayesianLinearRegressionPtr("input_model", input_model)
+    SetParamBayesianLinearRegressionPtr(p, "input_model", input_model)
+    # Add to the list of input models we received.
+    inputModels <- append(inputModels, input_model)
   }
 
   if (!identical(responses, NA)) {
-    IO_SetParamRow("responses", to_matrix(responses))
+    SetParamRow(p, "responses", to_matrix(responses))
   }
 
   if (!identical(scale, FALSE)) {
-    IO_SetParamBool("scale", scale)
+    SetParamBool(p, "scale", scale)
   }
 
   if (!identical(test, NA)) {
-    IO_SetParamMat("test", to_matrix(test))
+    SetParamMat(p, "test", to_matrix(test))
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("output_model")
-  IO_SetPassed("predictions")
-  IO_SetPassed("stds")
+  SetPassed(p, "output_model")
+  SetPassed(p, "predictions")
+  SetPassed(p, "stds")
 
   # Call the program.
-  bayesian_linear_regression_mlpackMain()
+  bayesian_linear_regression_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
-  output_model <- IO_GetParamBayesianLinearRegressionPtr("output_model")
+  output_model <- GetParamBayesianLinearRegressionPtr(p, "output_model", inputModels)
   attr(output_model, "type") <- "BayesianLinearRegression"
 
   # Extract the results in order.
   out <- list(
       "output_model" = output_model,
-      "predictions" = IO_GetParamMat("predictions"),
-      "stds" = IO_GetParamMat("stds")
+      "predictions" = GetParamMat(p, "predictions"),
+      "stds" = GetParamMat(p, "stds")
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

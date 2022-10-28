@@ -54,6 +54,8 @@ A list with several components:
   (SoftmaxRegression).}
 \item{predictions}{Matrix to save predictions for test dataset into
   (integer row).}
+\item{probabilities}{Matrix to save class probabilities for test dataset
+  into (numeric matrix).}
 }
 \description{
 An implementation of softmax regression for classification, which is a

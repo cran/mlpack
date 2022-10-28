@@ -6,12 +6,18 @@
  */
 #include <rcpp_mlpack.h>
 #define BINDING_TYPE BINDING_TYPE_R
-#include <mlpack/bindings/R/tests/test_r_binding_main.cpp>
+#include <mlpack/bindings/R/tests//test_r_binding_main.cpp>
+
+#define Realloc(p,n,t) (t *) R_chk_realloc( (void *)(p), (R_SIZE_T)((n) * sizeof(t)) )
+#define Free(p)        (R_chk_free( (void *)(p) ), (p) = NULL)
 
 // [[Rcpp::export]]
-void test_r_binding_mlpackMain()
+void test_r_binding_call(SEXP params, SEXP timers)
 {
-  mlpackMain();
+  util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
+  util::Timers& t = *Rcpp::as<Rcpp::XPtr<util::Timers>>(timers);
+
+  BINDING_FUNCTION(p, t);
 }
 
 // Any implementations of methods for dealing with model pointers will be put
@@ -19,17 +25,33 @@ void test_r_binding_mlpackMain()
 
 // Get the pointer to a GaussianKernel parameter.
 // [[Rcpp::export]]
-SEXP IO_GetParamGaussianKernelPtr(const std::string& paramName)
+SEXP GetParamGaussianKernelPtr(SEXP params,
+                                   const std::string& paramName,
+                                   SEXP inputModels)
 {
-  return std::move((Rcpp::XPtr<GaussianKernel>) IO::GetParam<GaussianKernel*>(paramName));
+  util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
+  Rcpp::List inputModelsList(inputModels);
+  GaussianKernel* modelPtr = p.Get<GaussianKernel*>(paramName);
+  for (int i = 0; i < inputModelsList.length(); ++i)
+  {
+    Rcpp::XPtr<GaussianKernel> inputModel =
+        Rcpp::as<Rcpp::XPtr<GaussianKernel>>(inputModelsList[i]);
+    // Don't create a new XPtr---just reuse the one given as input, so that we
+    // don't end up deleting it twice.
+    if (inputModel.get() == modelPtr)
+      return inputModel;
+  }
+
+  return std::move((Rcpp::XPtr<GaussianKernel>) p.Get<GaussianKernel*>(paramName));
 }
 
 // Set the pointer to a GaussianKernel parameter.
 // [[Rcpp::export]]
-void IO_SetParamGaussianKernelPtr(const std::string& paramName, SEXP ptr)
+void SetParamGaussianKernelPtr(SEXP params, const std::string& paramName, SEXP ptr)
 {
-  IO::GetParam<GaussianKernel*>(paramName) =  Rcpp::as<Rcpp::XPtr<GaussianKernel>>(ptr);
-  IO::SetPassed(paramName);
+  util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
+  p.Get<GaussianKernel*>(paramName) = Rcpp::as<Rcpp::XPtr<GaussianKernel>>(ptr);
+  p.SetPassed(paramName);
 }
 
 // Serialize a GaussianKernel pointer.
@@ -38,9 +60,9 @@ Rcpp::RawVector SerializeGaussianKernelPtr(SEXP ptr)
 {
   std::ostringstream oss;
   {
-    boost::archive::binary_oarchive oa(oss);
-    oa << boost::serialization::make_nvp("GaussianKernel",
-          *Rcpp::as<Rcpp::XPtr<GaussianKernel>>(ptr));
+    cereal::BinaryOutputArchive oa(oss);
+    oa(cereal::make_nvp("GaussianKernel",
+          *Rcpp::as<Rcpp::XPtr<GaussianKernel>>(ptr)));
   }
 
   Rcpp::RawVector raw_vec(oss.str().size());
@@ -60,8 +82,8 @@ SEXP DeserializeGaussianKernelPtr(Rcpp::RawVector str)
 
   std::istringstream iss(std::string((char *) &str[0], str.size()));
   {
-    boost::archive::binary_iarchive ia(iss);
-    ia >> boost::serialization::make_nvp("GaussianKernel", *ptr);
+    cereal::BinaryInputArchive ia(iss);
+    ia(cereal::make_nvp("GaussianKernel", *ptr));
   }
 
   // R will be responsible for freeing this.

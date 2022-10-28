@@ -173,7 +173,7 @@ By default, the AMSGrad optimizer is used.
 # will look like: 
 
 \dontrun{
-output <- mlpack_lmnn(input=iris, labels=iris_labels, k=3, optimizer="bbsgd")
+output <- lmnn(input=iris, labels=iris_labels, k=3, optimizer="bbsgd")
 output <- output$output
 }
 
@@ -181,8 +181,7 @@ output <- output$output
 # dataset having labels as last column can be made as: 
 
 \dontrun{
-output <- mlpack_lmnn(input=letter_recognition, k=5, range=10,
-  regularization=0.4)
+output <- lmnn(input=letter_recognition, k=5, range=10, regularization=0.4)
 output <- output$output
 }
 }

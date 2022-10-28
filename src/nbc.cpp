@@ -8,10 +8,16 @@
 #define BINDING_TYPE BINDING_TYPE_R
 #include <mlpack/methods/naive_bayes/nbc_main.cpp>
 
+#define Realloc(p,n,t) (t *) R_chk_realloc( (void *)(p), (R_SIZE_T)((n) * sizeof(t)) )
+#define Free(p)        (R_chk_free( (void *)(p) ), (p) = NULL)
+
 // [[Rcpp::export]]
-void nbc_mlpackMain()
+void nbc_call(SEXP params, SEXP timers)
 {
-  mlpackMain();
+  util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
+  util::Timers& t = *Rcpp::as<Rcpp::XPtr<util::Timers>>(timers);
+
+  BINDING_FUNCTION(p, t);
 }
 
 // Any implementations of methods for dealing with model pointers will be put
@@ -19,17 +25,33 @@ void nbc_mlpackMain()
 
 // Get the pointer to a NBCModel parameter.
 // [[Rcpp::export]]
-SEXP IO_GetParamNBCModelPtr(const std::string& paramName)
+SEXP GetParamNBCModelPtr(SEXP params,
+                                   const std::string& paramName,
+                                   SEXP inputModels)
 {
-  return std::move((Rcpp::XPtr<NBCModel>) IO::GetParam<NBCModel*>(paramName));
+  util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
+  Rcpp::List inputModelsList(inputModels);
+  NBCModel* modelPtr = p.Get<NBCModel*>(paramName);
+  for (int i = 0; i < inputModelsList.length(); ++i)
+  {
+    Rcpp::XPtr<NBCModel> inputModel =
+        Rcpp::as<Rcpp::XPtr<NBCModel>>(inputModelsList[i]);
+    // Don't create a new XPtr---just reuse the one given as input, so that we
+    // don't end up deleting it twice.
+    if (inputModel.get() == modelPtr)
+      return inputModel;
+  }
+
+  return std::move((Rcpp::XPtr<NBCModel>) p.Get<NBCModel*>(paramName));
 }
 
 // Set the pointer to a NBCModel parameter.
 // [[Rcpp::export]]
-void IO_SetParamNBCModelPtr(const std::string& paramName, SEXP ptr)
+void SetParamNBCModelPtr(SEXP params, const std::string& paramName, SEXP ptr)
 {
-  IO::GetParam<NBCModel*>(paramName) =  Rcpp::as<Rcpp::XPtr<NBCModel>>(ptr);
-  IO::SetPassed(paramName);
+  util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
+  p.Get<NBCModel*>(paramName) = Rcpp::as<Rcpp::XPtr<NBCModel>>(ptr);
+  p.SetPassed(paramName);
 }
 
 // Serialize a NBCModel pointer.
@@ -38,9 +60,9 @@ Rcpp::RawVector SerializeNBCModelPtr(SEXP ptr)
 {
   std::ostringstream oss;
   {
-    boost::archive::binary_oarchive oa(oss);
-    oa << boost::serialization::make_nvp("NBCModel",
-          *Rcpp::as<Rcpp::XPtr<NBCModel>>(ptr));
+    cereal::BinaryOutputArchive oa(oss);
+    oa(cereal::make_nvp("NBCModel",
+          *Rcpp::as<Rcpp::XPtr<NBCModel>>(ptr)));
   }
 
   Rcpp::RawVector raw_vec(oss.str().size());
@@ -60,8 +82,8 @@ SEXP DeserializeNBCModelPtr(Rcpp::RawVector str)
 
   std::istringstream iss(std::string((char *) &str[0], str.size()));
   {
-    boost::archive::binary_iarchive ia(iss);
-    ia >> boost::serialization::make_nvp("NBCModel", *ptr);
+    cereal::BinaryInputArchive ia(iss);
+    ia(cereal::make_nvp("NBCModel", *ptr));
   }
 
   // R will be responsible for freeing this.

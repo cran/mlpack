@@ -127,101 +127,105 @@ linear_svm <- function(delta=NA,
                        tolerance=NA,
                        training=NA,
                        verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("Linear SVM is an L2-regularized support vector machine.")
+  # Create parameters and timers objects.
+  p <- CreateParams("linear_svm")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
+  # Process each input argument before calling the binding.
   if (!identical(delta, NA)) {
-    IO_SetParamDouble("delta", delta)
+    SetParamDouble(p, "delta", delta)
   }
 
   if (!identical(epochs, NA)) {
-    IO_SetParamInt("epochs", epochs)
+    SetParamInt(p, "epochs", epochs)
   }
 
   if (!identical(input_model, NA)) {
-    IO_SetParamLinearSVMModelPtr("input_model", input_model)
+    SetParamLinearSVMModelPtr(p, "input_model", input_model)
+    # Add to the list of input models we received.
+    inputModels <- append(inputModels, input_model)
   }
 
   if (!identical(labels, NA)) {
-    IO_SetParamURow("labels", to_matrix(labels))
+    SetParamURow(p, "labels", to_matrix(labels))
   }
 
   if (!identical(lambda, NA)) {
-    IO_SetParamDouble("lambda", lambda)
+    SetParamDouble(p, "lambda", lambda)
   }
 
   if (!identical(max_iterations, NA)) {
-    IO_SetParamInt("max_iterations", max_iterations)
+    SetParamInt(p, "max_iterations", max_iterations)
   }
 
   if (!identical(no_intercept, FALSE)) {
-    IO_SetParamBool("no_intercept", no_intercept)
+    SetParamBool(p, "no_intercept", no_intercept)
   }
 
   if (!identical(num_classes, NA)) {
-    IO_SetParamInt("num_classes", num_classes)
+    SetParamInt(p, "num_classes", num_classes)
   }
 
   if (!identical(optimizer, NA)) {
-    IO_SetParamString("optimizer", optimizer)
+    SetParamString(p, "optimizer", optimizer)
   }
 
   if (!identical(seed, NA)) {
-    IO_SetParamInt("seed", seed)
+    SetParamInt(p, "seed", seed)
   }
 
   if (!identical(shuffle, FALSE)) {
-    IO_SetParamBool("shuffle", shuffle)
+    SetParamBool(p, "shuffle", shuffle)
   }
 
   if (!identical(step_size, NA)) {
-    IO_SetParamDouble("step_size", step_size)
+    SetParamDouble(p, "step_size", step_size)
   }
 
   if (!identical(test, NA)) {
-    IO_SetParamMat("test", to_matrix(test))
+    SetParamMat(p, "test", to_matrix(test))
   }
 
   if (!identical(test_labels, NA)) {
-    IO_SetParamURow("test_labels", to_matrix(test_labels))
+    SetParamURow(p, "test_labels", to_matrix(test_labels))
   }
 
   if (!identical(tolerance, NA)) {
-    IO_SetParamDouble("tolerance", tolerance)
+    SetParamDouble(p, "tolerance", tolerance)
   }
 
   if (!identical(training, NA)) {
-    IO_SetParamMat("training", to_matrix(training))
+    SetParamMat(p, "training", to_matrix(training))
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("output_model")
-  IO_SetPassed("predictions")
-  IO_SetPassed("probabilities")
+  SetPassed(p, "output_model")
+  SetPassed(p, "predictions")
+  SetPassed(p, "probabilities")
 
   # Call the program.
-  linear_svm_mlpackMain()
+  linear_svm_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
-  output_model <- IO_GetParamLinearSVMModelPtr("output_model")
+  output_model <- GetParamLinearSVMModelPtr(p, "output_model", inputModels)
   attr(output_model, "type") <- "LinearSVMModel"
 
   # Extract the results in order.
   out <- list(
       "output_model" = output_model,
-      "predictions" = IO_GetParamURow("predictions"),
-      "probabilities" = IO_GetParamMat("probabilities")
+      "predictions" = GetParamURow(p, "predictions"),
+      "probabilities" = GetParamMat(p, "probabilities")
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

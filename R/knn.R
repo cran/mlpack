@@ -88,93 +88,97 @@ knn <- function(algorithm=NA,
                 true_distances=NA,
                 true_neighbors=NA,
                 verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("k-Nearest-Neighbors Search")
+  # Create parameters and timers objects.
+  p <- CreateParams("knn")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
+  # Process each input argument before calling the binding.
   if (!identical(algorithm, NA)) {
-    IO_SetParamString("algorithm", algorithm)
+    SetParamString(p, "algorithm", algorithm)
   }
 
   if (!identical(epsilon, NA)) {
-    IO_SetParamDouble("epsilon", epsilon)
+    SetParamDouble(p, "epsilon", epsilon)
   }
 
   if (!identical(input_model, NA)) {
-    IO_SetParamKNNModelPtr("input_model", input_model)
+    SetParamKNNModelPtr(p, "input_model", input_model)
+    # Add to the list of input models we received.
+    inputModels <- append(inputModels, input_model)
   }
 
   if (!identical(k, NA)) {
-    IO_SetParamInt("k", k)
+    SetParamInt(p, "k", k)
   }
 
   if (!identical(leaf_size, NA)) {
-    IO_SetParamInt("leaf_size", leaf_size)
+    SetParamInt(p, "leaf_size", leaf_size)
   }
 
   if (!identical(query, NA)) {
-    IO_SetParamMat("query", to_matrix(query))
+    SetParamMat(p, "query", to_matrix(query))
   }
 
   if (!identical(random_basis, FALSE)) {
-    IO_SetParamBool("random_basis", random_basis)
+    SetParamBool(p, "random_basis", random_basis)
   }
 
   if (!identical(reference, NA)) {
-    IO_SetParamMat("reference", to_matrix(reference))
+    SetParamMat(p, "reference", to_matrix(reference))
   }
 
   if (!identical(rho, NA)) {
-    IO_SetParamDouble("rho", rho)
+    SetParamDouble(p, "rho", rho)
   }
 
   if (!identical(seed, NA)) {
-    IO_SetParamInt("seed", seed)
+    SetParamInt(p, "seed", seed)
   }
 
   if (!identical(tau, NA)) {
-    IO_SetParamDouble("tau", tau)
+    SetParamDouble(p, "tau", tau)
   }
 
   if (!identical(tree_type, NA)) {
-    IO_SetParamString("tree_type", tree_type)
+    SetParamString(p, "tree_type", tree_type)
   }
 
   if (!identical(true_distances, NA)) {
-    IO_SetParamMat("true_distances", to_matrix(true_distances))
+    SetParamMat(p, "true_distances", to_matrix(true_distances))
   }
 
   if (!identical(true_neighbors, NA)) {
-    IO_SetParamUMat("true_neighbors", to_matrix(true_neighbors))
+    SetParamUMat(p, "true_neighbors", to_matrix(true_neighbors))
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("distances")
-  IO_SetPassed("neighbors")
-  IO_SetPassed("output_model")
+  SetPassed(p, "distances")
+  SetPassed(p, "neighbors")
+  SetPassed(p, "output_model")
 
   # Call the program.
-  knn_mlpackMain()
+  knn_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
-  output_model <- IO_GetParamKNNModelPtr("output_model")
+  output_model <- GetParamKNNModelPtr(p, "output_model", inputModels)
   attr(output_model, "type") <- "KNNModel"
 
   # Extract the results in order.
   out <- list(
-      "distances" = IO_GetParamMat("distances"),
-      "neighbors" = IO_GetParamUMat("neighbors"),
+      "distances" = GetParamMat(p, "distances"),
+      "neighbors" = GetParamUMat(p, "neighbors"),
       "output_model" = output_model
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

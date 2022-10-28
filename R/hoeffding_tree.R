@@ -111,95 +111,99 @@ hoeffding_tree <- function(batch_mode=FALSE,
                            test_labels=NA,
                            training=NA,
                            verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("Hoeffding trees")
+  # Create parameters and timers objects.
+  p <- CreateParams("hoeffding_tree")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
+  # Process each input argument before calling the binding.
   if (!identical(batch_mode, FALSE)) {
-    IO_SetParamBool("batch_mode", batch_mode)
+    SetParamBool(p, "batch_mode", batch_mode)
   }
 
   if (!identical(bins, NA)) {
-    IO_SetParamInt("bins", bins)
+    SetParamInt(p, "bins", bins)
   }
 
   if (!identical(confidence, NA)) {
-    IO_SetParamDouble("confidence", confidence)
+    SetParamDouble(p, "confidence", confidence)
   }
 
   if (!identical(info_gain, FALSE)) {
-    IO_SetParamBool("info_gain", info_gain)
+    SetParamBool(p, "info_gain", info_gain)
   }
 
   if (!identical(input_model, NA)) {
-    IO_SetParamHoeffdingTreeModelPtr("input_model", input_model)
+    SetParamHoeffdingTreeModelPtr(p, "input_model", input_model)
+    # Add to the list of input models we received.
+    inputModels <- append(inputModels, input_model)
   }
 
   if (!identical(labels, NA)) {
-    IO_SetParamURow("labels", to_matrix(labels))
+    SetParamURow(p, "labels", to_matrix(labels))
   }
 
   if (!identical(max_samples, NA)) {
-    IO_SetParamInt("max_samples", max_samples)
+    SetParamInt(p, "max_samples", max_samples)
   }
 
   if (!identical(min_samples, NA)) {
-    IO_SetParamInt("min_samples", min_samples)
+    SetParamInt(p, "min_samples", min_samples)
   }
 
   if (!identical(numeric_split_strategy, NA)) {
-    IO_SetParamString("numeric_split_strategy", numeric_split_strategy)
+    SetParamString(p, "numeric_split_strategy", numeric_split_strategy)
   }
 
   if (!identical(observations_before_binning, NA)) {
-    IO_SetParamInt("observations_before_binning", observations_before_binning)
+    SetParamInt(p, "observations_before_binning", observations_before_binning)
   }
 
   if (!identical(passes, NA)) {
-    IO_SetParamInt("passes", passes)
+    SetParamInt(p, "passes", passes)
   }
 
   if (!identical(test, NA)) {
     test <- to_matrix_with_info(test)
-    IO_SetParamMatWithInfo("test", test$info, test$data)
+    SetParamMatWithInfo(p, "test", test$info, test$data)
   }
 
   if (!identical(test_labels, NA)) {
-    IO_SetParamURow("test_labels", to_matrix(test_labels))
+    SetParamURow(p, "test_labels", to_matrix(test_labels))
   }
 
   if (!identical(training, NA)) {
     training <- to_matrix_with_info(training)
-    IO_SetParamMatWithInfo("training", training$info, training$data)
+    SetParamMatWithInfo(p, "training", training$info, training$data)
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("output_model")
-  IO_SetPassed("predictions")
-  IO_SetPassed("probabilities")
+  SetPassed(p, "output_model")
+  SetPassed(p, "predictions")
+  SetPassed(p, "probabilities")
 
   # Call the program.
-  hoeffding_tree_mlpackMain()
+  hoeffding_tree_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
-  output_model <- IO_GetParamHoeffdingTreeModelPtr("output_model")
+  output_model <- GetParamHoeffdingTreeModelPtr(p, "output_model", inputModels)
   attr(output_model, "type") <- "HoeffdingTreeModel"
 
   # Extract the results in order.
   out <- list(
       "output_model" = output_model,
-      "predictions" = IO_GetParamURow("predictions"),
-      "probabilities" = IO_GetParamMat("probabilities")
+      "predictions" = GetParamURow(p, "predictions"),
+      "probabilities" = GetParamMat(p, "probabilities")
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

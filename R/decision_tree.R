@@ -100,83 +100,87 @@ decision_tree <- function(input_model=NA,
                           training=NA,
                           verbose=FALSE,
                           weights=NA) {
-  # Restore IO settings.
-  IO_RestoreSettings("Decision tree")
+  # Create parameters and timers objects.
+  p <- CreateParams("decision_tree")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
+  # Process each input argument before calling the binding.
   if (!identical(input_model, NA)) {
-    IO_SetParamDecisionTreeModelPtr("input_model", input_model)
+    SetParamDecisionTreeModelPtr(p, "input_model", input_model)
+    # Add to the list of input models we received.
+    inputModels <- append(inputModels, input_model)
   }
 
   if (!identical(labels, NA)) {
-    IO_SetParamURow("labels", to_matrix(labels))
+    SetParamURow(p, "labels", to_matrix(labels))
   }
 
   if (!identical(maximum_depth, NA)) {
-    IO_SetParamInt("maximum_depth", maximum_depth)
+    SetParamInt(p, "maximum_depth", maximum_depth)
   }
 
   if (!identical(minimum_gain_split, NA)) {
-    IO_SetParamDouble("minimum_gain_split", minimum_gain_split)
+    SetParamDouble(p, "minimum_gain_split", minimum_gain_split)
   }
 
   if (!identical(minimum_leaf_size, NA)) {
-    IO_SetParamInt("minimum_leaf_size", minimum_leaf_size)
+    SetParamInt(p, "minimum_leaf_size", minimum_leaf_size)
   }
 
   if (!identical(print_training_accuracy, FALSE)) {
-    IO_SetParamBool("print_training_accuracy", print_training_accuracy)
+    SetParamBool(p, "print_training_accuracy", print_training_accuracy)
   }
 
   if (!identical(print_training_error, FALSE)) {
-    IO_SetParamBool("print_training_error", print_training_error)
+    SetParamBool(p, "print_training_error", print_training_error)
   }
 
   if (!identical(test, NA)) {
     test <- to_matrix_with_info(test)
-    IO_SetParamMatWithInfo("test", test$info, test$data)
+    SetParamMatWithInfo(p, "test", test$info, test$data)
   }
 
   if (!identical(test_labels, NA)) {
-    IO_SetParamURow("test_labels", to_matrix(test_labels))
+    SetParamURow(p, "test_labels", to_matrix(test_labels))
   }
 
   if (!identical(training, NA)) {
     training <- to_matrix_with_info(training)
-    IO_SetParamMatWithInfo("training", training$info, training$data)
+    SetParamMatWithInfo(p, "training", training$info, training$data)
   }
 
   if (!identical(weights, NA)) {
-    IO_SetParamMat("weights", to_matrix(weights))
+    SetParamMat(p, "weights", to_matrix(weights))
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("output_model")
-  IO_SetPassed("predictions")
-  IO_SetPassed("probabilities")
+  SetPassed(p, "output_model")
+  SetPassed(p, "predictions")
+  SetPassed(p, "probabilities")
 
   # Call the program.
-  decision_tree_mlpackMain()
+  decision_tree_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
-  output_model <- IO_GetParamDecisionTreeModelPtr("output_model")
+  output_model <- GetParamDecisionTreeModelPtr(p, "output_model", inputModels)
   attr(output_model, "type") <- "DecisionTreeModel"
 
   # Extract the results in order.
   out <- list(
       "output_model" = output_model,
-      "predictions" = IO_GetParamURow("predictions"),
-      "probabilities" = IO_GetParamMat("probabilities")
+      "predictions" = GetParamURow(p, "predictions"),
+      "probabilities" = GetParamMat(p, "probabilities")
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

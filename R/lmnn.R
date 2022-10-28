@@ -131,7 +131,7 @@
 #' # will look like: 
 #' 
 #' \dontrun{
-#' output <- mlpack_lmnn(input=iris, labels=iris_labels, k=3, optimizer="bbsgd")
+#' output <- lmnn(input=iris, labels=iris_labels, k=3, optimizer="bbsgd")
 #' output <- output$output
 #' }
 #' 
@@ -139,8 +139,7 @@
 #' # dataset having labels as last column can be made as: 
 #' 
 #' \dontrun{
-#' output <- mlpack_lmnn(input=letter_recognition, k=5, range=10,
-#'   regularization=0.4)
+#' output <- lmnn(input=letter_recognition, k=5, range=10, regularization=0.4)
 #' output <- output$output
 #' }
 lmnn <- function(input,
@@ -162,105 +161,107 @@ lmnn <- function(input,
                  step_size=NA,
                  tolerance=NA,
                  verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("Large Margin Nearest Neighbors (LMNN)")
+  # Create parameters and timers objects.
+  p <- CreateParams("lmnn")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
-  IO_SetParamMat("input", to_matrix(input))
+  # Process each input argument before calling the binding.
+  SetParamMat(p, "input", to_matrix(input))
 
   if (!identical(batch_size, NA)) {
-    IO_SetParamInt("batch_size", batch_size)
+    SetParamInt(p, "batch_size", batch_size)
   }
 
   if (!identical(center, FALSE)) {
-    IO_SetParamBool("center", center)
+    SetParamBool(p, "center", center)
   }
 
   if (!identical(distance, NA)) {
-    IO_SetParamMat("distance", to_matrix(distance))
+    SetParamMat(p, "distance", to_matrix(distance))
   }
 
   if (!identical(k, NA)) {
-    IO_SetParamInt("k", k)
+    SetParamInt(p, "k", k)
   }
 
   if (!identical(labels, NA)) {
-    IO_SetParamURow("labels", to_matrix(labels))
+    SetParamURow(p, "labels", to_matrix(labels))
   }
 
   if (!identical(linear_scan, FALSE)) {
-    IO_SetParamBool("linear_scan", linear_scan)
+    SetParamBool(p, "linear_scan", linear_scan)
   }
 
   if (!identical(max_iterations, NA)) {
-    IO_SetParamInt("max_iterations", max_iterations)
+    SetParamInt(p, "max_iterations", max_iterations)
   }
 
   if (!identical(normalize, FALSE)) {
-    IO_SetParamBool("normalize", normalize)
+    SetParamBool(p, "normalize", normalize)
   }
 
   if (!identical(optimizer, NA)) {
-    IO_SetParamString("optimizer", optimizer)
+    SetParamString(p, "optimizer", optimizer)
   }
 
   if (!identical(passes, NA)) {
-    IO_SetParamInt("passes", passes)
+    SetParamInt(p, "passes", passes)
   }
 
   if (!identical(print_accuracy, FALSE)) {
-    IO_SetParamBool("print_accuracy", print_accuracy)
+    SetParamBool(p, "print_accuracy", print_accuracy)
   }
 
   if (!identical(range, NA)) {
-    IO_SetParamInt("range", range)
+    SetParamInt(p, "range", range)
   }
 
   if (!identical(rank, NA)) {
-    IO_SetParamInt("rank", rank)
+    SetParamInt(p, "rank", rank)
   }
 
   if (!identical(regularization, NA)) {
-    IO_SetParamDouble("regularization", regularization)
+    SetParamDouble(p, "regularization", regularization)
   }
 
   if (!identical(seed, NA)) {
-    IO_SetParamInt("seed", seed)
+    SetParamInt(p, "seed", seed)
   }
 
   if (!identical(step_size, NA)) {
-    IO_SetParamDouble("step_size", step_size)
+    SetParamDouble(p, "step_size", step_size)
   }
 
   if (!identical(tolerance, NA)) {
-    IO_SetParamDouble("tolerance", tolerance)
+    SetParamDouble(p, "tolerance", tolerance)
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("centered_data")
-  IO_SetPassed("output")
-  IO_SetPassed("transformed_data")
+  SetPassed(p, "centered_data")
+  SetPassed(p, "output")
+  SetPassed(p, "transformed_data")
 
   # Call the program.
-  lmnn_mlpackMain()
+  lmnn_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
 
   # Extract the results in order.
   out <- list(
-      "centered_data" = IO_GetParamMat("centered_data"),
-      "output" = IO_GetParamMat("output"),
-      "transformed_data" = IO_GetParamMat("transformed_data")
+      "centered_data" = GetParamMat(p, "centered_data"),
+      "output" = GetParamMat(p, "output"),
+      "transformed_data" = GetParamMat(p, "transformed_data")
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

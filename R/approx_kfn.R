@@ -113,73 +113,77 @@ approx_kfn <- function(algorithm=NA,
                        query=NA,
                        reference=NA,
                        verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("Approximate furthest neighbor search")
+  # Create parameters and timers objects.
+  p <- CreateParams("approx_kfn")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
+  # Process each input argument before calling the binding.
   if (!identical(algorithm, NA)) {
-    IO_SetParamString("algorithm", algorithm)
+    SetParamString(p, "algorithm", algorithm)
   }
 
   if (!identical(calculate_error, FALSE)) {
-    IO_SetParamBool("calculate_error", calculate_error)
+    SetParamBool(p, "calculate_error", calculate_error)
   }
 
   if (!identical(exact_distances, NA)) {
-    IO_SetParamMat("exact_distances", to_matrix(exact_distances))
+    SetParamMat(p, "exact_distances", to_matrix(exact_distances))
   }
 
   if (!identical(input_model, NA)) {
-    IO_SetParamApproxKFNModelPtr("input_model", input_model)
+    SetParamApproxKFNModelPtr(p, "input_model", input_model)
+    # Add to the list of input models we received.
+    inputModels <- append(inputModels, input_model)
   }
 
   if (!identical(k, NA)) {
-    IO_SetParamInt("k", k)
+    SetParamInt(p, "k", k)
   }
 
   if (!identical(num_projections, NA)) {
-    IO_SetParamInt("num_projections", num_projections)
+    SetParamInt(p, "num_projections", num_projections)
   }
 
   if (!identical(num_tables, NA)) {
-    IO_SetParamInt("num_tables", num_tables)
+    SetParamInt(p, "num_tables", num_tables)
   }
 
   if (!identical(query, NA)) {
-    IO_SetParamMat("query", to_matrix(query))
+    SetParamMat(p, "query", to_matrix(query))
   }
 
   if (!identical(reference, NA)) {
-    IO_SetParamMat("reference", to_matrix(reference))
+    SetParamMat(p, "reference", to_matrix(reference))
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("distances")
-  IO_SetPassed("neighbors")
-  IO_SetPassed("output_model")
+  SetPassed(p, "distances")
+  SetPassed(p, "neighbors")
+  SetPassed(p, "output_model")
 
   # Call the program.
-  approx_kfn_mlpackMain()
+  approx_kfn_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
-  output_model <- IO_GetParamApproxKFNModelPtr("output_model")
+  output_model <- GetParamApproxKFNModelPtr(p, "output_model", inputModels)
   attr(output_model, "type") <- "ApproxKFNModel"
 
   # Extract the results in order.
   out <- list(
-      "distances" = IO_GetParamMat("distances"),
-      "neighbors" = IO_GetParamUMat("neighbors"),
+      "distances" = GetParamMat(p, "distances"),
+      "neighbors" = GetParamUMat(p, "neighbors"),
       "output_model" = output_model
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

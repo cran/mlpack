@@ -61,42 +61,46 @@ preprocess_describe <- function(input,
                                 row_major=FALSE,
                                 verbose=FALSE,
                                 width=NA) {
-  # Restore IO settings.
-  IO_RestoreSettings("Descriptive Statistics")
+  # Create parameters and timers objects.
+  p <- CreateParams("preprocess_describe")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
-  IO_SetParamMat("input", to_matrix(input))
+  # Process each input argument before calling the binding.
+  SetParamMat(p, "input", to_matrix(input))
 
   if (!identical(dimension, NA)) {
-    IO_SetParamInt("dimension", dimension)
+    SetParamInt(p, "dimension", dimension)
   }
 
   if (!identical(population, FALSE)) {
-    IO_SetParamBool("population", population)
+    SetParamBool(p, "population", population)
   }
 
   if (!identical(precision, NA)) {
-    IO_SetParamInt("precision", precision)
+    SetParamInt(p, "precision", precision)
   }
 
   if (!identical(row_major, FALSE)) {
-    IO_SetParamBool("row_major", row_major)
+    SetParamBool(p, "row_major", row_major)
   }
 
   if (!identical(width, NA)) {
-    IO_SetParamInt("width", width)
+    SetParamInt(p, "width", width)
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
 
   # Call the program.
-  preprocess_describe_mlpackMain()
+  preprocess_describe_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
 
@@ -105,8 +109,6 @@ preprocess_describe <- function(input,
 
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

@@ -30,7 +30,7 @@ krann(
 \item{first_leaf_exact}{The flag to trigger sampling only after exactly
 exploring the first leaf.  Default value "FALSE" (logical).}
 
-\item{input_model}{Pre-trained kNN model (RANNModel).}
+\item{input_model}{Pre-trained kNN model (RAModel).}
 
 \item{k}{Number of nearest neighbors to find.  Default value "0"
 (integer).}
@@ -80,7 +80,7 @@ A list with several components:
 \item{distances}{Matrix to output distances into (numeric matrix).}
 \item{neighbors}{Matrix to output neighbors into (integer matrix).}
 \item{output_model}{If specified, the kNN model will be output here
-  (RANNModel).}
+  (RAModel).}
 }
 \description{
 An implementation of rank-approximate k-nearest-neighbor search (kRANN) 

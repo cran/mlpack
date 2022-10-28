@@ -62,55 +62,57 @@ mean_shift <- function(input,
                        max_iterations=NA,
                        radius=NA,
                        verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("Mean Shift Clustering")
+  # Create parameters and timers objects.
+  p <- CreateParams("mean_shift")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
-  IO_SetParamMat("input", to_matrix(input))
+  # Process each input argument before calling the binding.
+  SetParamMat(p, "input", to_matrix(input))
 
   if (!identical(force_convergence, FALSE)) {
-    IO_SetParamBool("force_convergence", force_convergence)
+    SetParamBool(p, "force_convergence", force_convergence)
   }
 
   if (!identical(in_place, FALSE)) {
-    IO_SetParamBool("in_place", in_place)
+    SetParamBool(p, "in_place", in_place)
   }
 
   if (!identical(labels_only, FALSE)) {
-    IO_SetParamBool("labels_only", labels_only)
+    SetParamBool(p, "labels_only", labels_only)
   }
 
   if (!identical(max_iterations, NA)) {
-    IO_SetParamInt("max_iterations", max_iterations)
+    SetParamInt(p, "max_iterations", max_iterations)
   }
 
   if (!identical(radius, NA)) {
-    IO_SetParamDouble("radius", radius)
+    SetParamDouble(p, "radius", radius)
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("centroid")
-  IO_SetPassed("output")
+  SetPassed(p, "centroid")
+  SetPassed(p, "output")
 
   # Call the program.
-  mean_shift_mlpackMain()
+  mean_shift_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
 
   # Extract the results in order.
   out <- list(
-      "centroid" = IO_GetParamMat("centroid"),
-      "output" = IO_GetParamMat("output")
+      "centroid" = GetParamMat(p, "centroid"),
+      "output" = GetParamMat(p, "output")
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

@@ -9,6 +9,7 @@ preprocess_split(
   input_labels = NA,
   no_shuffle = FALSE,
   seed = NA,
+  stratify_data = FALSE,
   test_ratio = NA,
   verbose = FALSE
 )
@@ -18,11 +19,14 @@ preprocess_split(
 
 \item{input_labels}{Matrix containing labels (integer matrix).}
 
-\item{no_shuffle}{Avoid shuffling and splitting the data.  Default value
-"FALSE" (logical).}
+\item{no_shuffle}{Avoid shuffling the data before splitting.  Default
+value "FALSE" (logical).}
 
 \item{seed}{Random seed (0 for std::time(NULL)).  Default value "0"
 (integer).}
+
+\item{stratify_data}{Stratify the data according to label.  Default
+value "FALSE" (logical).}
 
 \item{test_ratio}{Ratio of test set; if not set,the ratio defaults to
 0..  Default value "0.2" (numeric).}
@@ -52,7 +56,7 @@ can be specified with the "test_ratio" parameter; the default is 0.2 (20%).
 The output training and test matrices may be saved with the "training" and
 "test" output parameters.
 
-Optionally, labels can be also be split along with the data by specifying the
+Optionally, labels can also be split along with the data by specifying the
 "input_labels" parameter.  Splitting labels works the same way as splitting
 the data. The output training and test labels may be saved with the
 "training_labels" and "test_labels" output parameters, respectively.
@@ -88,6 +92,14 @@ X_train <- output$training
 y_train <- output$training_labels
 X_test <- output$test
 y_test <- output$test_labels
+}
+# To maintain the ratio of each class in the train and test sets,
+# the"stratify_data" option can be used.
+
+\dontrun{
+output <- preprocess_split(input=X, test_ratio=0.4, stratify_data=TRUE)
+X_train <- output$training
+X_test <- output$test
 }
 }
 \author{

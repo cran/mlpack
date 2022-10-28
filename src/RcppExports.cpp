@@ -8,34 +8,44 @@
 
 using namespace Rcpp;
 
-// adaboost_mlpackMain
-void adaboost_mlpackMain();
-RcppExport SEXP _mlpack_adaboost_mlpackMain() {
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
+// adaboost_call
+void adaboost_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_adaboost_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    adaboost_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    adaboost_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// IO_GetParamAdaBoostModelPtr
-SEXP IO_GetParamAdaBoostModelPtr(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamAdaBoostModelPtr(SEXP paramNameSEXP) {
+// GetParamAdaBoostModelPtr
+SEXP GetParamAdaBoostModelPtr(SEXP params, const std::string& paramName, SEXP inputModels);
+RcppExport SEXP _mlpack_GetParamAdaBoostModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP inputModelsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamAdaBoostModelPtr(paramName));
+    Rcpp::traits::input_parameter< SEXP >::type inputModels(inputModelsSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetParamAdaBoostModelPtr(params, paramName, inputModels));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_SetParamAdaBoostModelPtr
-void IO_SetParamAdaBoostModelPtr(const std::string& paramName, SEXP ptr);
-RcppExport SEXP _mlpack_IO_SetParamAdaBoostModelPtr(SEXP paramNameSEXP, SEXP ptrSEXP) {
+// SetParamAdaBoostModelPtr
+void SetParamAdaBoostModelPtr(SEXP params, const std::string& paramName, SEXP ptr);
+RcppExport SEXP _mlpack_SetParamAdaBoostModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP ptrSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< SEXP >::type ptr(ptrSEXP);
-    IO_SetParamAdaBoostModelPtr(paramName, ptr);
+    SetParamAdaBoostModelPtr(params, paramName, ptr);
     return R_NilValue;
 END_RCPP
 }
@@ -61,34 +71,39 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// approx_kfn_mlpackMain
-void approx_kfn_mlpackMain();
-RcppExport SEXP _mlpack_approx_kfn_mlpackMain() {
+// approx_kfn_call
+void approx_kfn_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_approx_kfn_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    approx_kfn_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    approx_kfn_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// IO_GetParamApproxKFNModelPtr
-SEXP IO_GetParamApproxKFNModelPtr(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamApproxKFNModelPtr(SEXP paramNameSEXP) {
+// GetParamApproxKFNModelPtr
+SEXP GetParamApproxKFNModelPtr(SEXP params, const std::string& paramName, SEXP inputModels);
+RcppExport SEXP _mlpack_GetParamApproxKFNModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP inputModelsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamApproxKFNModelPtr(paramName));
+    Rcpp::traits::input_parameter< SEXP >::type inputModels(inputModelsSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetParamApproxKFNModelPtr(params, paramName, inputModels));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_SetParamApproxKFNModelPtr
-void IO_SetParamApproxKFNModelPtr(const std::string& paramName, SEXP ptr);
-RcppExport SEXP _mlpack_IO_SetParamApproxKFNModelPtr(SEXP paramNameSEXP, SEXP ptrSEXP) {
+// SetParamApproxKFNModelPtr
+void SetParamApproxKFNModelPtr(SEXP params, const std::string& paramName, SEXP ptr);
+RcppExport SEXP _mlpack_SetParamApproxKFNModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP ptrSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< SEXP >::type ptr(ptrSEXP);
-    IO_SetParamApproxKFNModelPtr(paramName, ptr);
+    SetParamApproxKFNModelPtr(params, paramName, ptr);
     return R_NilValue;
 END_RCPP
 }
@@ -114,34 +129,39 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// bayesian_linear_regression_mlpackMain
-void bayesian_linear_regression_mlpackMain();
-RcppExport SEXP _mlpack_bayesian_linear_regression_mlpackMain() {
+// bayesian_linear_regression_call
+void bayesian_linear_regression_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_bayesian_linear_regression_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    bayesian_linear_regression_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    bayesian_linear_regression_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// IO_GetParamBayesianLinearRegressionPtr
-SEXP IO_GetParamBayesianLinearRegressionPtr(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamBayesianLinearRegressionPtr(SEXP paramNameSEXP) {
+// GetParamBayesianLinearRegressionPtr
+SEXP GetParamBayesianLinearRegressionPtr(SEXP params, const std::string& paramName, SEXP inputModels);
+RcppExport SEXP _mlpack_GetParamBayesianLinearRegressionPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP inputModelsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamBayesianLinearRegressionPtr(paramName));
+    Rcpp::traits::input_parameter< SEXP >::type inputModels(inputModelsSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetParamBayesianLinearRegressionPtr(params, paramName, inputModels));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_SetParamBayesianLinearRegressionPtr
-void IO_SetParamBayesianLinearRegressionPtr(const std::string& paramName, SEXP ptr);
-RcppExport SEXP _mlpack_IO_SetParamBayesianLinearRegressionPtr(SEXP paramNameSEXP, SEXP ptrSEXP) {
+// SetParamBayesianLinearRegressionPtr
+void SetParamBayesianLinearRegressionPtr(SEXP params, const std::string& paramName, SEXP ptr);
+RcppExport SEXP _mlpack_SetParamBayesianLinearRegressionPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP ptrSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< SEXP >::type ptr(ptrSEXP);
-    IO_SetParamBayesianLinearRegressionPtr(paramName, ptr);
+    SetParamBayesianLinearRegressionPtr(params, paramName, ptr);
     return R_NilValue;
 END_RCPP
 }
@@ -167,34 +187,39 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// cf_mlpackMain
-void cf_mlpackMain();
-RcppExport SEXP _mlpack_cf_mlpackMain() {
+// cf_call
+void cf_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_cf_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    cf_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    cf_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// IO_GetParamCFModelPtr
-SEXP IO_GetParamCFModelPtr(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamCFModelPtr(SEXP paramNameSEXP) {
+// GetParamCFModelPtr
+SEXP GetParamCFModelPtr(SEXP params, const std::string& paramName, SEXP inputModels);
+RcppExport SEXP _mlpack_GetParamCFModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP inputModelsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamCFModelPtr(paramName));
+    Rcpp::traits::input_parameter< SEXP >::type inputModels(inputModelsSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetParamCFModelPtr(params, paramName, inputModels));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_SetParamCFModelPtr
-void IO_SetParamCFModelPtr(const std::string& paramName, SEXP ptr);
-RcppExport SEXP _mlpack_IO_SetParamCFModelPtr(SEXP paramNameSEXP, SEXP ptrSEXP) {
+// SetParamCFModelPtr
+void SetParamCFModelPtr(SEXP params, const std::string& paramName, SEXP ptr);
+RcppExport SEXP _mlpack_SetParamCFModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP ptrSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< SEXP >::type ptr(ptrSEXP);
-    IO_SetParamCFModelPtr(paramName, ptr);
+    SetParamCFModelPtr(params, paramName, ptr);
     return R_NilValue;
 END_RCPP
 }
@@ -220,43 +245,50 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// dbscan_mlpackMain
-void dbscan_mlpackMain();
-RcppExport SEXP _mlpack_dbscan_mlpackMain() {
+// dbscan_call
+void dbscan_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_dbscan_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    dbscan_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    dbscan_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// decision_tree_mlpackMain
-void decision_tree_mlpackMain();
-RcppExport SEXP _mlpack_decision_tree_mlpackMain() {
+// decision_tree_call
+void decision_tree_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_decision_tree_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    decision_tree_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    decision_tree_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// IO_GetParamDecisionTreeModelPtr
-SEXP IO_GetParamDecisionTreeModelPtr(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamDecisionTreeModelPtr(SEXP paramNameSEXP) {
+// GetParamDecisionTreeModelPtr
+SEXP GetParamDecisionTreeModelPtr(SEXP params, const std::string& paramName, SEXP inputModels);
+RcppExport SEXP _mlpack_GetParamDecisionTreeModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP inputModelsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamDecisionTreeModelPtr(paramName));
+    Rcpp::traits::input_parameter< SEXP >::type inputModels(inputModelsSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetParamDecisionTreeModelPtr(params, paramName, inputModels));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_SetParamDecisionTreeModelPtr
-void IO_SetParamDecisionTreeModelPtr(const std::string& paramName, SEXP ptr);
-RcppExport SEXP _mlpack_IO_SetParamDecisionTreeModelPtr(SEXP paramNameSEXP, SEXP ptrSEXP) {
+// SetParamDecisionTreeModelPtr
+void SetParamDecisionTreeModelPtr(SEXP params, const std::string& paramName, SEXP ptr);
+RcppExport SEXP _mlpack_SetParamDecisionTreeModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP ptrSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< SEXP >::type ptr(ptrSEXP);
-    IO_SetParamDecisionTreeModelPtr(paramName, ptr);
+    SetParamDecisionTreeModelPtr(params, paramName, ptr);
     return R_NilValue;
 END_RCPP
 }
@@ -282,34 +314,39 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// det_mlpackMain
-void det_mlpackMain();
-RcppExport SEXP _mlpack_det_mlpackMain() {
+// det_call
+void det_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_det_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    det_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    det_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// IO_GetParamDTreePtr
-SEXP IO_GetParamDTreePtr(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamDTreePtr(SEXP paramNameSEXP) {
+// GetParamDTreePtr
+SEXP GetParamDTreePtr(SEXP params, const std::string& paramName, SEXP inputModels);
+RcppExport SEXP _mlpack_GetParamDTreePtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP inputModelsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamDTreePtr(paramName));
+    Rcpp::traits::input_parameter< SEXP >::type inputModels(inputModelsSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetParamDTreePtr(params, paramName, inputModels));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_SetParamDTreePtr
-void IO_SetParamDTreePtr(const std::string& paramName, SEXP ptr);
-RcppExport SEXP _mlpack_IO_SetParamDTreePtr(SEXP paramNameSEXP, SEXP ptrSEXP) {
+// SetParamDTreePtr
+void SetParamDTreePtr(SEXP params, const std::string& paramName, SEXP ptr);
+RcppExport SEXP _mlpack_SetParamDTreePtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP ptrSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< SEXP >::type ptr(ptrSEXP);
-    IO_SetParamDTreePtr(paramName, ptr);
+    SetParamDTreePtr(params, paramName, ptr);
     return R_NilValue;
 END_RCPP
 }
@@ -335,43 +372,50 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// emst_mlpackMain
-void emst_mlpackMain();
-RcppExport SEXP _mlpack_emst_mlpackMain() {
+// emst_call
+void emst_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_emst_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    emst_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    emst_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// fastmks_mlpackMain
-void fastmks_mlpackMain();
-RcppExport SEXP _mlpack_fastmks_mlpackMain() {
+// fastmks_call
+void fastmks_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_fastmks_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    fastmks_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    fastmks_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// IO_GetParamFastMKSModelPtr
-SEXP IO_GetParamFastMKSModelPtr(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamFastMKSModelPtr(SEXP paramNameSEXP) {
+// GetParamFastMKSModelPtr
+SEXP GetParamFastMKSModelPtr(SEXP params, const std::string& paramName, SEXP inputModels);
+RcppExport SEXP _mlpack_GetParamFastMKSModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP inputModelsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamFastMKSModelPtr(paramName));
+    Rcpp::traits::input_parameter< SEXP >::type inputModels(inputModelsSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetParamFastMKSModelPtr(params, paramName, inputModels));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_SetParamFastMKSModelPtr
-void IO_SetParamFastMKSModelPtr(const std::string& paramName, SEXP ptr);
-RcppExport SEXP _mlpack_IO_SetParamFastMKSModelPtr(SEXP paramNameSEXP, SEXP ptrSEXP) {
+// SetParamFastMKSModelPtr
+void SetParamFastMKSModelPtr(SEXP params, const std::string& paramName, SEXP ptr);
+RcppExport SEXP _mlpack_SetParamFastMKSModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP ptrSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< SEXP >::type ptr(ptrSEXP);
-    IO_SetParamFastMKSModelPtr(paramName, ptr);
+    SetParamFastMKSModelPtr(params, paramName, ptr);
     return R_NilValue;
 END_RCPP
 }
@@ -397,52 +441,61 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// gmm_generate_mlpackMain
-void gmm_generate_mlpackMain();
-RcppExport SEXP _mlpack_gmm_generate_mlpackMain() {
+// gmm_generate_call
+void gmm_generate_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_gmm_generate_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    gmm_generate_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    gmm_generate_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// gmm_probability_mlpackMain
-void gmm_probability_mlpackMain();
-RcppExport SEXP _mlpack_gmm_probability_mlpackMain() {
+// gmm_probability_call
+void gmm_probability_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_gmm_probability_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    gmm_probability_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    gmm_probability_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// gmm_train_mlpackMain
-void gmm_train_mlpackMain();
-RcppExport SEXP _mlpack_gmm_train_mlpackMain() {
+// gmm_train_call
+void gmm_train_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_gmm_train_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    gmm_train_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    gmm_train_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// IO_GetParamGMMPtr
-SEXP IO_GetParamGMMPtr(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamGMMPtr(SEXP paramNameSEXP) {
+// GetParamGMMPtr
+SEXP GetParamGMMPtr(SEXP params, const std::string& paramName, SEXP inputModels);
+RcppExport SEXP _mlpack_GetParamGMMPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP inputModelsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamGMMPtr(paramName));
+    Rcpp::traits::input_parameter< SEXP >::type inputModels(inputModelsSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetParamGMMPtr(params, paramName, inputModels));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_SetParamGMMPtr
-void IO_SetParamGMMPtr(const std::string& paramName, SEXP ptr);
-RcppExport SEXP _mlpack_IO_SetParamGMMPtr(SEXP paramNameSEXP, SEXP ptrSEXP) {
+// SetParamGMMPtr
+void SetParamGMMPtr(SEXP params, const std::string& paramName, SEXP ptr);
+RcppExport SEXP _mlpack_SetParamGMMPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP ptrSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< SEXP >::type ptr(ptrSEXP);
-    IO_SetParamGMMPtr(paramName, ptr);
+    SetParamGMMPtr(params, paramName, ptr);
     return R_NilValue;
 END_RCPP
 }
@@ -468,34 +521,61 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// hmm_generate_mlpackMain
-void hmm_generate_mlpackMain();
-RcppExport SEXP _mlpack_hmm_generate_mlpackMain() {
+// hmm_generate_call
+void hmm_generate_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_hmm_generate_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    hmm_generate_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    hmm_generate_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// IO_GetParamHMMModelPtr
-SEXP IO_GetParamHMMModelPtr(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamHMMModelPtr(SEXP paramNameSEXP) {
+// hmm_loglik_call
+void hmm_loglik_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_hmm_loglik_call(SEXP paramsSEXP, SEXP timersSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    hmm_loglik_call(params, timers);
+    return R_NilValue;
+END_RCPP
+}
+// hmm_train_call
+void hmm_train_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_hmm_train_call(SEXP paramsSEXP, SEXP timersSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    hmm_train_call(params, timers);
+    return R_NilValue;
+END_RCPP
+}
+// GetParamHMMModelPtr
+SEXP GetParamHMMModelPtr(SEXP params, const std::string& paramName, SEXP inputModels);
+RcppExport SEXP _mlpack_GetParamHMMModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP inputModelsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamHMMModelPtr(paramName));
+    Rcpp::traits::input_parameter< SEXP >::type inputModels(inputModelsSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetParamHMMModelPtr(params, paramName, inputModels));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_SetParamHMMModelPtr
-void IO_SetParamHMMModelPtr(const std::string& paramName, SEXP ptr);
-RcppExport SEXP _mlpack_IO_SetParamHMMModelPtr(SEXP paramNameSEXP, SEXP ptrSEXP) {
+// SetParamHMMModelPtr
+void SetParamHMMModelPtr(SEXP params, const std::string& paramName, SEXP ptr);
+RcppExport SEXP _mlpack_SetParamHMMModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP ptrSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< SEXP >::type ptr(ptrSEXP);
-    IO_SetParamHMMModelPtr(paramName, ptr);
+    SetParamHMMModelPtr(params, paramName, ptr);
     return R_NilValue;
 END_RCPP
 }
@@ -521,61 +601,50 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// hmm_loglik_mlpackMain
-void hmm_loglik_mlpackMain();
-RcppExport SEXP _mlpack_hmm_loglik_mlpackMain() {
+// hmm_viterbi_call
+void hmm_viterbi_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_hmm_viterbi_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    hmm_loglik_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    hmm_viterbi_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// hmm_train_mlpackMain
-void hmm_train_mlpackMain();
-RcppExport SEXP _mlpack_hmm_train_mlpackMain() {
+// hoeffding_tree_call
+void hoeffding_tree_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_hoeffding_tree_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    hmm_train_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    hoeffding_tree_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// hmm_viterbi_mlpackMain
-void hmm_viterbi_mlpackMain();
-RcppExport SEXP _mlpack_hmm_viterbi_mlpackMain() {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    hmm_viterbi_mlpackMain();
-    return R_NilValue;
-END_RCPP
-}
-// hoeffding_tree_mlpackMain
-void hoeffding_tree_mlpackMain();
-RcppExport SEXP _mlpack_hoeffding_tree_mlpackMain() {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    hoeffding_tree_mlpackMain();
-    return R_NilValue;
-END_RCPP
-}
-// IO_GetParamHoeffdingTreeModelPtr
-SEXP IO_GetParamHoeffdingTreeModelPtr(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamHoeffdingTreeModelPtr(SEXP paramNameSEXP) {
+// GetParamHoeffdingTreeModelPtr
+SEXP GetParamHoeffdingTreeModelPtr(SEXP params, const std::string& paramName, SEXP inputModels);
+RcppExport SEXP _mlpack_GetParamHoeffdingTreeModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP inputModelsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamHoeffdingTreeModelPtr(paramName));
+    Rcpp::traits::input_parameter< SEXP >::type inputModels(inputModelsSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetParamHoeffdingTreeModelPtr(params, paramName, inputModels));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_SetParamHoeffdingTreeModelPtr
-void IO_SetParamHoeffdingTreeModelPtr(const std::string& paramName, SEXP ptr);
-RcppExport SEXP _mlpack_IO_SetParamHoeffdingTreeModelPtr(SEXP paramNameSEXP, SEXP ptrSEXP) {
+// SetParamHoeffdingTreeModelPtr
+void SetParamHoeffdingTreeModelPtr(SEXP params, const std::string& paramName, SEXP ptr);
+RcppExport SEXP _mlpack_SetParamHoeffdingTreeModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP ptrSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< SEXP >::type ptr(ptrSEXP);
-    IO_SetParamHoeffdingTreeModelPtr(paramName, ptr);
+    SetParamHoeffdingTreeModelPtr(params, paramName, ptr);
     return R_NilValue;
 END_RCPP
 }
@@ -601,43 +670,50 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// image_converter_mlpackMain
-void image_converter_mlpackMain();
-RcppExport SEXP _mlpack_image_converter_mlpackMain() {
+// image_converter_call
+void image_converter_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_image_converter_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    image_converter_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    image_converter_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// kde_mlpackMain
-void kde_mlpackMain();
-RcppExport SEXP _mlpack_kde_mlpackMain() {
+// kde_call
+void kde_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_kde_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    kde_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    kde_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// IO_GetParamKDEModelPtr
-SEXP IO_GetParamKDEModelPtr(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamKDEModelPtr(SEXP paramNameSEXP) {
+// GetParamKDEModelPtr
+SEXP GetParamKDEModelPtr(SEXP params, const std::string& paramName, SEXP inputModels);
+RcppExport SEXP _mlpack_GetParamKDEModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP inputModelsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamKDEModelPtr(paramName));
+    Rcpp::traits::input_parameter< SEXP >::type inputModels(inputModelsSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetParamKDEModelPtr(params, paramName, inputModels));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_SetParamKDEModelPtr
-void IO_SetParamKDEModelPtr(const std::string& paramName, SEXP ptr);
-RcppExport SEXP _mlpack_IO_SetParamKDEModelPtr(SEXP paramNameSEXP, SEXP ptrSEXP) {
+// SetParamKDEModelPtr
+void SetParamKDEModelPtr(SEXP params, const std::string& paramName, SEXP ptr);
+RcppExport SEXP _mlpack_SetParamKDEModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP ptrSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< SEXP >::type ptr(ptrSEXP);
-    IO_SetParamKDEModelPtr(paramName, ptr);
+    SetParamKDEModelPtr(params, paramName, ptr);
     return R_NilValue;
 END_RCPP
 }
@@ -663,43 +739,50 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// kernel_pca_mlpackMain
-void kernel_pca_mlpackMain();
-RcppExport SEXP _mlpack_kernel_pca_mlpackMain() {
+// kernel_pca_call
+void kernel_pca_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_kernel_pca_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    kernel_pca_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    kernel_pca_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// kfn_mlpackMain
-void kfn_mlpackMain();
-RcppExport SEXP _mlpack_kfn_mlpackMain() {
+// kfn_call
+void kfn_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_kfn_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    kfn_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    kfn_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// IO_GetParamKFNModelPtr
-SEXP IO_GetParamKFNModelPtr(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamKFNModelPtr(SEXP paramNameSEXP) {
+// GetParamKFNModelPtr
+SEXP GetParamKFNModelPtr(SEXP params, const std::string& paramName, SEXP inputModels);
+RcppExport SEXP _mlpack_GetParamKFNModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP inputModelsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamKFNModelPtr(paramName));
+    Rcpp::traits::input_parameter< SEXP >::type inputModels(inputModelsSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetParamKFNModelPtr(params, paramName, inputModels));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_SetParamKFNModelPtr
-void IO_SetParamKFNModelPtr(const std::string& paramName, SEXP ptr);
-RcppExport SEXP _mlpack_IO_SetParamKFNModelPtr(SEXP paramNameSEXP, SEXP ptrSEXP) {
+// SetParamKFNModelPtr
+void SetParamKFNModelPtr(SEXP params, const std::string& paramName, SEXP ptr);
+RcppExport SEXP _mlpack_SetParamKFNModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP ptrSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< SEXP >::type ptr(ptrSEXP);
-    IO_SetParamKFNModelPtr(paramName, ptr);
+    SetParamKFNModelPtr(params, paramName, ptr);
     return R_NilValue;
 END_RCPP
 }
@@ -725,43 +808,50 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// kmeans_mlpackMain
-void kmeans_mlpackMain();
-RcppExport SEXP _mlpack_kmeans_mlpackMain() {
+// kmeans_call
+void kmeans_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_kmeans_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    kmeans_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    kmeans_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// knn_mlpackMain
-void knn_mlpackMain();
-RcppExport SEXP _mlpack_knn_mlpackMain() {
+// knn_call
+void knn_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_knn_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    knn_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    knn_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// IO_GetParamKNNModelPtr
-SEXP IO_GetParamKNNModelPtr(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamKNNModelPtr(SEXP paramNameSEXP) {
+// GetParamKNNModelPtr
+SEXP GetParamKNNModelPtr(SEXP params, const std::string& paramName, SEXP inputModels);
+RcppExport SEXP _mlpack_GetParamKNNModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP inputModelsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamKNNModelPtr(paramName));
+    Rcpp::traits::input_parameter< SEXP >::type inputModels(inputModelsSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetParamKNNModelPtr(params, paramName, inputModels));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_SetParamKNNModelPtr
-void IO_SetParamKNNModelPtr(const std::string& paramName, SEXP ptr);
-RcppExport SEXP _mlpack_IO_SetParamKNNModelPtr(SEXP paramNameSEXP, SEXP ptrSEXP) {
+// SetParamKNNModelPtr
+void SetParamKNNModelPtr(SEXP params, const std::string& paramName, SEXP ptr);
+RcppExport SEXP _mlpack_SetParamKNNModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP ptrSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< SEXP >::type ptr(ptrSEXP);
-    IO_SetParamKNNModelPtr(paramName, ptr);
+    SetParamKNNModelPtr(params, paramName, ptr);
     return R_NilValue;
 END_RCPP
 }
@@ -787,87 +877,97 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// krann_mlpackMain
-void krann_mlpackMain();
-RcppExport SEXP _mlpack_krann_mlpackMain() {
+// krann_call
+void krann_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_krann_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    krann_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    krann_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// IO_GetParamRANNModelPtr
-SEXP IO_GetParamRANNModelPtr(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamRANNModelPtr(SEXP paramNameSEXP) {
+// GetParamRAModelPtr
+SEXP GetParamRAModelPtr(SEXP params, const std::string& paramName, SEXP inputModels);
+RcppExport SEXP _mlpack_GetParamRAModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP inputModelsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamRANNModelPtr(paramName));
+    Rcpp::traits::input_parameter< SEXP >::type inputModels(inputModelsSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetParamRAModelPtr(params, paramName, inputModels));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_SetParamRANNModelPtr
-void IO_SetParamRANNModelPtr(const std::string& paramName, SEXP ptr);
-RcppExport SEXP _mlpack_IO_SetParamRANNModelPtr(SEXP paramNameSEXP, SEXP ptrSEXP) {
+// SetParamRAModelPtr
+void SetParamRAModelPtr(SEXP params, const std::string& paramName, SEXP ptr);
+RcppExport SEXP _mlpack_SetParamRAModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP ptrSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< SEXP >::type ptr(ptrSEXP);
-    IO_SetParamRANNModelPtr(paramName, ptr);
+    SetParamRAModelPtr(params, paramName, ptr);
     return R_NilValue;
 END_RCPP
 }
-// SerializeRANNModelPtr
-Rcpp::RawVector SerializeRANNModelPtr(SEXP ptr);
-RcppExport SEXP _mlpack_SerializeRANNModelPtr(SEXP ptrSEXP) {
+// SerializeRAModelPtr
+Rcpp::RawVector SerializeRAModelPtr(SEXP ptr);
+RcppExport SEXP _mlpack_SerializeRAModelPtr(SEXP ptrSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type ptr(ptrSEXP);
-    rcpp_result_gen = Rcpp::wrap(SerializeRANNModelPtr(ptr));
+    rcpp_result_gen = Rcpp::wrap(SerializeRAModelPtr(ptr));
     return rcpp_result_gen;
 END_RCPP
 }
-// DeserializeRANNModelPtr
-SEXP DeserializeRANNModelPtr(Rcpp::RawVector str);
-RcppExport SEXP _mlpack_DeserializeRANNModelPtr(SEXP strSEXP) {
+// DeserializeRAModelPtr
+SEXP DeserializeRAModelPtr(Rcpp::RawVector str);
+RcppExport SEXP _mlpack_DeserializeRAModelPtr(SEXP strSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Rcpp::RawVector >::type str(strSEXP);
-    rcpp_result_gen = Rcpp::wrap(DeserializeRANNModelPtr(str));
+    rcpp_result_gen = Rcpp::wrap(DeserializeRAModelPtr(str));
     return rcpp_result_gen;
 END_RCPP
 }
-// lars_mlpackMain
-void lars_mlpackMain();
-RcppExport SEXP _mlpack_lars_mlpackMain() {
+// lars_call
+void lars_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_lars_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    lars_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    lars_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// IO_GetParamLARSPtr
-SEXP IO_GetParamLARSPtr(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamLARSPtr(SEXP paramNameSEXP) {
+// GetParamLARSPtr
+SEXP GetParamLARSPtr(SEXP params, const std::string& paramName, SEXP inputModels);
+RcppExport SEXP _mlpack_GetParamLARSPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP inputModelsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamLARSPtr(paramName));
+    Rcpp::traits::input_parameter< SEXP >::type inputModels(inputModelsSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetParamLARSPtr(params, paramName, inputModels));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_SetParamLARSPtr
-void IO_SetParamLARSPtr(const std::string& paramName, SEXP ptr);
-RcppExport SEXP _mlpack_IO_SetParamLARSPtr(SEXP paramNameSEXP, SEXP ptrSEXP) {
+// SetParamLARSPtr
+void SetParamLARSPtr(SEXP params, const std::string& paramName, SEXP ptr);
+RcppExport SEXP _mlpack_SetParamLARSPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP ptrSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< SEXP >::type ptr(ptrSEXP);
-    IO_SetParamLARSPtr(paramName, ptr);
+    SetParamLARSPtr(params, paramName, ptr);
     return R_NilValue;
 END_RCPP
 }
@@ -893,34 +993,39 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// linear_regression_mlpackMain
-void linear_regression_mlpackMain();
-RcppExport SEXP _mlpack_linear_regression_mlpackMain() {
+// linear_regression_call
+void linear_regression_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_linear_regression_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    linear_regression_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    linear_regression_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// IO_GetParamLinearRegressionPtr
-SEXP IO_GetParamLinearRegressionPtr(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamLinearRegressionPtr(SEXP paramNameSEXP) {
+// GetParamLinearRegressionPtr
+SEXP GetParamLinearRegressionPtr(SEXP params, const std::string& paramName, SEXP inputModels);
+RcppExport SEXP _mlpack_GetParamLinearRegressionPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP inputModelsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamLinearRegressionPtr(paramName));
+    Rcpp::traits::input_parameter< SEXP >::type inputModels(inputModelsSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetParamLinearRegressionPtr(params, paramName, inputModels));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_SetParamLinearRegressionPtr
-void IO_SetParamLinearRegressionPtr(const std::string& paramName, SEXP ptr);
-RcppExport SEXP _mlpack_IO_SetParamLinearRegressionPtr(SEXP paramNameSEXP, SEXP ptrSEXP) {
+// SetParamLinearRegressionPtr
+void SetParamLinearRegressionPtr(SEXP params, const std::string& paramName, SEXP ptr);
+RcppExport SEXP _mlpack_SetParamLinearRegressionPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP ptrSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< SEXP >::type ptr(ptrSEXP);
-    IO_SetParamLinearRegressionPtr(paramName, ptr);
+    SetParamLinearRegressionPtr(params, paramName, ptr);
     return R_NilValue;
 END_RCPP
 }
@@ -946,34 +1051,39 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// linear_svm_mlpackMain
-void linear_svm_mlpackMain();
-RcppExport SEXP _mlpack_linear_svm_mlpackMain() {
+// linear_svm_call
+void linear_svm_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_linear_svm_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    linear_svm_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    linear_svm_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// IO_GetParamLinearSVMModelPtr
-SEXP IO_GetParamLinearSVMModelPtr(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamLinearSVMModelPtr(SEXP paramNameSEXP) {
+// GetParamLinearSVMModelPtr
+SEXP GetParamLinearSVMModelPtr(SEXP params, const std::string& paramName, SEXP inputModels);
+RcppExport SEXP _mlpack_GetParamLinearSVMModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP inputModelsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamLinearSVMModelPtr(paramName));
+    Rcpp::traits::input_parameter< SEXP >::type inputModels(inputModelsSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetParamLinearSVMModelPtr(params, paramName, inputModels));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_SetParamLinearSVMModelPtr
-void IO_SetParamLinearSVMModelPtr(const std::string& paramName, SEXP ptr);
-RcppExport SEXP _mlpack_IO_SetParamLinearSVMModelPtr(SEXP paramNameSEXP, SEXP ptrSEXP) {
+// SetParamLinearSVMModelPtr
+void SetParamLinearSVMModelPtr(SEXP params, const std::string& paramName, SEXP ptr);
+RcppExport SEXP _mlpack_SetParamLinearSVMModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP ptrSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< SEXP >::type ptr(ptrSEXP);
-    IO_SetParamLinearSVMModelPtr(paramName, ptr);
+    SetParamLinearSVMModelPtr(params, paramName, ptr);
     return R_NilValue;
 END_RCPP
 }
@@ -999,43 +1109,50 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// lmnn_mlpackMain
-void lmnn_mlpackMain();
-RcppExport SEXP _mlpack_lmnn_mlpackMain() {
+// lmnn_call
+void lmnn_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_lmnn_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    lmnn_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    lmnn_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// local_coordinate_coding_mlpackMain
-void local_coordinate_coding_mlpackMain();
-RcppExport SEXP _mlpack_local_coordinate_coding_mlpackMain() {
+// local_coordinate_coding_call
+void local_coordinate_coding_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_local_coordinate_coding_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    local_coordinate_coding_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    local_coordinate_coding_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// IO_GetParamLocalCoordinateCodingPtr
-SEXP IO_GetParamLocalCoordinateCodingPtr(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamLocalCoordinateCodingPtr(SEXP paramNameSEXP) {
+// GetParamLocalCoordinateCodingPtr
+SEXP GetParamLocalCoordinateCodingPtr(SEXP params, const std::string& paramName, SEXP inputModels);
+RcppExport SEXP _mlpack_GetParamLocalCoordinateCodingPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP inputModelsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamLocalCoordinateCodingPtr(paramName));
+    Rcpp::traits::input_parameter< SEXP >::type inputModels(inputModelsSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetParamLocalCoordinateCodingPtr(params, paramName, inputModels));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_SetParamLocalCoordinateCodingPtr
-void IO_SetParamLocalCoordinateCodingPtr(const std::string& paramName, SEXP ptr);
-RcppExport SEXP _mlpack_IO_SetParamLocalCoordinateCodingPtr(SEXP paramNameSEXP, SEXP ptrSEXP) {
+// SetParamLocalCoordinateCodingPtr
+void SetParamLocalCoordinateCodingPtr(SEXP params, const std::string& paramName, SEXP ptr);
+RcppExport SEXP _mlpack_SetParamLocalCoordinateCodingPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP ptrSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< SEXP >::type ptr(ptrSEXP);
-    IO_SetParamLocalCoordinateCodingPtr(paramName, ptr);
+    SetParamLocalCoordinateCodingPtr(params, paramName, ptr);
     return R_NilValue;
 END_RCPP
 }
@@ -1061,34 +1178,39 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// logistic_regression_mlpackMain
-void logistic_regression_mlpackMain();
-RcppExport SEXP _mlpack_logistic_regression_mlpackMain() {
+// logistic_regression_call
+void logistic_regression_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_logistic_regression_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    logistic_regression_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    logistic_regression_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// IO_GetParamLogisticRegressionPtr
-SEXP IO_GetParamLogisticRegressionPtr(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamLogisticRegressionPtr(SEXP paramNameSEXP) {
+// GetParamLogisticRegressionPtr
+SEXP GetParamLogisticRegressionPtr(SEXP params, const std::string& paramName, SEXP inputModels);
+RcppExport SEXP _mlpack_GetParamLogisticRegressionPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP inputModelsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamLogisticRegressionPtr(paramName));
+    Rcpp::traits::input_parameter< SEXP >::type inputModels(inputModelsSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetParamLogisticRegressionPtr(params, paramName, inputModels));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_SetParamLogisticRegressionPtr
-void IO_SetParamLogisticRegressionPtr(const std::string& paramName, SEXP ptr);
-RcppExport SEXP _mlpack_IO_SetParamLogisticRegressionPtr(SEXP paramNameSEXP, SEXP ptrSEXP) {
+// SetParamLogisticRegressionPtr
+void SetParamLogisticRegressionPtr(SEXP params, const std::string& paramName, SEXP ptr);
+RcppExport SEXP _mlpack_SetParamLogisticRegressionPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP ptrSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< SEXP >::type ptr(ptrSEXP);
-    IO_SetParamLogisticRegressionPtr(paramName, ptr);
+    SetParamLogisticRegressionPtr(params, paramName, ptr);
     return R_NilValue;
 END_RCPP
 }
@@ -1114,34 +1236,39 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// lsh_mlpackMain
-void lsh_mlpackMain();
-RcppExport SEXP _mlpack_lsh_mlpackMain() {
+// lsh_call
+void lsh_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_lsh_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    lsh_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    lsh_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// IO_GetParamLSHSearchPtr
-SEXP IO_GetParamLSHSearchPtr(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamLSHSearchPtr(SEXP paramNameSEXP) {
+// GetParamLSHSearchPtr
+SEXP GetParamLSHSearchPtr(SEXP params, const std::string& paramName, SEXP inputModels);
+RcppExport SEXP _mlpack_GetParamLSHSearchPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP inputModelsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamLSHSearchPtr(paramName));
+    Rcpp::traits::input_parameter< SEXP >::type inputModels(inputModelsSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetParamLSHSearchPtr(params, paramName, inputModels));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_SetParamLSHSearchPtr
-void IO_SetParamLSHSearchPtr(const std::string& paramName, SEXP ptr);
-RcppExport SEXP _mlpack_IO_SetParamLSHSearchPtr(SEXP paramNameSEXP, SEXP ptrSEXP) {
+// SetParamLSHSearchPtr
+void SetParamLSHSearchPtr(SEXP params, const std::string& paramName, SEXP ptr);
+RcppExport SEXP _mlpack_SetParamLSHSearchPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP ptrSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< SEXP >::type ptr(ptrSEXP);
-    IO_SetParamLSHSearchPtr(paramName, ptr);
+    SetParamLSHSearchPtr(params, paramName, ptr);
     return R_NilValue;
 END_RCPP
 }
@@ -1167,43 +1294,50 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// mean_shift_mlpackMain
-void mean_shift_mlpackMain();
-RcppExport SEXP _mlpack_mean_shift_mlpackMain() {
+// mean_shift_call
+void mean_shift_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_mean_shift_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    mean_shift_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    mean_shift_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// nbc_mlpackMain
-void nbc_mlpackMain();
-RcppExport SEXP _mlpack_nbc_mlpackMain() {
+// nbc_call
+void nbc_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_nbc_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    nbc_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    nbc_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// IO_GetParamNBCModelPtr
-SEXP IO_GetParamNBCModelPtr(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamNBCModelPtr(SEXP paramNameSEXP) {
+// GetParamNBCModelPtr
+SEXP GetParamNBCModelPtr(SEXP params, const std::string& paramName, SEXP inputModels);
+RcppExport SEXP _mlpack_GetParamNBCModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP inputModelsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamNBCModelPtr(paramName));
+    Rcpp::traits::input_parameter< SEXP >::type inputModels(inputModelsSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetParamNBCModelPtr(params, paramName, inputModels));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_SetParamNBCModelPtr
-void IO_SetParamNBCModelPtr(const std::string& paramName, SEXP ptr);
-RcppExport SEXP _mlpack_IO_SetParamNBCModelPtr(SEXP paramNameSEXP, SEXP ptrSEXP) {
+// SetParamNBCModelPtr
+void SetParamNBCModelPtr(SEXP params, const std::string& paramName, SEXP ptr);
+RcppExport SEXP _mlpack_SetParamNBCModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP ptrSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< SEXP >::type ptr(ptrSEXP);
-    IO_SetParamNBCModelPtr(paramName, ptr);
+    SetParamNBCModelPtr(params, paramName, ptr);
     return R_NilValue;
 END_RCPP
 }
@@ -1229,61 +1363,72 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// nca_mlpackMain
-void nca_mlpackMain();
-RcppExport SEXP _mlpack_nca_mlpackMain() {
+// nca_call
+void nca_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_nca_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    nca_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    nca_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// nmf_mlpackMain
-void nmf_mlpackMain();
-RcppExport SEXP _mlpack_nmf_mlpackMain() {
+// nmf_call
+void nmf_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_nmf_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    nmf_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    nmf_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// pca_mlpackMain
-void pca_mlpackMain();
-RcppExport SEXP _mlpack_pca_mlpackMain() {
+// pca_call
+void pca_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_pca_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    pca_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    pca_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// perceptron_mlpackMain
-void perceptron_mlpackMain();
-RcppExport SEXP _mlpack_perceptron_mlpackMain() {
+// perceptron_call
+void perceptron_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_perceptron_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    perceptron_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    perceptron_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// IO_GetParamPerceptronModelPtr
-SEXP IO_GetParamPerceptronModelPtr(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamPerceptronModelPtr(SEXP paramNameSEXP) {
+// GetParamPerceptronModelPtr
+SEXP GetParamPerceptronModelPtr(SEXP params, const std::string& paramName, SEXP inputModels);
+RcppExport SEXP _mlpack_GetParamPerceptronModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP inputModelsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamPerceptronModelPtr(paramName));
+    Rcpp::traits::input_parameter< SEXP >::type inputModels(inputModelsSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetParamPerceptronModelPtr(params, paramName, inputModels));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_SetParamPerceptronModelPtr
-void IO_SetParamPerceptronModelPtr(const std::string& paramName, SEXP ptr);
-RcppExport SEXP _mlpack_IO_SetParamPerceptronModelPtr(SEXP paramNameSEXP, SEXP ptrSEXP) {
+// SetParamPerceptronModelPtr
+void SetParamPerceptronModelPtr(SEXP params, const std::string& paramName, SEXP ptr);
+RcppExport SEXP _mlpack_SetParamPerceptronModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP ptrSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< SEXP >::type ptr(ptrSEXP);
-    IO_SetParamPerceptronModelPtr(paramName, ptr);
+    SetParamPerceptronModelPtr(params, paramName, ptr);
     return R_NilValue;
 END_RCPP
 }
@@ -1309,61 +1454,72 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// preprocess_binarize_mlpackMain
-void preprocess_binarize_mlpackMain();
-RcppExport SEXP _mlpack_preprocess_binarize_mlpackMain() {
+// preprocess_binarize_call
+void preprocess_binarize_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_preprocess_binarize_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    preprocess_binarize_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    preprocess_binarize_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// preprocess_describe_mlpackMain
-void preprocess_describe_mlpackMain();
-RcppExport SEXP _mlpack_preprocess_describe_mlpackMain() {
+// preprocess_describe_call
+void preprocess_describe_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_preprocess_describe_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    preprocess_describe_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    preprocess_describe_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// preprocess_one_hot_encoding_mlpackMain
-void preprocess_one_hot_encoding_mlpackMain();
-RcppExport SEXP _mlpack_preprocess_one_hot_encoding_mlpackMain() {
+// preprocess_one_hot_encoding_call
+void preprocess_one_hot_encoding_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_preprocess_one_hot_encoding_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    preprocess_one_hot_encoding_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    preprocess_one_hot_encoding_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// preprocess_scale_mlpackMain
-void preprocess_scale_mlpackMain();
-RcppExport SEXP _mlpack_preprocess_scale_mlpackMain() {
+// preprocess_scale_call
+void preprocess_scale_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_preprocess_scale_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    preprocess_scale_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    preprocess_scale_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// IO_GetParamScalingModelPtr
-SEXP IO_GetParamScalingModelPtr(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamScalingModelPtr(SEXP paramNameSEXP) {
+// GetParamScalingModelPtr
+SEXP GetParamScalingModelPtr(SEXP params, const std::string& paramName, SEXP inputModels);
+RcppExport SEXP _mlpack_GetParamScalingModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP inputModelsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamScalingModelPtr(paramName));
+    Rcpp::traits::input_parameter< SEXP >::type inputModels(inputModelsSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetParamScalingModelPtr(params, paramName, inputModels));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_SetParamScalingModelPtr
-void IO_SetParamScalingModelPtr(const std::string& paramName, SEXP ptr);
-RcppExport SEXP _mlpack_IO_SetParamScalingModelPtr(SEXP paramNameSEXP, SEXP ptrSEXP) {
+// SetParamScalingModelPtr
+void SetParamScalingModelPtr(SEXP params, const std::string& paramName, SEXP ptr);
+RcppExport SEXP _mlpack_SetParamScalingModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP ptrSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< SEXP >::type ptr(ptrSEXP);
-    IO_SetParamScalingModelPtr(paramName, ptr);
+    SetParamScalingModelPtr(params, paramName, ptr);
     return R_NilValue;
 END_RCPP
 }
@@ -1389,395 +1545,433 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// preprocess_split_mlpackMain
-void preprocess_split_mlpackMain();
-RcppExport SEXP _mlpack_preprocess_split_mlpackMain() {
+// preprocess_split_call
+void preprocess_split_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_preprocess_split_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    preprocess_split_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    preprocess_split_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// IO_RestoreSettings
-void IO_RestoreSettings(const std::string& programName);
-RcppExport SEXP _mlpack_IO_RestoreSettings(SEXP programNameSEXP) {
+// CreateParams
+SEXP CreateParams(const std::string& bindingName);
+RcppExport SEXP _mlpack_CreateParams(SEXP bindingNameSEXP) {
 BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const std::string& >::type programName(programNameSEXP);
-    IO_RestoreSettings(programName);
-    return R_NilValue;
+    Rcpp::traits::input_parameter< const std::string& >::type bindingName(bindingNameSEXP);
+    rcpp_result_gen = Rcpp::wrap(CreateParams(bindingName));
+    return rcpp_result_gen;
 END_RCPP
 }
-// IO_SetParamInt
-void IO_SetParamInt(const std::string& paramName, int paramValue);
-RcppExport SEXP _mlpack_IO_SetParamInt(SEXP paramNameSEXP, SEXP paramValueSEXP) {
+// CreateTimers
+SEXP CreateTimers();
+RcppExport SEXP _mlpack_CreateTimers() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(CreateTimers());
+    return rcpp_result_gen;
+END_RCPP
+}
+// SetParamInt
+void SetParamInt(SEXP params, const std::string& paramName, int paramValue);
+RcppExport SEXP _mlpack_SetParamInt(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP paramValueSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< int >::type paramValue(paramValueSEXP);
-    IO_SetParamInt(paramName, paramValue);
+    SetParamInt(params, paramName, paramValue);
     return R_NilValue;
 END_RCPP
 }
-// IO_SetParamDouble
-void IO_SetParamDouble(const std::string& paramName, double paramValue);
-RcppExport SEXP _mlpack_IO_SetParamDouble(SEXP paramNameSEXP, SEXP paramValueSEXP) {
+// SetParamDouble
+void SetParamDouble(SEXP params, const std::string& paramName, double paramValue);
+RcppExport SEXP _mlpack_SetParamDouble(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP paramValueSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< double >::type paramValue(paramValueSEXP);
-    IO_SetParamDouble(paramName, paramValue);
+    SetParamDouble(params, paramName, paramValue);
     return R_NilValue;
 END_RCPP
 }
-// IO_SetParamString
-void IO_SetParamString(const std::string& paramName, std::string& paramValue);
-RcppExport SEXP _mlpack_IO_SetParamString(SEXP paramNameSEXP, SEXP paramValueSEXP) {
+// SetParamString
+void SetParamString(SEXP params, const std::string& paramName, std::string& paramValue);
+RcppExport SEXP _mlpack_SetParamString(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP paramValueSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< std::string& >::type paramValue(paramValueSEXP);
-    IO_SetParamString(paramName, paramValue);
+    SetParamString(params, paramName, paramValue);
     return R_NilValue;
 END_RCPP
 }
-// IO_SetParamBool
-void IO_SetParamBool(const std::string& paramName, bool paramValue);
-RcppExport SEXP _mlpack_IO_SetParamBool(SEXP paramNameSEXP, SEXP paramValueSEXP) {
+// SetParamBool
+void SetParamBool(SEXP params, const std::string& paramName, bool paramValue);
+RcppExport SEXP _mlpack_SetParamBool(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP paramValueSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< bool >::type paramValue(paramValueSEXP);
-    IO_SetParamBool(paramName, paramValue);
+    SetParamBool(params, paramName, paramValue);
     return R_NilValue;
 END_RCPP
 }
-// IO_SetParamVecString
-void IO_SetParamVecString(const std::string& paramName, const std::vector<std::string>& str);
-RcppExport SEXP _mlpack_IO_SetParamVecString(SEXP paramNameSEXP, SEXP strSEXP) {
+// SetParamVecString
+void SetParamVecString(SEXP params, const std::string& paramName, const std::vector<std::string>& str);
+RcppExport SEXP _mlpack_SetParamVecString(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP strSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< const std::vector<std::string>& >::type str(strSEXP);
-    IO_SetParamVecString(paramName, str);
+    SetParamVecString(params, paramName, str);
     return R_NilValue;
 END_RCPP
 }
-// IO_SetParamVecInt
-void IO_SetParamVecInt(const std::string& paramName, const std::vector<int>& ints);
-RcppExport SEXP _mlpack_IO_SetParamVecInt(SEXP paramNameSEXP, SEXP intsSEXP) {
+// SetParamVecInt
+void SetParamVecInt(SEXP params, const std::string& paramName, const std::vector<int>& ints);
+RcppExport SEXP _mlpack_SetParamVecInt(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP intsSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< const std::vector<int>& >::type ints(intsSEXP);
-    IO_SetParamVecInt(paramName, ints);
+    SetParamVecInt(params, paramName, ints);
     return R_NilValue;
 END_RCPP
 }
-// IO_SetParamMat
-void IO_SetParamMat(const std::string& paramName, const arma::mat& paramValue);
-RcppExport SEXP _mlpack_IO_SetParamMat(SEXP paramNameSEXP, SEXP paramValueSEXP) {
+// SetParamMat
+void SetParamMat(SEXP params, const std::string& paramName, const arma::mat& paramValue);
+RcppExport SEXP _mlpack_SetParamMat(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP paramValueSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< const arma::mat& >::type paramValue(paramValueSEXP);
-    IO_SetParamMat(paramName, paramValue);
+    SetParamMat(params, paramName, paramValue);
     return R_NilValue;
 END_RCPP
 }
-// IO_SetParamUMat
-void IO_SetParamUMat(const std::string& paramName, const arma::Mat<size_t>& paramValue);
-RcppExport SEXP _mlpack_IO_SetParamUMat(SEXP paramNameSEXP, SEXP paramValueSEXP) {
+// SetParamUMat
+void SetParamUMat(SEXP params, const std::string& paramName, const arma::Mat<size_t>& paramValue);
+RcppExport SEXP _mlpack_SetParamUMat(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP paramValueSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< const arma::Mat<size_t>& >::type paramValue(paramValueSEXP);
-    IO_SetParamUMat(paramName, paramValue);
+    SetParamUMat(params, paramName, paramValue);
     return R_NilValue;
 END_RCPP
 }
-// IO_SetParamRow
-void IO_SetParamRow(const std::string& paramName, const arma::rowvec& paramValue);
-RcppExport SEXP _mlpack_IO_SetParamRow(SEXP paramNameSEXP, SEXP paramValueSEXP) {
+// SetParamRow
+void SetParamRow(SEXP params, const std::string& paramName, const arma::rowvec& paramValue);
+RcppExport SEXP _mlpack_SetParamRow(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP paramValueSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< const arma::rowvec& >::type paramValue(paramValueSEXP);
-    IO_SetParamRow(paramName, paramValue);
+    SetParamRow(params, paramName, paramValue);
     return R_NilValue;
 END_RCPP
 }
-// IO_SetParamURow
-void IO_SetParamURow(const std::string& paramName, const arma::Row<size_t>& paramValue);
-RcppExport SEXP _mlpack_IO_SetParamURow(SEXP paramNameSEXP, SEXP paramValueSEXP) {
+// SetParamURow
+void SetParamURow(SEXP params, const std::string& paramName, const arma::Row<size_t>& paramValue);
+RcppExport SEXP _mlpack_SetParamURow(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP paramValueSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< const arma::Row<size_t>& >::type paramValue(paramValueSEXP);
-    IO_SetParamURow(paramName, paramValue);
+    SetParamURow(params, paramName, paramValue);
     return R_NilValue;
 END_RCPP
 }
-// IO_SetParamCol
-void IO_SetParamCol(const std::string& paramName, const arma::vec& paramValue);
-RcppExport SEXP _mlpack_IO_SetParamCol(SEXP paramNameSEXP, SEXP paramValueSEXP) {
+// SetParamCol
+void SetParamCol(SEXP params, const std::string& paramName, const arma::vec& paramValue);
+RcppExport SEXP _mlpack_SetParamCol(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP paramValueSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< const arma::vec& >::type paramValue(paramValueSEXP);
-    IO_SetParamCol(paramName, paramValue);
+    SetParamCol(params, paramName, paramValue);
     return R_NilValue;
 END_RCPP
 }
-// IO_SetParamUCol
-void IO_SetParamUCol(const std::string& paramName, const arma::Col<size_t>& paramValue);
-RcppExport SEXP _mlpack_IO_SetParamUCol(SEXP paramNameSEXP, SEXP paramValueSEXP) {
+// SetParamUCol
+void SetParamUCol(SEXP params, const std::string& paramName, const arma::Col<size_t>& paramValue);
+RcppExport SEXP _mlpack_SetParamUCol(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP paramValueSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< const arma::Col<size_t>& >::type paramValue(paramValueSEXP);
-    IO_SetParamUCol(paramName, paramValue);
+    SetParamUCol(params, paramName, paramValue);
     return R_NilValue;
 END_RCPP
 }
-// IO_SetParamMatWithInfo
-void IO_SetParamMatWithInfo(const std::string& paramName, const LogicalVector& dimensions, const arma::mat& paramValue);
-RcppExport SEXP _mlpack_IO_SetParamMatWithInfo(SEXP paramNameSEXP, SEXP dimensionsSEXP, SEXP paramValueSEXP) {
+// SetParamMatWithInfo
+void SetParamMatWithInfo(SEXP params, const std::string& paramName, const LogicalVector& dimensions, const arma::mat& paramValue);
+RcppExport SEXP _mlpack_SetParamMatWithInfo(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP dimensionsSEXP, SEXP paramValueSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< const LogicalVector& >::type dimensions(dimensionsSEXP);
     Rcpp::traits::input_parameter< const arma::mat& >::type paramValue(paramValueSEXP);
-    IO_SetParamMatWithInfo(paramName, dimensions, paramValue);
+    SetParamMatWithInfo(params, paramName, dimensions, paramValue);
     return R_NilValue;
 END_RCPP
 }
-// IO_GetParamInt
-int IO_GetParamInt(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamInt(SEXP paramNameSEXP) {
+// GetParamInt
+int GetParamInt(SEXP params, const std::string& paramName);
+RcppExport SEXP _mlpack_GetParamInt(SEXP paramsSEXP, SEXP paramNameSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamInt(paramName));
+    rcpp_result_gen = Rcpp::wrap(GetParamInt(params, paramName));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_GetParamDouble
-double IO_GetParamDouble(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamDouble(SEXP paramNameSEXP) {
+// GetParamDouble
+double GetParamDouble(SEXP params, const std::string& paramName);
+RcppExport SEXP _mlpack_GetParamDouble(SEXP paramsSEXP, SEXP paramNameSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamDouble(paramName));
+    rcpp_result_gen = Rcpp::wrap(GetParamDouble(params, paramName));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_GetParamString
-std::string& IO_GetParamString(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamString(SEXP paramNameSEXP) {
+// GetParamString
+std::string& GetParamString(SEXP params, const std::string& paramName);
+RcppExport SEXP _mlpack_GetParamString(SEXP paramsSEXP, SEXP paramNameSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamString(paramName));
+    rcpp_result_gen = Rcpp::wrap(GetParamString(params, paramName));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_GetParamBool
-bool IO_GetParamBool(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamBool(SEXP paramNameSEXP) {
+// GetParamBool
+bool GetParamBool(SEXP params, const std::string& paramName);
+RcppExport SEXP _mlpack_GetParamBool(SEXP paramsSEXP, SEXP paramNameSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamBool(paramName));
+    rcpp_result_gen = Rcpp::wrap(GetParamBool(params, paramName));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_GetParamVecString
-const std::vector<std::string>& IO_GetParamVecString(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamVecString(SEXP paramNameSEXP) {
+// GetParamVecString
+const std::vector<std::string>& GetParamVecString(SEXP params, const std::string& paramName);
+RcppExport SEXP _mlpack_GetParamVecString(SEXP paramsSEXP, SEXP paramNameSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamVecString(paramName));
+    rcpp_result_gen = Rcpp::wrap(GetParamVecString(params, paramName));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_GetParamVecInt
-const std::vector<int>& IO_GetParamVecInt(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamVecInt(SEXP paramNameSEXP) {
+// GetParamVecInt
+const std::vector<int>& GetParamVecInt(SEXP params, const std::string& paramName);
+RcppExport SEXP _mlpack_GetParamVecInt(SEXP paramsSEXP, SEXP paramNameSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamVecInt(paramName));
+    rcpp_result_gen = Rcpp::wrap(GetParamVecInt(params, paramName));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_GetParamMat
-const arma::mat& IO_GetParamMat(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamMat(SEXP paramNameSEXP) {
+// GetParamMat
+const arma::mat& GetParamMat(SEXP params, const std::string& paramName);
+RcppExport SEXP _mlpack_GetParamMat(SEXP paramsSEXP, SEXP paramNameSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamMat(paramName));
+    rcpp_result_gen = Rcpp::wrap(GetParamMat(params, paramName));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_GetParamUMat
-const arma::Mat<size_t>& IO_GetParamUMat(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamUMat(SEXP paramNameSEXP) {
+// GetParamUMat
+const arma::Mat<size_t>& GetParamUMat(SEXP params, const std::string& paramName);
+RcppExport SEXP _mlpack_GetParamUMat(SEXP paramsSEXP, SEXP paramNameSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamUMat(paramName));
+    rcpp_result_gen = Rcpp::wrap(GetParamUMat(params, paramName));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_GetParamRow
-const arma::vec IO_GetParamRow(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamRow(SEXP paramNameSEXP) {
+// GetParamRow
+const arma::vec GetParamRow(SEXP params, const std::string& paramName);
+RcppExport SEXP _mlpack_GetParamRow(SEXP paramsSEXP, SEXP paramNameSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamRow(paramName));
+    rcpp_result_gen = Rcpp::wrap(GetParamRow(params, paramName));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_GetParamURow
-const arma::Col<size_t> IO_GetParamURow(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamURow(SEXP paramNameSEXP) {
+// GetParamURow
+const arma::Col<size_t> GetParamURow(SEXP params, const std::string& paramName);
+RcppExport SEXP _mlpack_GetParamURow(SEXP paramsSEXP, SEXP paramNameSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamURow(paramName));
+    rcpp_result_gen = Rcpp::wrap(GetParamURow(params, paramName));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_GetParamCol
-const arma::rowvec IO_GetParamCol(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamCol(SEXP paramNameSEXP) {
+// GetParamCol
+const arma::rowvec GetParamCol(SEXP params, const std::string& paramName);
+RcppExport SEXP _mlpack_GetParamCol(SEXP paramsSEXP, SEXP paramNameSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamCol(paramName));
+    rcpp_result_gen = Rcpp::wrap(GetParamCol(params, paramName));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_GetParamUCol
-const arma::Row<size_t> IO_GetParamUCol(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamUCol(SEXP paramNameSEXP) {
+// GetParamUCol
+const arma::Row<size_t> GetParamUCol(SEXP params, const std::string& paramName);
+RcppExport SEXP _mlpack_GetParamUCol(SEXP paramsSEXP, SEXP paramNameSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamUCol(paramName));
+    rcpp_result_gen = Rcpp::wrap(GetParamUCol(params, paramName));
     return rcpp_result_gen;
 END_RCPP
 }
 // IO_GetParamMatWithInfo
-List IO_GetParamMatWithInfo(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamMatWithInfo(SEXP paramNameSEXP) {
+List IO_GetParamMatWithInfo(SEXP params, const std::string& paramName);
+RcppExport SEXP _mlpack_IO_GetParamMatWithInfo(SEXP paramsSEXP, SEXP paramNameSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamMatWithInfo(paramName));
+    rcpp_result_gen = Rcpp::wrap(IO_GetParamMatWithInfo(params, paramName));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_EnableVerbose
-void IO_EnableVerbose();
-RcppExport SEXP _mlpack_IO_EnableVerbose() {
+// EnableVerbose
+void EnableVerbose();
+RcppExport SEXP _mlpack_EnableVerbose() {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    IO_EnableVerbose();
+    EnableVerbose();
     return R_NilValue;
 END_RCPP
 }
-// IO_DisableVerbose
-void IO_DisableVerbose();
-RcppExport SEXP _mlpack_IO_DisableVerbose() {
+// DisableVerbose
+void DisableVerbose();
+RcppExport SEXP _mlpack_DisableVerbose() {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    IO_DisableVerbose();
+    DisableVerbose();
     return R_NilValue;
 END_RCPP
 }
-// IO_ResetTimers
-void IO_ResetTimers();
-RcppExport SEXP _mlpack_IO_ResetTimers() {
+// ResetTimers
+void ResetTimers();
+RcppExport SEXP _mlpack_ResetTimers() {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    IO_ResetTimers();
+    ResetTimers();
     return R_NilValue;
 END_RCPP
 }
-// IO_SetPassed
-void IO_SetPassed(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_SetPassed(SEXP paramNameSEXP) {
+// SetPassed
+void SetPassed(SEXP params, const std::string& paramName);
+RcppExport SEXP _mlpack_SetPassed(SEXP paramsSEXP, SEXP paramNameSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    IO_SetPassed(paramName);
+    SetPassed(params, paramName);
     return R_NilValue;
 END_RCPP
 }
-// IO_ClearSettings
-void IO_ClearSettings();
-RcppExport SEXP _mlpack_IO_ClearSettings() {
+// radical_call
+void radical_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_radical_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    IO_ClearSettings();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    radical_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// radical_mlpackMain
-void radical_mlpackMain();
-RcppExport SEXP _mlpack_radical_mlpackMain() {
+// random_forest_call
+void random_forest_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_random_forest_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    radical_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    random_forest_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// random_forest_mlpackMain
-void random_forest_mlpackMain();
-RcppExport SEXP _mlpack_random_forest_mlpackMain() {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    random_forest_mlpackMain();
-    return R_NilValue;
-END_RCPP
-}
-// IO_GetParamRandomForestModelPtr
-SEXP IO_GetParamRandomForestModelPtr(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamRandomForestModelPtr(SEXP paramNameSEXP) {
+// GetParamRandomForestModelPtr
+SEXP GetParamRandomForestModelPtr(SEXP params, const std::string& paramName, SEXP inputModels);
+RcppExport SEXP _mlpack_GetParamRandomForestModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP inputModelsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamRandomForestModelPtr(paramName));
+    Rcpp::traits::input_parameter< SEXP >::type inputModels(inputModelsSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetParamRandomForestModelPtr(params, paramName, inputModels));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_SetParamRandomForestModelPtr
-void IO_SetParamRandomForestModelPtr(const std::string& paramName, SEXP ptr);
-RcppExport SEXP _mlpack_IO_SetParamRandomForestModelPtr(SEXP paramNameSEXP, SEXP ptrSEXP) {
+// SetParamRandomForestModelPtr
+void SetParamRandomForestModelPtr(SEXP params, const std::string& paramName, SEXP ptr);
+RcppExport SEXP _mlpack_SetParamRandomForestModelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP ptrSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< SEXP >::type ptr(ptrSEXP);
-    IO_SetParamRandomForestModelPtr(paramName, ptr);
+    SetParamRandomForestModelPtr(params, paramName, ptr);
     return R_NilValue;
 END_RCPP
 }
@@ -1803,34 +1997,39 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// softmax_regression_mlpackMain
-void softmax_regression_mlpackMain();
-RcppExport SEXP _mlpack_softmax_regression_mlpackMain() {
+// softmax_regression_call
+void softmax_regression_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_softmax_regression_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    softmax_regression_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    softmax_regression_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// IO_GetParamSoftmaxRegressionPtr
-SEXP IO_GetParamSoftmaxRegressionPtr(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamSoftmaxRegressionPtr(SEXP paramNameSEXP) {
+// GetParamSoftmaxRegressionPtr
+SEXP GetParamSoftmaxRegressionPtr(SEXP params, const std::string& paramName, SEXP inputModels);
+RcppExport SEXP _mlpack_GetParamSoftmaxRegressionPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP inputModelsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamSoftmaxRegressionPtr(paramName));
+    Rcpp::traits::input_parameter< SEXP >::type inputModels(inputModelsSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetParamSoftmaxRegressionPtr(params, paramName, inputModels));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_SetParamSoftmaxRegressionPtr
-void IO_SetParamSoftmaxRegressionPtr(const std::string& paramName, SEXP ptr);
-RcppExport SEXP _mlpack_IO_SetParamSoftmaxRegressionPtr(SEXP paramNameSEXP, SEXP ptrSEXP) {
+// SetParamSoftmaxRegressionPtr
+void SetParamSoftmaxRegressionPtr(SEXP params, const std::string& paramName, SEXP ptr);
+RcppExport SEXP _mlpack_SetParamSoftmaxRegressionPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP ptrSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< SEXP >::type ptr(ptrSEXP);
-    IO_SetParamSoftmaxRegressionPtr(paramName, ptr);
+    SetParamSoftmaxRegressionPtr(params, paramName, ptr);
     return R_NilValue;
 END_RCPP
 }
@@ -1856,34 +2055,39 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// sparse_coding_mlpackMain
-void sparse_coding_mlpackMain();
-RcppExport SEXP _mlpack_sparse_coding_mlpackMain() {
+// sparse_coding_call
+void sparse_coding_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_sparse_coding_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    sparse_coding_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    sparse_coding_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// IO_GetParamSparseCodingPtr
-SEXP IO_GetParamSparseCodingPtr(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamSparseCodingPtr(SEXP paramNameSEXP) {
+// GetParamSparseCodingPtr
+SEXP GetParamSparseCodingPtr(SEXP params, const std::string& paramName, SEXP inputModels);
+RcppExport SEXP _mlpack_GetParamSparseCodingPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP inputModelsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamSparseCodingPtr(paramName));
+    Rcpp::traits::input_parameter< SEXP >::type inputModels(inputModelsSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetParamSparseCodingPtr(params, paramName, inputModels));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_SetParamSparseCodingPtr
-void IO_SetParamSparseCodingPtr(const std::string& paramName, SEXP ptr);
-RcppExport SEXP _mlpack_IO_SetParamSparseCodingPtr(SEXP paramNameSEXP, SEXP ptrSEXP) {
+// SetParamSparseCodingPtr
+void SetParamSparseCodingPtr(SEXP params, const std::string& paramName, SEXP ptr);
+RcppExport SEXP _mlpack_SetParamSparseCodingPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP ptrSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< SEXP >::type ptr(ptrSEXP);
-    IO_SetParamSparseCodingPtr(paramName, ptr);
+    SetParamSparseCodingPtr(params, paramName, ptr);
     return R_NilValue;
 END_RCPP
 }
@@ -1909,34 +2113,39 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// test_r_binding_mlpackMain
-void test_r_binding_mlpackMain();
-RcppExport SEXP _mlpack_test_r_binding_mlpackMain() {
+// test_r_binding_call
+void test_r_binding_call(SEXP params, SEXP timers);
+RcppExport SEXP _mlpack_test_r_binding_call(SEXP paramsSEXP, SEXP timersSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    test_r_binding_mlpackMain();
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
+    test_r_binding_call(params, timers);
     return R_NilValue;
 END_RCPP
 }
-// IO_GetParamGaussianKernelPtr
-SEXP IO_GetParamGaussianKernelPtr(const std::string& paramName);
-RcppExport SEXP _mlpack_IO_GetParamGaussianKernelPtr(SEXP paramNameSEXP) {
+// GetParamGaussianKernelPtr
+SEXP GetParamGaussianKernelPtr(SEXP params, const std::string& paramName, SEXP inputModels);
+RcppExport SEXP _mlpack_GetParamGaussianKernelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP inputModelsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
-    rcpp_result_gen = Rcpp::wrap(IO_GetParamGaussianKernelPtr(paramName));
+    Rcpp::traits::input_parameter< SEXP >::type inputModels(inputModelsSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetParamGaussianKernelPtr(params, paramName, inputModels));
     return rcpp_result_gen;
 END_RCPP
 }
-// IO_SetParamGaussianKernelPtr
-void IO_SetParamGaussianKernelPtr(const std::string& paramName, SEXP ptr);
-RcppExport SEXP _mlpack_IO_SetParamGaussianKernelPtr(SEXP paramNameSEXP, SEXP ptrSEXP) {
+// SetParamGaussianKernelPtr
+void SetParamGaussianKernelPtr(SEXP params, const std::string& paramName, SEXP ptr);
+RcppExport SEXP _mlpack_SetParamGaussianKernelPtr(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP ptrSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< SEXP >::type ptr(ptrSEXP);
-    IO_SetParamGaussianKernelPtr(paramName, ptr);
+    SetParamGaussianKernelPtr(params, paramName, ptr);
     return R_NilValue;
 END_RCPP
 }
@@ -1964,191 +2173,191 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_mlpack_adaboost_mlpackMain", (DL_FUNC) &_mlpack_adaboost_mlpackMain, 0},
-    {"_mlpack_IO_GetParamAdaBoostModelPtr", (DL_FUNC) &_mlpack_IO_GetParamAdaBoostModelPtr, 1},
-    {"_mlpack_IO_SetParamAdaBoostModelPtr", (DL_FUNC) &_mlpack_IO_SetParamAdaBoostModelPtr, 2},
+    {"_mlpack_adaboost_call", (DL_FUNC) &_mlpack_adaboost_call, 2},
+    {"_mlpack_GetParamAdaBoostModelPtr", (DL_FUNC) &_mlpack_GetParamAdaBoostModelPtr, 3},
+    {"_mlpack_SetParamAdaBoostModelPtr", (DL_FUNC) &_mlpack_SetParamAdaBoostModelPtr, 3},
     {"_mlpack_SerializeAdaBoostModelPtr", (DL_FUNC) &_mlpack_SerializeAdaBoostModelPtr, 1},
     {"_mlpack_DeserializeAdaBoostModelPtr", (DL_FUNC) &_mlpack_DeserializeAdaBoostModelPtr, 1},
-    {"_mlpack_approx_kfn_mlpackMain", (DL_FUNC) &_mlpack_approx_kfn_mlpackMain, 0},
-    {"_mlpack_IO_GetParamApproxKFNModelPtr", (DL_FUNC) &_mlpack_IO_GetParamApproxKFNModelPtr, 1},
-    {"_mlpack_IO_SetParamApproxKFNModelPtr", (DL_FUNC) &_mlpack_IO_SetParamApproxKFNModelPtr, 2},
+    {"_mlpack_approx_kfn_call", (DL_FUNC) &_mlpack_approx_kfn_call, 2},
+    {"_mlpack_GetParamApproxKFNModelPtr", (DL_FUNC) &_mlpack_GetParamApproxKFNModelPtr, 3},
+    {"_mlpack_SetParamApproxKFNModelPtr", (DL_FUNC) &_mlpack_SetParamApproxKFNModelPtr, 3},
     {"_mlpack_SerializeApproxKFNModelPtr", (DL_FUNC) &_mlpack_SerializeApproxKFNModelPtr, 1},
     {"_mlpack_DeserializeApproxKFNModelPtr", (DL_FUNC) &_mlpack_DeserializeApproxKFNModelPtr, 1},
-    {"_mlpack_bayesian_linear_regression_mlpackMain", (DL_FUNC) &_mlpack_bayesian_linear_regression_mlpackMain, 0},
-    {"_mlpack_IO_GetParamBayesianLinearRegressionPtr", (DL_FUNC) &_mlpack_IO_GetParamBayesianLinearRegressionPtr, 1},
-    {"_mlpack_IO_SetParamBayesianLinearRegressionPtr", (DL_FUNC) &_mlpack_IO_SetParamBayesianLinearRegressionPtr, 2},
+    {"_mlpack_bayesian_linear_regression_call", (DL_FUNC) &_mlpack_bayesian_linear_regression_call, 2},
+    {"_mlpack_GetParamBayesianLinearRegressionPtr", (DL_FUNC) &_mlpack_GetParamBayesianLinearRegressionPtr, 3},
+    {"_mlpack_SetParamBayesianLinearRegressionPtr", (DL_FUNC) &_mlpack_SetParamBayesianLinearRegressionPtr, 3},
     {"_mlpack_SerializeBayesianLinearRegressionPtr", (DL_FUNC) &_mlpack_SerializeBayesianLinearRegressionPtr, 1},
     {"_mlpack_DeserializeBayesianLinearRegressionPtr", (DL_FUNC) &_mlpack_DeserializeBayesianLinearRegressionPtr, 1},
-    {"_mlpack_cf_mlpackMain", (DL_FUNC) &_mlpack_cf_mlpackMain, 0},
-    {"_mlpack_IO_GetParamCFModelPtr", (DL_FUNC) &_mlpack_IO_GetParamCFModelPtr, 1},
-    {"_mlpack_IO_SetParamCFModelPtr", (DL_FUNC) &_mlpack_IO_SetParamCFModelPtr, 2},
+    {"_mlpack_cf_call", (DL_FUNC) &_mlpack_cf_call, 2},
+    {"_mlpack_GetParamCFModelPtr", (DL_FUNC) &_mlpack_GetParamCFModelPtr, 3},
+    {"_mlpack_SetParamCFModelPtr", (DL_FUNC) &_mlpack_SetParamCFModelPtr, 3},
     {"_mlpack_SerializeCFModelPtr", (DL_FUNC) &_mlpack_SerializeCFModelPtr, 1},
     {"_mlpack_DeserializeCFModelPtr", (DL_FUNC) &_mlpack_DeserializeCFModelPtr, 1},
-    {"_mlpack_dbscan_mlpackMain", (DL_FUNC) &_mlpack_dbscan_mlpackMain, 0},
-    {"_mlpack_decision_tree_mlpackMain", (DL_FUNC) &_mlpack_decision_tree_mlpackMain, 0},
-    {"_mlpack_IO_GetParamDecisionTreeModelPtr", (DL_FUNC) &_mlpack_IO_GetParamDecisionTreeModelPtr, 1},
-    {"_mlpack_IO_SetParamDecisionTreeModelPtr", (DL_FUNC) &_mlpack_IO_SetParamDecisionTreeModelPtr, 2},
+    {"_mlpack_dbscan_call", (DL_FUNC) &_mlpack_dbscan_call, 2},
+    {"_mlpack_decision_tree_call", (DL_FUNC) &_mlpack_decision_tree_call, 2},
+    {"_mlpack_GetParamDecisionTreeModelPtr", (DL_FUNC) &_mlpack_GetParamDecisionTreeModelPtr, 3},
+    {"_mlpack_SetParamDecisionTreeModelPtr", (DL_FUNC) &_mlpack_SetParamDecisionTreeModelPtr, 3},
     {"_mlpack_SerializeDecisionTreeModelPtr", (DL_FUNC) &_mlpack_SerializeDecisionTreeModelPtr, 1},
     {"_mlpack_DeserializeDecisionTreeModelPtr", (DL_FUNC) &_mlpack_DeserializeDecisionTreeModelPtr, 1},
-    {"_mlpack_det_mlpackMain", (DL_FUNC) &_mlpack_det_mlpackMain, 0},
-    {"_mlpack_IO_GetParamDTreePtr", (DL_FUNC) &_mlpack_IO_GetParamDTreePtr, 1},
-    {"_mlpack_IO_SetParamDTreePtr", (DL_FUNC) &_mlpack_IO_SetParamDTreePtr, 2},
+    {"_mlpack_det_call", (DL_FUNC) &_mlpack_det_call, 2},
+    {"_mlpack_GetParamDTreePtr", (DL_FUNC) &_mlpack_GetParamDTreePtr, 3},
+    {"_mlpack_SetParamDTreePtr", (DL_FUNC) &_mlpack_SetParamDTreePtr, 3},
     {"_mlpack_SerializeDTreePtr", (DL_FUNC) &_mlpack_SerializeDTreePtr, 1},
     {"_mlpack_DeserializeDTreePtr", (DL_FUNC) &_mlpack_DeserializeDTreePtr, 1},
-    {"_mlpack_emst_mlpackMain", (DL_FUNC) &_mlpack_emst_mlpackMain, 0},
-    {"_mlpack_fastmks_mlpackMain", (DL_FUNC) &_mlpack_fastmks_mlpackMain, 0},
-    {"_mlpack_IO_GetParamFastMKSModelPtr", (DL_FUNC) &_mlpack_IO_GetParamFastMKSModelPtr, 1},
-    {"_mlpack_IO_SetParamFastMKSModelPtr", (DL_FUNC) &_mlpack_IO_SetParamFastMKSModelPtr, 2},
+    {"_mlpack_emst_call", (DL_FUNC) &_mlpack_emst_call, 2},
+    {"_mlpack_fastmks_call", (DL_FUNC) &_mlpack_fastmks_call, 2},
+    {"_mlpack_GetParamFastMKSModelPtr", (DL_FUNC) &_mlpack_GetParamFastMKSModelPtr, 3},
+    {"_mlpack_SetParamFastMKSModelPtr", (DL_FUNC) &_mlpack_SetParamFastMKSModelPtr, 3},
     {"_mlpack_SerializeFastMKSModelPtr", (DL_FUNC) &_mlpack_SerializeFastMKSModelPtr, 1},
     {"_mlpack_DeserializeFastMKSModelPtr", (DL_FUNC) &_mlpack_DeserializeFastMKSModelPtr, 1},
-    {"_mlpack_gmm_generate_mlpackMain", (DL_FUNC) &_mlpack_gmm_generate_mlpackMain, 0},
-    {"_mlpack_gmm_probability_mlpackMain", (DL_FUNC) &_mlpack_gmm_probability_mlpackMain, 0},
-    {"_mlpack_gmm_train_mlpackMain", (DL_FUNC) &_mlpack_gmm_train_mlpackMain, 0},
-    {"_mlpack_IO_GetParamGMMPtr", (DL_FUNC) &_mlpack_IO_GetParamGMMPtr, 1},
-    {"_mlpack_IO_SetParamGMMPtr", (DL_FUNC) &_mlpack_IO_SetParamGMMPtr, 2},
+    {"_mlpack_gmm_generate_call", (DL_FUNC) &_mlpack_gmm_generate_call, 2},
+    {"_mlpack_gmm_probability_call", (DL_FUNC) &_mlpack_gmm_probability_call, 2},
+    {"_mlpack_gmm_train_call", (DL_FUNC) &_mlpack_gmm_train_call, 2},
+    {"_mlpack_GetParamGMMPtr", (DL_FUNC) &_mlpack_GetParamGMMPtr, 3},
+    {"_mlpack_SetParamGMMPtr", (DL_FUNC) &_mlpack_SetParamGMMPtr, 3},
     {"_mlpack_SerializeGMMPtr", (DL_FUNC) &_mlpack_SerializeGMMPtr, 1},
     {"_mlpack_DeserializeGMMPtr", (DL_FUNC) &_mlpack_DeserializeGMMPtr, 1},
-    {"_mlpack_hmm_generate_mlpackMain", (DL_FUNC) &_mlpack_hmm_generate_mlpackMain, 0},
-    {"_mlpack_IO_GetParamHMMModelPtr", (DL_FUNC) &_mlpack_IO_GetParamHMMModelPtr, 1},
-    {"_mlpack_IO_SetParamHMMModelPtr", (DL_FUNC) &_mlpack_IO_SetParamHMMModelPtr, 2},
+    {"_mlpack_hmm_generate_call", (DL_FUNC) &_mlpack_hmm_generate_call, 2},
+    {"_mlpack_hmm_loglik_call", (DL_FUNC) &_mlpack_hmm_loglik_call, 2},
+    {"_mlpack_hmm_train_call", (DL_FUNC) &_mlpack_hmm_train_call, 2},
+    {"_mlpack_GetParamHMMModelPtr", (DL_FUNC) &_mlpack_GetParamHMMModelPtr, 3},
+    {"_mlpack_SetParamHMMModelPtr", (DL_FUNC) &_mlpack_SetParamHMMModelPtr, 3},
     {"_mlpack_SerializeHMMModelPtr", (DL_FUNC) &_mlpack_SerializeHMMModelPtr, 1},
     {"_mlpack_DeserializeHMMModelPtr", (DL_FUNC) &_mlpack_DeserializeHMMModelPtr, 1},
-    {"_mlpack_hmm_loglik_mlpackMain", (DL_FUNC) &_mlpack_hmm_loglik_mlpackMain, 0},
-    {"_mlpack_hmm_train_mlpackMain", (DL_FUNC) &_mlpack_hmm_train_mlpackMain, 0},
-    {"_mlpack_hmm_viterbi_mlpackMain", (DL_FUNC) &_mlpack_hmm_viterbi_mlpackMain, 0},
-    {"_mlpack_hoeffding_tree_mlpackMain", (DL_FUNC) &_mlpack_hoeffding_tree_mlpackMain, 0},
-    {"_mlpack_IO_GetParamHoeffdingTreeModelPtr", (DL_FUNC) &_mlpack_IO_GetParamHoeffdingTreeModelPtr, 1},
-    {"_mlpack_IO_SetParamHoeffdingTreeModelPtr", (DL_FUNC) &_mlpack_IO_SetParamHoeffdingTreeModelPtr, 2},
+    {"_mlpack_hmm_viterbi_call", (DL_FUNC) &_mlpack_hmm_viterbi_call, 2},
+    {"_mlpack_hoeffding_tree_call", (DL_FUNC) &_mlpack_hoeffding_tree_call, 2},
+    {"_mlpack_GetParamHoeffdingTreeModelPtr", (DL_FUNC) &_mlpack_GetParamHoeffdingTreeModelPtr, 3},
+    {"_mlpack_SetParamHoeffdingTreeModelPtr", (DL_FUNC) &_mlpack_SetParamHoeffdingTreeModelPtr, 3},
     {"_mlpack_SerializeHoeffdingTreeModelPtr", (DL_FUNC) &_mlpack_SerializeHoeffdingTreeModelPtr, 1},
     {"_mlpack_DeserializeHoeffdingTreeModelPtr", (DL_FUNC) &_mlpack_DeserializeHoeffdingTreeModelPtr, 1},
-    {"_mlpack_image_converter_mlpackMain", (DL_FUNC) &_mlpack_image_converter_mlpackMain, 0},
-    {"_mlpack_kde_mlpackMain", (DL_FUNC) &_mlpack_kde_mlpackMain, 0},
-    {"_mlpack_IO_GetParamKDEModelPtr", (DL_FUNC) &_mlpack_IO_GetParamKDEModelPtr, 1},
-    {"_mlpack_IO_SetParamKDEModelPtr", (DL_FUNC) &_mlpack_IO_SetParamKDEModelPtr, 2},
+    {"_mlpack_image_converter_call", (DL_FUNC) &_mlpack_image_converter_call, 2},
+    {"_mlpack_kde_call", (DL_FUNC) &_mlpack_kde_call, 2},
+    {"_mlpack_GetParamKDEModelPtr", (DL_FUNC) &_mlpack_GetParamKDEModelPtr, 3},
+    {"_mlpack_SetParamKDEModelPtr", (DL_FUNC) &_mlpack_SetParamKDEModelPtr, 3},
     {"_mlpack_SerializeKDEModelPtr", (DL_FUNC) &_mlpack_SerializeKDEModelPtr, 1},
     {"_mlpack_DeserializeKDEModelPtr", (DL_FUNC) &_mlpack_DeserializeKDEModelPtr, 1},
-    {"_mlpack_kernel_pca_mlpackMain", (DL_FUNC) &_mlpack_kernel_pca_mlpackMain, 0},
-    {"_mlpack_kfn_mlpackMain", (DL_FUNC) &_mlpack_kfn_mlpackMain, 0},
-    {"_mlpack_IO_GetParamKFNModelPtr", (DL_FUNC) &_mlpack_IO_GetParamKFNModelPtr, 1},
-    {"_mlpack_IO_SetParamKFNModelPtr", (DL_FUNC) &_mlpack_IO_SetParamKFNModelPtr, 2},
+    {"_mlpack_kernel_pca_call", (DL_FUNC) &_mlpack_kernel_pca_call, 2},
+    {"_mlpack_kfn_call", (DL_FUNC) &_mlpack_kfn_call, 2},
+    {"_mlpack_GetParamKFNModelPtr", (DL_FUNC) &_mlpack_GetParamKFNModelPtr, 3},
+    {"_mlpack_SetParamKFNModelPtr", (DL_FUNC) &_mlpack_SetParamKFNModelPtr, 3},
     {"_mlpack_SerializeKFNModelPtr", (DL_FUNC) &_mlpack_SerializeKFNModelPtr, 1},
     {"_mlpack_DeserializeKFNModelPtr", (DL_FUNC) &_mlpack_DeserializeKFNModelPtr, 1},
-    {"_mlpack_kmeans_mlpackMain", (DL_FUNC) &_mlpack_kmeans_mlpackMain, 0},
-    {"_mlpack_knn_mlpackMain", (DL_FUNC) &_mlpack_knn_mlpackMain, 0},
-    {"_mlpack_IO_GetParamKNNModelPtr", (DL_FUNC) &_mlpack_IO_GetParamKNNModelPtr, 1},
-    {"_mlpack_IO_SetParamKNNModelPtr", (DL_FUNC) &_mlpack_IO_SetParamKNNModelPtr, 2},
+    {"_mlpack_kmeans_call", (DL_FUNC) &_mlpack_kmeans_call, 2},
+    {"_mlpack_knn_call", (DL_FUNC) &_mlpack_knn_call, 2},
+    {"_mlpack_GetParamKNNModelPtr", (DL_FUNC) &_mlpack_GetParamKNNModelPtr, 3},
+    {"_mlpack_SetParamKNNModelPtr", (DL_FUNC) &_mlpack_SetParamKNNModelPtr, 3},
     {"_mlpack_SerializeKNNModelPtr", (DL_FUNC) &_mlpack_SerializeKNNModelPtr, 1},
     {"_mlpack_DeserializeKNNModelPtr", (DL_FUNC) &_mlpack_DeserializeKNNModelPtr, 1},
-    {"_mlpack_krann_mlpackMain", (DL_FUNC) &_mlpack_krann_mlpackMain, 0},
-    {"_mlpack_IO_GetParamRANNModelPtr", (DL_FUNC) &_mlpack_IO_GetParamRANNModelPtr, 1},
-    {"_mlpack_IO_SetParamRANNModelPtr", (DL_FUNC) &_mlpack_IO_SetParamRANNModelPtr, 2},
-    {"_mlpack_SerializeRANNModelPtr", (DL_FUNC) &_mlpack_SerializeRANNModelPtr, 1},
-    {"_mlpack_DeserializeRANNModelPtr", (DL_FUNC) &_mlpack_DeserializeRANNModelPtr, 1},
-    {"_mlpack_lars_mlpackMain", (DL_FUNC) &_mlpack_lars_mlpackMain, 0},
-    {"_mlpack_IO_GetParamLARSPtr", (DL_FUNC) &_mlpack_IO_GetParamLARSPtr, 1},
-    {"_mlpack_IO_SetParamLARSPtr", (DL_FUNC) &_mlpack_IO_SetParamLARSPtr, 2},
+    {"_mlpack_krann_call", (DL_FUNC) &_mlpack_krann_call, 2},
+    {"_mlpack_GetParamRAModelPtr", (DL_FUNC) &_mlpack_GetParamRAModelPtr, 3},
+    {"_mlpack_SetParamRAModelPtr", (DL_FUNC) &_mlpack_SetParamRAModelPtr, 3},
+    {"_mlpack_SerializeRAModelPtr", (DL_FUNC) &_mlpack_SerializeRAModelPtr, 1},
+    {"_mlpack_DeserializeRAModelPtr", (DL_FUNC) &_mlpack_DeserializeRAModelPtr, 1},
+    {"_mlpack_lars_call", (DL_FUNC) &_mlpack_lars_call, 2},
+    {"_mlpack_GetParamLARSPtr", (DL_FUNC) &_mlpack_GetParamLARSPtr, 3},
+    {"_mlpack_SetParamLARSPtr", (DL_FUNC) &_mlpack_SetParamLARSPtr, 3},
     {"_mlpack_SerializeLARSPtr", (DL_FUNC) &_mlpack_SerializeLARSPtr, 1},
     {"_mlpack_DeserializeLARSPtr", (DL_FUNC) &_mlpack_DeserializeLARSPtr, 1},
-    {"_mlpack_linear_regression_mlpackMain", (DL_FUNC) &_mlpack_linear_regression_mlpackMain, 0},
-    {"_mlpack_IO_GetParamLinearRegressionPtr", (DL_FUNC) &_mlpack_IO_GetParamLinearRegressionPtr, 1},
-    {"_mlpack_IO_SetParamLinearRegressionPtr", (DL_FUNC) &_mlpack_IO_SetParamLinearRegressionPtr, 2},
+    {"_mlpack_linear_regression_call", (DL_FUNC) &_mlpack_linear_regression_call, 2},
+    {"_mlpack_GetParamLinearRegressionPtr", (DL_FUNC) &_mlpack_GetParamLinearRegressionPtr, 3},
+    {"_mlpack_SetParamLinearRegressionPtr", (DL_FUNC) &_mlpack_SetParamLinearRegressionPtr, 3},
     {"_mlpack_SerializeLinearRegressionPtr", (DL_FUNC) &_mlpack_SerializeLinearRegressionPtr, 1},
     {"_mlpack_DeserializeLinearRegressionPtr", (DL_FUNC) &_mlpack_DeserializeLinearRegressionPtr, 1},
-    {"_mlpack_linear_svm_mlpackMain", (DL_FUNC) &_mlpack_linear_svm_mlpackMain, 0},
-    {"_mlpack_IO_GetParamLinearSVMModelPtr", (DL_FUNC) &_mlpack_IO_GetParamLinearSVMModelPtr, 1},
-    {"_mlpack_IO_SetParamLinearSVMModelPtr", (DL_FUNC) &_mlpack_IO_SetParamLinearSVMModelPtr, 2},
+    {"_mlpack_linear_svm_call", (DL_FUNC) &_mlpack_linear_svm_call, 2},
+    {"_mlpack_GetParamLinearSVMModelPtr", (DL_FUNC) &_mlpack_GetParamLinearSVMModelPtr, 3},
+    {"_mlpack_SetParamLinearSVMModelPtr", (DL_FUNC) &_mlpack_SetParamLinearSVMModelPtr, 3},
     {"_mlpack_SerializeLinearSVMModelPtr", (DL_FUNC) &_mlpack_SerializeLinearSVMModelPtr, 1},
     {"_mlpack_DeserializeLinearSVMModelPtr", (DL_FUNC) &_mlpack_DeserializeLinearSVMModelPtr, 1},
-    {"_mlpack_lmnn_mlpackMain", (DL_FUNC) &_mlpack_lmnn_mlpackMain, 0},
-    {"_mlpack_local_coordinate_coding_mlpackMain", (DL_FUNC) &_mlpack_local_coordinate_coding_mlpackMain, 0},
-    {"_mlpack_IO_GetParamLocalCoordinateCodingPtr", (DL_FUNC) &_mlpack_IO_GetParamLocalCoordinateCodingPtr, 1},
-    {"_mlpack_IO_SetParamLocalCoordinateCodingPtr", (DL_FUNC) &_mlpack_IO_SetParamLocalCoordinateCodingPtr, 2},
+    {"_mlpack_lmnn_call", (DL_FUNC) &_mlpack_lmnn_call, 2},
+    {"_mlpack_local_coordinate_coding_call", (DL_FUNC) &_mlpack_local_coordinate_coding_call, 2},
+    {"_mlpack_GetParamLocalCoordinateCodingPtr", (DL_FUNC) &_mlpack_GetParamLocalCoordinateCodingPtr, 3},
+    {"_mlpack_SetParamLocalCoordinateCodingPtr", (DL_FUNC) &_mlpack_SetParamLocalCoordinateCodingPtr, 3},
     {"_mlpack_SerializeLocalCoordinateCodingPtr", (DL_FUNC) &_mlpack_SerializeLocalCoordinateCodingPtr, 1},
     {"_mlpack_DeserializeLocalCoordinateCodingPtr", (DL_FUNC) &_mlpack_DeserializeLocalCoordinateCodingPtr, 1},
-    {"_mlpack_logistic_regression_mlpackMain", (DL_FUNC) &_mlpack_logistic_regression_mlpackMain, 0},
-    {"_mlpack_IO_GetParamLogisticRegressionPtr", (DL_FUNC) &_mlpack_IO_GetParamLogisticRegressionPtr, 1},
-    {"_mlpack_IO_SetParamLogisticRegressionPtr", (DL_FUNC) &_mlpack_IO_SetParamLogisticRegressionPtr, 2},
+    {"_mlpack_logistic_regression_call", (DL_FUNC) &_mlpack_logistic_regression_call, 2},
+    {"_mlpack_GetParamLogisticRegressionPtr", (DL_FUNC) &_mlpack_GetParamLogisticRegressionPtr, 3},
+    {"_mlpack_SetParamLogisticRegressionPtr", (DL_FUNC) &_mlpack_SetParamLogisticRegressionPtr, 3},
     {"_mlpack_SerializeLogisticRegressionPtr", (DL_FUNC) &_mlpack_SerializeLogisticRegressionPtr, 1},
     {"_mlpack_DeserializeLogisticRegressionPtr", (DL_FUNC) &_mlpack_DeserializeLogisticRegressionPtr, 1},
-    {"_mlpack_lsh_mlpackMain", (DL_FUNC) &_mlpack_lsh_mlpackMain, 0},
-    {"_mlpack_IO_GetParamLSHSearchPtr", (DL_FUNC) &_mlpack_IO_GetParamLSHSearchPtr, 1},
-    {"_mlpack_IO_SetParamLSHSearchPtr", (DL_FUNC) &_mlpack_IO_SetParamLSHSearchPtr, 2},
+    {"_mlpack_lsh_call", (DL_FUNC) &_mlpack_lsh_call, 2},
+    {"_mlpack_GetParamLSHSearchPtr", (DL_FUNC) &_mlpack_GetParamLSHSearchPtr, 3},
+    {"_mlpack_SetParamLSHSearchPtr", (DL_FUNC) &_mlpack_SetParamLSHSearchPtr, 3},
     {"_mlpack_SerializeLSHSearchPtr", (DL_FUNC) &_mlpack_SerializeLSHSearchPtr, 1},
     {"_mlpack_DeserializeLSHSearchPtr", (DL_FUNC) &_mlpack_DeserializeLSHSearchPtr, 1},
-    {"_mlpack_mean_shift_mlpackMain", (DL_FUNC) &_mlpack_mean_shift_mlpackMain, 0},
-    {"_mlpack_nbc_mlpackMain", (DL_FUNC) &_mlpack_nbc_mlpackMain, 0},
-    {"_mlpack_IO_GetParamNBCModelPtr", (DL_FUNC) &_mlpack_IO_GetParamNBCModelPtr, 1},
-    {"_mlpack_IO_SetParamNBCModelPtr", (DL_FUNC) &_mlpack_IO_SetParamNBCModelPtr, 2},
+    {"_mlpack_mean_shift_call", (DL_FUNC) &_mlpack_mean_shift_call, 2},
+    {"_mlpack_nbc_call", (DL_FUNC) &_mlpack_nbc_call, 2},
+    {"_mlpack_GetParamNBCModelPtr", (DL_FUNC) &_mlpack_GetParamNBCModelPtr, 3},
+    {"_mlpack_SetParamNBCModelPtr", (DL_FUNC) &_mlpack_SetParamNBCModelPtr, 3},
     {"_mlpack_SerializeNBCModelPtr", (DL_FUNC) &_mlpack_SerializeNBCModelPtr, 1},
     {"_mlpack_DeserializeNBCModelPtr", (DL_FUNC) &_mlpack_DeserializeNBCModelPtr, 1},
-    {"_mlpack_nca_mlpackMain", (DL_FUNC) &_mlpack_nca_mlpackMain, 0},
-    {"_mlpack_nmf_mlpackMain", (DL_FUNC) &_mlpack_nmf_mlpackMain, 0},
-    {"_mlpack_pca_mlpackMain", (DL_FUNC) &_mlpack_pca_mlpackMain, 0},
-    {"_mlpack_perceptron_mlpackMain", (DL_FUNC) &_mlpack_perceptron_mlpackMain, 0},
-    {"_mlpack_IO_GetParamPerceptronModelPtr", (DL_FUNC) &_mlpack_IO_GetParamPerceptronModelPtr, 1},
-    {"_mlpack_IO_SetParamPerceptronModelPtr", (DL_FUNC) &_mlpack_IO_SetParamPerceptronModelPtr, 2},
+    {"_mlpack_nca_call", (DL_FUNC) &_mlpack_nca_call, 2},
+    {"_mlpack_nmf_call", (DL_FUNC) &_mlpack_nmf_call, 2},
+    {"_mlpack_pca_call", (DL_FUNC) &_mlpack_pca_call, 2},
+    {"_mlpack_perceptron_call", (DL_FUNC) &_mlpack_perceptron_call, 2},
+    {"_mlpack_GetParamPerceptronModelPtr", (DL_FUNC) &_mlpack_GetParamPerceptronModelPtr, 3},
+    {"_mlpack_SetParamPerceptronModelPtr", (DL_FUNC) &_mlpack_SetParamPerceptronModelPtr, 3},
     {"_mlpack_SerializePerceptronModelPtr", (DL_FUNC) &_mlpack_SerializePerceptronModelPtr, 1},
     {"_mlpack_DeserializePerceptronModelPtr", (DL_FUNC) &_mlpack_DeserializePerceptronModelPtr, 1},
-    {"_mlpack_preprocess_binarize_mlpackMain", (DL_FUNC) &_mlpack_preprocess_binarize_mlpackMain, 0},
-    {"_mlpack_preprocess_describe_mlpackMain", (DL_FUNC) &_mlpack_preprocess_describe_mlpackMain, 0},
-    {"_mlpack_preprocess_one_hot_encoding_mlpackMain", (DL_FUNC) &_mlpack_preprocess_one_hot_encoding_mlpackMain, 0},
-    {"_mlpack_preprocess_scale_mlpackMain", (DL_FUNC) &_mlpack_preprocess_scale_mlpackMain, 0},
-    {"_mlpack_IO_GetParamScalingModelPtr", (DL_FUNC) &_mlpack_IO_GetParamScalingModelPtr, 1},
-    {"_mlpack_IO_SetParamScalingModelPtr", (DL_FUNC) &_mlpack_IO_SetParamScalingModelPtr, 2},
+    {"_mlpack_preprocess_binarize_call", (DL_FUNC) &_mlpack_preprocess_binarize_call, 2},
+    {"_mlpack_preprocess_describe_call", (DL_FUNC) &_mlpack_preprocess_describe_call, 2},
+    {"_mlpack_preprocess_one_hot_encoding_call", (DL_FUNC) &_mlpack_preprocess_one_hot_encoding_call, 2},
+    {"_mlpack_preprocess_scale_call", (DL_FUNC) &_mlpack_preprocess_scale_call, 2},
+    {"_mlpack_GetParamScalingModelPtr", (DL_FUNC) &_mlpack_GetParamScalingModelPtr, 3},
+    {"_mlpack_SetParamScalingModelPtr", (DL_FUNC) &_mlpack_SetParamScalingModelPtr, 3},
     {"_mlpack_SerializeScalingModelPtr", (DL_FUNC) &_mlpack_SerializeScalingModelPtr, 1},
     {"_mlpack_DeserializeScalingModelPtr", (DL_FUNC) &_mlpack_DeserializeScalingModelPtr, 1},
-    {"_mlpack_preprocess_split_mlpackMain", (DL_FUNC) &_mlpack_preprocess_split_mlpackMain, 0},
-    {"_mlpack_IO_RestoreSettings", (DL_FUNC) &_mlpack_IO_RestoreSettings, 1},
-    {"_mlpack_IO_SetParamInt", (DL_FUNC) &_mlpack_IO_SetParamInt, 2},
-    {"_mlpack_IO_SetParamDouble", (DL_FUNC) &_mlpack_IO_SetParamDouble, 2},
-    {"_mlpack_IO_SetParamString", (DL_FUNC) &_mlpack_IO_SetParamString, 2},
-    {"_mlpack_IO_SetParamBool", (DL_FUNC) &_mlpack_IO_SetParamBool, 2},
-    {"_mlpack_IO_SetParamVecString", (DL_FUNC) &_mlpack_IO_SetParamVecString, 2},
-    {"_mlpack_IO_SetParamVecInt", (DL_FUNC) &_mlpack_IO_SetParamVecInt, 2},
-    {"_mlpack_IO_SetParamMat", (DL_FUNC) &_mlpack_IO_SetParamMat, 2},
-    {"_mlpack_IO_SetParamUMat", (DL_FUNC) &_mlpack_IO_SetParamUMat, 2},
-    {"_mlpack_IO_SetParamRow", (DL_FUNC) &_mlpack_IO_SetParamRow, 2},
-    {"_mlpack_IO_SetParamURow", (DL_FUNC) &_mlpack_IO_SetParamURow, 2},
-    {"_mlpack_IO_SetParamCol", (DL_FUNC) &_mlpack_IO_SetParamCol, 2},
-    {"_mlpack_IO_SetParamUCol", (DL_FUNC) &_mlpack_IO_SetParamUCol, 2},
-    {"_mlpack_IO_SetParamMatWithInfo", (DL_FUNC) &_mlpack_IO_SetParamMatWithInfo, 3},
-    {"_mlpack_IO_GetParamInt", (DL_FUNC) &_mlpack_IO_GetParamInt, 1},
-    {"_mlpack_IO_GetParamDouble", (DL_FUNC) &_mlpack_IO_GetParamDouble, 1},
-    {"_mlpack_IO_GetParamString", (DL_FUNC) &_mlpack_IO_GetParamString, 1},
-    {"_mlpack_IO_GetParamBool", (DL_FUNC) &_mlpack_IO_GetParamBool, 1},
-    {"_mlpack_IO_GetParamVecString", (DL_FUNC) &_mlpack_IO_GetParamVecString, 1},
-    {"_mlpack_IO_GetParamVecInt", (DL_FUNC) &_mlpack_IO_GetParamVecInt, 1},
-    {"_mlpack_IO_GetParamMat", (DL_FUNC) &_mlpack_IO_GetParamMat, 1},
-    {"_mlpack_IO_GetParamUMat", (DL_FUNC) &_mlpack_IO_GetParamUMat, 1},
-    {"_mlpack_IO_GetParamRow", (DL_FUNC) &_mlpack_IO_GetParamRow, 1},
-    {"_mlpack_IO_GetParamURow", (DL_FUNC) &_mlpack_IO_GetParamURow, 1},
-    {"_mlpack_IO_GetParamCol", (DL_FUNC) &_mlpack_IO_GetParamCol, 1},
-    {"_mlpack_IO_GetParamUCol", (DL_FUNC) &_mlpack_IO_GetParamUCol, 1},
-    {"_mlpack_IO_GetParamMatWithInfo", (DL_FUNC) &_mlpack_IO_GetParamMatWithInfo, 1},
-    {"_mlpack_IO_EnableVerbose", (DL_FUNC) &_mlpack_IO_EnableVerbose, 0},
-    {"_mlpack_IO_DisableVerbose", (DL_FUNC) &_mlpack_IO_DisableVerbose, 0},
-    {"_mlpack_IO_ResetTimers", (DL_FUNC) &_mlpack_IO_ResetTimers, 0},
-    {"_mlpack_IO_SetPassed", (DL_FUNC) &_mlpack_IO_SetPassed, 1},
-    {"_mlpack_IO_ClearSettings", (DL_FUNC) &_mlpack_IO_ClearSettings, 0},
-    {"_mlpack_radical_mlpackMain", (DL_FUNC) &_mlpack_radical_mlpackMain, 0},
-    {"_mlpack_random_forest_mlpackMain", (DL_FUNC) &_mlpack_random_forest_mlpackMain, 0},
-    {"_mlpack_IO_GetParamRandomForestModelPtr", (DL_FUNC) &_mlpack_IO_GetParamRandomForestModelPtr, 1},
-    {"_mlpack_IO_SetParamRandomForestModelPtr", (DL_FUNC) &_mlpack_IO_SetParamRandomForestModelPtr, 2},
+    {"_mlpack_preprocess_split_call", (DL_FUNC) &_mlpack_preprocess_split_call, 2},
+    {"_mlpack_CreateParams", (DL_FUNC) &_mlpack_CreateParams, 1},
+    {"_mlpack_CreateTimers", (DL_FUNC) &_mlpack_CreateTimers, 0},
+    {"_mlpack_SetParamInt", (DL_FUNC) &_mlpack_SetParamInt, 3},
+    {"_mlpack_SetParamDouble", (DL_FUNC) &_mlpack_SetParamDouble, 3},
+    {"_mlpack_SetParamString", (DL_FUNC) &_mlpack_SetParamString, 3},
+    {"_mlpack_SetParamBool", (DL_FUNC) &_mlpack_SetParamBool, 3},
+    {"_mlpack_SetParamVecString", (DL_FUNC) &_mlpack_SetParamVecString, 3},
+    {"_mlpack_SetParamVecInt", (DL_FUNC) &_mlpack_SetParamVecInt, 3},
+    {"_mlpack_SetParamMat", (DL_FUNC) &_mlpack_SetParamMat, 3},
+    {"_mlpack_SetParamUMat", (DL_FUNC) &_mlpack_SetParamUMat, 3},
+    {"_mlpack_SetParamRow", (DL_FUNC) &_mlpack_SetParamRow, 3},
+    {"_mlpack_SetParamURow", (DL_FUNC) &_mlpack_SetParamURow, 3},
+    {"_mlpack_SetParamCol", (DL_FUNC) &_mlpack_SetParamCol, 3},
+    {"_mlpack_SetParamUCol", (DL_FUNC) &_mlpack_SetParamUCol, 3},
+    {"_mlpack_SetParamMatWithInfo", (DL_FUNC) &_mlpack_SetParamMatWithInfo, 4},
+    {"_mlpack_GetParamInt", (DL_FUNC) &_mlpack_GetParamInt, 2},
+    {"_mlpack_GetParamDouble", (DL_FUNC) &_mlpack_GetParamDouble, 2},
+    {"_mlpack_GetParamString", (DL_FUNC) &_mlpack_GetParamString, 2},
+    {"_mlpack_GetParamBool", (DL_FUNC) &_mlpack_GetParamBool, 2},
+    {"_mlpack_GetParamVecString", (DL_FUNC) &_mlpack_GetParamVecString, 2},
+    {"_mlpack_GetParamVecInt", (DL_FUNC) &_mlpack_GetParamVecInt, 2},
+    {"_mlpack_GetParamMat", (DL_FUNC) &_mlpack_GetParamMat, 2},
+    {"_mlpack_GetParamUMat", (DL_FUNC) &_mlpack_GetParamUMat, 2},
+    {"_mlpack_GetParamRow", (DL_FUNC) &_mlpack_GetParamRow, 2},
+    {"_mlpack_GetParamURow", (DL_FUNC) &_mlpack_GetParamURow, 2},
+    {"_mlpack_GetParamCol", (DL_FUNC) &_mlpack_GetParamCol, 2},
+    {"_mlpack_GetParamUCol", (DL_FUNC) &_mlpack_GetParamUCol, 2},
+    {"_mlpack_IO_GetParamMatWithInfo", (DL_FUNC) &_mlpack_IO_GetParamMatWithInfo, 2},
+    {"_mlpack_EnableVerbose", (DL_FUNC) &_mlpack_EnableVerbose, 0},
+    {"_mlpack_DisableVerbose", (DL_FUNC) &_mlpack_DisableVerbose, 0},
+    {"_mlpack_ResetTimers", (DL_FUNC) &_mlpack_ResetTimers, 0},
+    {"_mlpack_SetPassed", (DL_FUNC) &_mlpack_SetPassed, 2},
+    {"_mlpack_radical_call", (DL_FUNC) &_mlpack_radical_call, 2},
+    {"_mlpack_random_forest_call", (DL_FUNC) &_mlpack_random_forest_call, 2},
+    {"_mlpack_GetParamRandomForestModelPtr", (DL_FUNC) &_mlpack_GetParamRandomForestModelPtr, 3},
+    {"_mlpack_SetParamRandomForestModelPtr", (DL_FUNC) &_mlpack_SetParamRandomForestModelPtr, 3},
     {"_mlpack_SerializeRandomForestModelPtr", (DL_FUNC) &_mlpack_SerializeRandomForestModelPtr, 1},
     {"_mlpack_DeserializeRandomForestModelPtr", (DL_FUNC) &_mlpack_DeserializeRandomForestModelPtr, 1},
-    {"_mlpack_softmax_regression_mlpackMain", (DL_FUNC) &_mlpack_softmax_regression_mlpackMain, 0},
-    {"_mlpack_IO_GetParamSoftmaxRegressionPtr", (DL_FUNC) &_mlpack_IO_GetParamSoftmaxRegressionPtr, 1},
-    {"_mlpack_IO_SetParamSoftmaxRegressionPtr", (DL_FUNC) &_mlpack_IO_SetParamSoftmaxRegressionPtr, 2},
+    {"_mlpack_softmax_regression_call", (DL_FUNC) &_mlpack_softmax_regression_call, 2},
+    {"_mlpack_GetParamSoftmaxRegressionPtr", (DL_FUNC) &_mlpack_GetParamSoftmaxRegressionPtr, 3},
+    {"_mlpack_SetParamSoftmaxRegressionPtr", (DL_FUNC) &_mlpack_SetParamSoftmaxRegressionPtr, 3},
     {"_mlpack_SerializeSoftmaxRegressionPtr", (DL_FUNC) &_mlpack_SerializeSoftmaxRegressionPtr, 1},
     {"_mlpack_DeserializeSoftmaxRegressionPtr", (DL_FUNC) &_mlpack_DeserializeSoftmaxRegressionPtr, 1},
-    {"_mlpack_sparse_coding_mlpackMain", (DL_FUNC) &_mlpack_sparse_coding_mlpackMain, 0},
-    {"_mlpack_IO_GetParamSparseCodingPtr", (DL_FUNC) &_mlpack_IO_GetParamSparseCodingPtr, 1},
-    {"_mlpack_IO_SetParamSparseCodingPtr", (DL_FUNC) &_mlpack_IO_SetParamSparseCodingPtr, 2},
+    {"_mlpack_sparse_coding_call", (DL_FUNC) &_mlpack_sparse_coding_call, 2},
+    {"_mlpack_GetParamSparseCodingPtr", (DL_FUNC) &_mlpack_GetParamSparseCodingPtr, 3},
+    {"_mlpack_SetParamSparseCodingPtr", (DL_FUNC) &_mlpack_SetParamSparseCodingPtr, 3},
     {"_mlpack_SerializeSparseCodingPtr", (DL_FUNC) &_mlpack_SerializeSparseCodingPtr, 1},
     {"_mlpack_DeserializeSparseCodingPtr", (DL_FUNC) &_mlpack_DeserializeSparseCodingPtr, 1},
-    {"_mlpack_test_r_binding_mlpackMain", (DL_FUNC) &_mlpack_test_r_binding_mlpackMain, 0},
-    {"_mlpack_IO_GetParamGaussianKernelPtr", (DL_FUNC) &_mlpack_IO_GetParamGaussianKernelPtr, 1},
-    {"_mlpack_IO_SetParamGaussianKernelPtr", (DL_FUNC) &_mlpack_IO_SetParamGaussianKernelPtr, 2},
+    {"_mlpack_test_r_binding_call", (DL_FUNC) &_mlpack_test_r_binding_call, 2},
+    {"_mlpack_GetParamGaussianKernelPtr", (DL_FUNC) &_mlpack_GetParamGaussianKernelPtr, 3},
+    {"_mlpack_SetParamGaussianKernelPtr", (DL_FUNC) &_mlpack_SetParamGaussianKernelPtr, 3},
     {"_mlpack_SerializeGaussianKernelPtr", (DL_FUNC) &_mlpack_SerializeGaussianKernelPtr, 1},
     {"_mlpack_DeserializeGaussianKernelPtr", (DL_FUNC) &_mlpack_DeserializeGaussianKernelPtr, 1},
     {NULL, NULL, 0}

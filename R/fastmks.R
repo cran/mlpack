@@ -82,85 +82,89 @@ fastmks <- function(bandwidth=NA,
                     scale=NA,
                     single=FALSE,
                     verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("FastMKS (Fast Max-Kernel Search)")
+  # Create parameters and timers objects.
+  p <- CreateParams("fastmks")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
+  # Process each input argument before calling the binding.
   if (!identical(bandwidth, NA)) {
-    IO_SetParamDouble("bandwidth", bandwidth)
+    SetParamDouble(p, "bandwidth", bandwidth)
   }
 
   if (!identical(base, NA)) {
-    IO_SetParamDouble("base", base)
+    SetParamDouble(p, "base", base)
   }
 
   if (!identical(degree, NA)) {
-    IO_SetParamDouble("degree", degree)
+    SetParamDouble(p, "degree", degree)
   }
 
   if (!identical(input_model, NA)) {
-    IO_SetParamFastMKSModelPtr("input_model", input_model)
+    SetParamFastMKSModelPtr(p, "input_model", input_model)
+    # Add to the list of input models we received.
+    inputModels <- append(inputModels, input_model)
   }
 
   if (!identical(k, NA)) {
-    IO_SetParamInt("k", k)
+    SetParamInt(p, "k", k)
   }
 
   if (!identical(kernel, NA)) {
-    IO_SetParamString("kernel", kernel)
+    SetParamString(p, "kernel", kernel)
   }
 
   if (!identical(naive, FALSE)) {
-    IO_SetParamBool("naive", naive)
+    SetParamBool(p, "naive", naive)
   }
 
   if (!identical(offset, NA)) {
-    IO_SetParamDouble("offset", offset)
+    SetParamDouble(p, "offset", offset)
   }
 
   if (!identical(query, NA)) {
-    IO_SetParamMat("query", to_matrix(query))
+    SetParamMat(p, "query", to_matrix(query))
   }
 
   if (!identical(reference, NA)) {
-    IO_SetParamMat("reference", to_matrix(reference))
+    SetParamMat(p, "reference", to_matrix(reference))
   }
 
   if (!identical(scale, NA)) {
-    IO_SetParamDouble("scale", scale)
+    SetParamDouble(p, "scale", scale)
   }
 
   if (!identical(single, FALSE)) {
-    IO_SetParamBool("single", single)
+    SetParamBool(p, "single", single)
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("indices")
-  IO_SetPassed("kernels")
-  IO_SetPassed("output_model")
+  SetPassed(p, "indices")
+  SetPassed(p, "kernels")
+  SetPassed(p, "output_model")
 
   # Call the program.
-  fastmks_mlpackMain()
+  fastmks_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
-  output_model <- IO_GetParamFastMKSModelPtr("output_model")
+  output_model <- GetParamFastMKSModelPtr(p, "output_model", inputModels)
   attr(output_model, "type") <- "FastMKSModel"
 
   # Extract the results in order.
   out <- list(
-      "indices" = IO_GetParamUMat("indices"),
-      "kernels" = IO_GetParamMat("kernels"),
+      "indices" = GetParamUMat(p, "indices"),
+      "kernels" = GetParamMat(p, "kernels"),
       "output_model" = output_model
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

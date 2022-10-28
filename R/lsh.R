@@ -85,85 +85,89 @@ lsh <- function(bucket_size=NA,
                 tables=NA,
                 true_neighbors=NA,
                 verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("K-Approximate-Nearest-Neighbor Search with LSH")
+  # Create parameters and timers objects.
+  p <- CreateParams("lsh")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
+  # Process each input argument before calling the binding.
   if (!identical(bucket_size, NA)) {
-    IO_SetParamInt("bucket_size", bucket_size)
+    SetParamInt(p, "bucket_size", bucket_size)
   }
 
   if (!identical(hash_width, NA)) {
-    IO_SetParamDouble("hash_width", hash_width)
+    SetParamDouble(p, "hash_width", hash_width)
   }
 
   if (!identical(input_model, NA)) {
-    IO_SetParamLSHSearchPtr("input_model", input_model)
+    SetParamLSHSearchPtr(p, "input_model", input_model)
+    # Add to the list of input models we received.
+    inputModels <- append(inputModels, input_model)
   }
 
   if (!identical(k, NA)) {
-    IO_SetParamInt("k", k)
+    SetParamInt(p, "k", k)
   }
 
   if (!identical(num_probes, NA)) {
-    IO_SetParamInt("num_probes", num_probes)
+    SetParamInt(p, "num_probes", num_probes)
   }
 
   if (!identical(projections, NA)) {
-    IO_SetParamInt("projections", projections)
+    SetParamInt(p, "projections", projections)
   }
 
   if (!identical(query, NA)) {
-    IO_SetParamMat("query", to_matrix(query))
+    SetParamMat(p, "query", to_matrix(query))
   }
 
   if (!identical(reference, NA)) {
-    IO_SetParamMat("reference", to_matrix(reference))
+    SetParamMat(p, "reference", to_matrix(reference))
   }
 
   if (!identical(second_hash_size, NA)) {
-    IO_SetParamInt("second_hash_size", second_hash_size)
+    SetParamInt(p, "second_hash_size", second_hash_size)
   }
 
   if (!identical(seed, NA)) {
-    IO_SetParamInt("seed", seed)
+    SetParamInt(p, "seed", seed)
   }
 
   if (!identical(tables, NA)) {
-    IO_SetParamInt("tables", tables)
+    SetParamInt(p, "tables", tables)
   }
 
   if (!identical(true_neighbors, NA)) {
-    IO_SetParamUMat("true_neighbors", to_matrix(true_neighbors))
+    SetParamUMat(p, "true_neighbors", to_matrix(true_neighbors))
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("distances")
-  IO_SetPassed("neighbors")
-  IO_SetPassed("output_model")
+  SetPassed(p, "distances")
+  SetPassed(p, "neighbors")
+  SetPassed(p, "output_model")
 
   # Call the program.
-  lsh_mlpackMain()
+  lsh_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
-  output_model <- IO_GetParamLSHSearchPtr("output_model")
+  output_model <- GetParamLSHSearchPtr(p, "output_model", inputModels)
   attr(output_model, "type") <- "LSHSearch"
 
   # Extract the results in order.
   out <- list(
-      "distances" = IO_GetParamMat("distances"),
-      "neighbors" = IO_GetParamUMat("neighbors"),
+      "distances" = GetParamMat(p, "distances"),
+      "neighbors" = GetParamUMat(p, "neighbors"),
       "output_model" = output_model
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

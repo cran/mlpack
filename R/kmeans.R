@@ -21,6 +21,8 @@
 #'   (numeric matrix).
 #' @param kill_empty_clusters Remove empty clusters when they occur. 
 #'   Default value "FALSE" (logical).
+#' @param kmeans_plus_plus Use the k-means++ initialization strategy to
+#'   choose initial points.  Default value "FALSE" (logical).
 #' @param labels_only Only output labels into output file.  Default value
 #'   "FALSE" (logical).
 #' @param max_iterations Maximum number of iterations before k-means
@@ -51,13 +53,15 @@
 #' furthest from the centroid of the cluster with maximum variance is taken to
 #' fill that cluster.
 #' 
-#' Optionally, the Bradley and Fayyad approach ("Refining initial points for
-#' k-means clustering", 1998) can be used to select initial points by specifying
-#' the "refined_start" parameter.  This approach works by taking random
-#' samplings of the dataset; to specify the number of samplings, the "samplings"
-#' parameter is used, and to specify the percentage of the dataset to be used in
-#' each sample, the "percentage" parameter is used (it should be a value between
-#' 0.0 and 1.0).
+#' Optionally, the strategy to choose initial centroids can be specified.  The
+#' k-means++ algorithm can be used to choose initial centroids with the
+#' "kmeans_plus_plus" parameter.  The Bradley and Fayyad approach ("Refining
+#' initial points for k-means clustering", 1998) can be used to select initial
+#' points by specifying the "refined_start" parameter.  This approach works by
+#' taking random samplings of the dataset; to specify the number of samplings,
+#' the "samplings" parameter is used, and to specify the percentage of the
+#' dataset to be used in each sample, the "percentage" parameter is used (it
+#' should be a value between 0.0 and 1.0).
 #' 
 #' There are several options available for the algorithm used for each Lloyd
 #' iteration, specified with the "algorithm"  option.  The standard O(kN)
@@ -114,6 +118,7 @@ kmeans <- function(clusters,
                    in_place=FALSE,
                    initial_centroids=NA,
                    kill_empty_clusters=FALSE,
+                   kmeans_plus_plus=FALSE,
                    labels_only=FALSE,
                    max_iterations=NA,
                    percentage=NA,
@@ -121,81 +126,87 @@ kmeans <- function(clusters,
                    samplings=NA,
                    seed=NA,
                    verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("K-Means Clustering")
+  # Create parameters and timers objects.
+  p <- CreateParams("kmeans")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
-  IO_SetParamInt("clusters", clusters)
+  # Process each input argument before calling the binding.
+  SetParamInt(p, "clusters", clusters)
 
-  IO_SetParamMat("input", to_matrix(input))
+  SetParamMat(p, "input", to_matrix(input))
 
   if (!identical(algorithm, NA)) {
-    IO_SetParamString("algorithm", algorithm)
+    SetParamString(p, "algorithm", algorithm)
   }
 
   if (!identical(allow_empty_clusters, FALSE)) {
-    IO_SetParamBool("allow_empty_clusters", allow_empty_clusters)
+    SetParamBool(p, "allow_empty_clusters", allow_empty_clusters)
   }
 
   if (!identical(in_place, FALSE)) {
-    IO_SetParamBool("in_place", in_place)
+    SetParamBool(p, "in_place", in_place)
   }
 
   if (!identical(initial_centroids, NA)) {
-    IO_SetParamMat("initial_centroids", to_matrix(initial_centroids))
+    SetParamMat(p, "initial_centroids", to_matrix(initial_centroids))
   }
 
   if (!identical(kill_empty_clusters, FALSE)) {
-    IO_SetParamBool("kill_empty_clusters", kill_empty_clusters)
+    SetParamBool(p, "kill_empty_clusters", kill_empty_clusters)
+  }
+
+  if (!identical(kmeans_plus_plus, FALSE)) {
+    SetParamBool(p, "kmeans_plus_plus", kmeans_plus_plus)
   }
 
   if (!identical(labels_only, FALSE)) {
-    IO_SetParamBool("labels_only", labels_only)
+    SetParamBool(p, "labels_only", labels_only)
   }
 
   if (!identical(max_iterations, NA)) {
-    IO_SetParamInt("max_iterations", max_iterations)
+    SetParamInt(p, "max_iterations", max_iterations)
   }
 
   if (!identical(percentage, NA)) {
-    IO_SetParamDouble("percentage", percentage)
+    SetParamDouble(p, "percentage", percentage)
   }
 
   if (!identical(refined_start, FALSE)) {
-    IO_SetParamBool("refined_start", refined_start)
+    SetParamBool(p, "refined_start", refined_start)
   }
 
   if (!identical(samplings, NA)) {
-    IO_SetParamInt("samplings", samplings)
+    SetParamInt(p, "samplings", samplings)
   }
 
   if (!identical(seed, NA)) {
-    IO_SetParamInt("seed", seed)
+    SetParamInt(p, "seed", seed)
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("centroid")
-  IO_SetPassed("output")
+  SetPassed(p, "centroid")
+  SetPassed(p, "output")
 
   # Call the program.
-  kmeans_mlpackMain()
+  kmeans_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
 
   # Extract the results in order.
   out <- list(
-      "centroid" = IO_GetParamMat("centroid"),
-      "output" = IO_GetParamMat("output")
+      "centroid" = GetParamMat(p, "centroid"),
+      "output" = GetParamMat(p, "output")
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

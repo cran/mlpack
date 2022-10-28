@@ -12,6 +12,7 @@ kmeans(
   in_place = FALSE,
   initial_centroids = NA,
   kill_empty_clusters = FALSE,
+  kmeans_plus_plus = FALSE,
   labels_only = FALSE,
   max_iterations = NA,
   percentage = NA,
@@ -44,6 +45,9 @@ assignments will be added to the input dataset file.  In this case,
 
 \item{kill_empty_clusters}{Remove empty clusters when they occur. 
 Default value "FALSE" (logical).}
+
+\item{kmeans_plus_plus}{Use the k-means++ initialization strategy to
+choose initial points.  Default value "FALSE" (logical).}
 
 \item{labels_only}{Only output labels into output file.  Default value
 "FALSE" (logical).}
@@ -87,13 +91,15 @@ clusters are not allowed by default; when a cluster becomes empty, the point
 furthest from the centroid of the cluster with maximum variance is taken to
 fill that cluster.
 
-Optionally, the Bradley and Fayyad approach ("Refining initial points for
-k-means clustering", 1998) can be used to select initial points by specifying
-the "refined_start" parameter.  This approach works by taking random
-samplings of the dataset; to specify the number of samplings, the "samplings"
-parameter is used, and to specify the percentage of the dataset to be used in
-each sample, the "percentage" parameter is used (it should be a value between
-0.0 and 1.0).
+Optionally, the strategy to choose initial centroids can be specified.  The
+k-means++ algorithm can be used to choose initial centroids with the
+"kmeans_plus_plus" parameter.  The Bradley and Fayyad approach ("Refining
+initial points for k-means clustering", 1998) can be used to select initial
+points by specifying the "refined_start" parameter.  This approach works by
+taking random samplings of the dataset; to specify the number of samplings,
+the "samplings" parameter is used, and to specify the percentage of the
+dataset to be used in each sample, the "percentage" parameter is used (it
+should be a value between 0.0 and 1.0).
 
 There are several options available for the algorithm used for each Lloyd
 iteration, specified with the "algorithm"  option.  The standard O(kN)

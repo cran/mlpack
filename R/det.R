@@ -77,75 +77,79 @@ det <- function(folds=NA,
                 test=NA,
                 training=NA,
                 verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("Density Estimation With Density Estimation Trees")
+  # Create parameters and timers objects.
+  p <- CreateParams("det")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
+  # Process each input argument before calling the binding.
   if (!identical(folds, NA)) {
-    IO_SetParamInt("folds", folds)
+    SetParamInt(p, "folds", folds)
   }
 
   if (!identical(input_model, NA)) {
-    IO_SetParamDTreePtr("input_model", input_model)
+    SetParamDTreePtr(p, "input_model", input_model)
+    # Add to the list of input models we received.
+    inputModels <- append(inputModels, input_model)
   }
 
   if (!identical(max_leaf_size, NA)) {
-    IO_SetParamInt("max_leaf_size", max_leaf_size)
+    SetParamInt(p, "max_leaf_size", max_leaf_size)
   }
 
   if (!identical(min_leaf_size, NA)) {
-    IO_SetParamInt("min_leaf_size", min_leaf_size)
+    SetParamInt(p, "min_leaf_size", min_leaf_size)
   }
 
   if (!identical(path_format, NA)) {
-    IO_SetParamString("path_format", path_format)
+    SetParamString(p, "path_format", path_format)
   }
 
   if (!identical(skip_pruning, FALSE)) {
-    IO_SetParamBool("skip_pruning", skip_pruning)
+    SetParamBool(p, "skip_pruning", skip_pruning)
   }
 
   if (!identical(test, NA)) {
-    IO_SetParamMat("test", to_matrix(test))
+    SetParamMat(p, "test", to_matrix(test))
   }
 
   if (!identical(training, NA)) {
-    IO_SetParamMat("training", to_matrix(training))
+    SetParamMat(p, "training", to_matrix(training))
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("output_model")
-  IO_SetPassed("tag_counters_file")
-  IO_SetPassed("tag_file")
-  IO_SetPassed("test_set_estimates")
-  IO_SetPassed("training_set_estimates")
-  IO_SetPassed("vi")
+  SetPassed(p, "output_model")
+  SetPassed(p, "tag_counters_file")
+  SetPassed(p, "tag_file")
+  SetPassed(p, "test_set_estimates")
+  SetPassed(p, "training_set_estimates")
+  SetPassed(p, "vi")
 
   # Call the program.
-  det_mlpackMain()
+  det_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
-  output_model <- IO_GetParamDTreePtr("output_model")
+  output_model <- GetParamDTreePtr(p, "output_model", inputModels)
   attr(output_model, "type") <- "DTree"
 
   # Extract the results in order.
   out <- list(
       "output_model" = output_model,
-      "tag_counters_file" = IO_GetParamString("tag_counters_file"),
-      "tag_file" = IO_GetParamString("tag_file"),
-      "test_set_estimates" = IO_GetParamMat("test_set_estimates"),
-      "training_set_estimates" = IO_GetParamMat("training_set_estimates"),
-      "vi" = IO_GetParamMat("vi")
+      "tag_counters_file" = GetParamString(p, "tag_counters_file"),
+      "tag_file" = GetParamString(p, "tag_file"),
+      "test_set_estimates" = GetParamMat(p, "test_set_estimates"),
+      "training_set_estimates" = GetParamMat(p, "training_set_estimates"),
+      "vi" = GetParamMat(p, "vi")
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

@@ -61,49 +61,51 @@ pca <- function(input,
                 scale=FALSE,
                 var_to_retain=NA,
                 verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("Principal Components Analysis")
+  # Create parameters and timers objects.
+  p <- CreateParams("pca")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
-  IO_SetParamMat("input", to_matrix(input))
+  # Process each input argument before calling the binding.
+  SetParamMat(p, "input", to_matrix(input))
 
   if (!identical(decomposition_method, NA)) {
-    IO_SetParamString("decomposition_method", decomposition_method)
+    SetParamString(p, "decomposition_method", decomposition_method)
   }
 
   if (!identical(new_dimensionality, NA)) {
-    IO_SetParamInt("new_dimensionality", new_dimensionality)
+    SetParamInt(p, "new_dimensionality", new_dimensionality)
   }
 
   if (!identical(scale, FALSE)) {
-    IO_SetParamBool("scale", scale)
+    SetParamBool(p, "scale", scale)
   }
 
   if (!identical(var_to_retain, NA)) {
-    IO_SetParamDouble("var_to_retain", var_to_retain)
+    SetParamDouble(p, "var_to_retain", var_to_retain)
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("output")
+  SetPassed(p, "output")
 
   # Call the program.
-  pca_mlpackMain()
+  pca_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
 
   # Extract the results in order.
   out <- list(
-      "output" = IO_GetParamMat("output")
+      "output" = GetParamMat(p, "output")
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

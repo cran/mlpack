@@ -8,10 +8,16 @@
 #define BINDING_TYPE BINDING_TYPE_R
 #include <mlpack/methods/approx_kfn/approx_kfn_main.cpp>
 
+#define Realloc(p,n,t) (t *) R_chk_realloc( (void *)(p), (R_SIZE_T)((n) * sizeof(t)) )
+#define Free(p)        (R_chk_free( (void *)(p) ), (p) = NULL)
+
 // [[Rcpp::export]]
-void approx_kfn_mlpackMain()
+void approx_kfn_call(SEXP params, SEXP timers)
 {
-  mlpackMain();
+  util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
+  util::Timers& t = *Rcpp::as<Rcpp::XPtr<util::Timers>>(timers);
+
+  BINDING_FUNCTION(p, t);
 }
 
 // Any implementations of methods for dealing with model pointers will be put
@@ -19,17 +25,33 @@ void approx_kfn_mlpackMain()
 
 // Get the pointer to a ApproxKFNModel parameter.
 // [[Rcpp::export]]
-SEXP IO_GetParamApproxKFNModelPtr(const std::string& paramName)
+SEXP GetParamApproxKFNModelPtr(SEXP params,
+                                   const std::string& paramName,
+                                   SEXP inputModels)
 {
-  return std::move((Rcpp::XPtr<ApproxKFNModel>) IO::GetParam<ApproxKFNModel*>(paramName));
+  util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
+  Rcpp::List inputModelsList(inputModels);
+  ApproxKFNModel* modelPtr = p.Get<ApproxKFNModel*>(paramName);
+  for (int i = 0; i < inputModelsList.length(); ++i)
+  {
+    Rcpp::XPtr<ApproxKFNModel> inputModel =
+        Rcpp::as<Rcpp::XPtr<ApproxKFNModel>>(inputModelsList[i]);
+    // Don't create a new XPtr---just reuse the one given as input, so that we
+    // don't end up deleting it twice.
+    if (inputModel.get() == modelPtr)
+      return inputModel;
+  }
+
+  return std::move((Rcpp::XPtr<ApproxKFNModel>) p.Get<ApproxKFNModel*>(paramName));
 }
 
 // Set the pointer to a ApproxKFNModel parameter.
 // [[Rcpp::export]]
-void IO_SetParamApproxKFNModelPtr(const std::string& paramName, SEXP ptr)
+void SetParamApproxKFNModelPtr(SEXP params, const std::string& paramName, SEXP ptr)
 {
-  IO::GetParam<ApproxKFNModel*>(paramName) =  Rcpp::as<Rcpp::XPtr<ApproxKFNModel>>(ptr);
-  IO::SetPassed(paramName);
+  util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
+  p.Get<ApproxKFNModel*>(paramName) = Rcpp::as<Rcpp::XPtr<ApproxKFNModel>>(ptr);
+  p.SetPassed(paramName);
 }
 
 // Serialize a ApproxKFNModel pointer.
@@ -38,9 +60,9 @@ Rcpp::RawVector SerializeApproxKFNModelPtr(SEXP ptr)
 {
   std::ostringstream oss;
   {
-    boost::archive::binary_oarchive oa(oss);
-    oa << boost::serialization::make_nvp("ApproxKFNModel",
-          *Rcpp::as<Rcpp::XPtr<ApproxKFNModel>>(ptr));
+    cereal::BinaryOutputArchive oa(oss);
+    oa(cereal::make_nvp("ApproxKFNModel",
+          *Rcpp::as<Rcpp::XPtr<ApproxKFNModel>>(ptr)));
   }
 
   Rcpp::RawVector raw_vec(oss.str().size());
@@ -60,8 +82,8 @@ SEXP DeserializeApproxKFNModelPtr(Rcpp::RawVector str)
 
   std::istringstream iss(std::string((char *) &str[0], str.size()));
   {
-    boost::archive::binary_iarchive ia(iss);
-    ia >> boost::serialization::make_nvp("ApproxKFNModel", *ptr);
+    cereal::BinaryInputArchive ia(iss);
+    ia(cereal::make_nvp("ApproxKFNModel", *ptr));
   }
 
   // R will be responsible for freeing this.

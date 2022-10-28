@@ -93,63 +93,67 @@ lars <- function(input=NA,
                  test=NA,
                  use_cholesky=FALSE,
                  verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("LARS")
+  # Create parameters and timers objects.
+  p <- CreateParams("lars")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
+  # Process each input argument before calling the binding.
   if (!identical(input, NA)) {
-    IO_SetParamMat("input", to_matrix(input))
+    SetParamMat(p, "input", to_matrix(input))
   }
 
   if (!identical(input_model, NA)) {
-    IO_SetParamLARSPtr("input_model", input_model)
+    SetParamLARSPtr(p, "input_model", input_model)
+    # Add to the list of input models we received.
+    inputModels <- append(inputModels, input_model)
   }
 
   if (!identical(lambda1, NA)) {
-    IO_SetParamDouble("lambda1", lambda1)
+    SetParamDouble(p, "lambda1", lambda1)
   }
 
   if (!identical(lambda2, NA)) {
-    IO_SetParamDouble("lambda2", lambda2)
+    SetParamDouble(p, "lambda2", lambda2)
   }
 
   if (!identical(responses, NA)) {
-    IO_SetParamMat("responses", to_matrix(responses))
+    SetParamMat(p, "responses", to_matrix(responses))
   }
 
   if (!identical(test, NA)) {
-    IO_SetParamMat("test", to_matrix(test))
+    SetParamMat(p, "test", to_matrix(test))
   }
 
   if (!identical(use_cholesky, FALSE)) {
-    IO_SetParamBool("use_cholesky", use_cholesky)
+    SetParamBool(p, "use_cholesky", use_cholesky)
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("output_model")
-  IO_SetPassed("output_predictions")
+  SetPassed(p, "output_model")
+  SetPassed(p, "output_predictions")
 
   # Call the program.
-  lars_mlpackMain()
+  lars_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
-  output_model <- IO_GetParamLARSPtr("output_model")
+  output_model <- GetParamLARSPtr(p, "output_model", inputModels)
   attr(output_model, "type") <- "LARS"
 
   # Extract the results in order.
   out <- list(
       "output_model" = output_model,
-      "output_predictions" = IO_GetParamMat("output_predictions")
+      "output_predictions" = GetParamMat(p, "output_predictions")
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

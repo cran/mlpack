@@ -89,57 +89,61 @@ perceptron <- function(input_model=NA,
                        test=NA,
                        training=NA,
                        verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("Perceptron")
+  # Create parameters and timers objects.
+  p <- CreateParams("perceptron")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
+  # Process each input argument before calling the binding.
   if (!identical(input_model, NA)) {
-    IO_SetParamPerceptronModelPtr("input_model", input_model)
+    SetParamPerceptronModelPtr(p, "input_model", input_model)
+    # Add to the list of input models we received.
+    inputModels <- append(inputModels, input_model)
   }
 
   if (!identical(labels, NA)) {
-    IO_SetParamURow("labels", to_matrix(labels))
+    SetParamURow(p, "labels", to_matrix(labels))
   }
 
   if (!identical(max_iterations, NA)) {
-    IO_SetParamInt("max_iterations", max_iterations)
+    SetParamInt(p, "max_iterations", max_iterations)
   }
 
   if (!identical(test, NA)) {
-    IO_SetParamMat("test", to_matrix(test))
+    SetParamMat(p, "test", to_matrix(test))
   }
 
   if (!identical(training, NA)) {
-    IO_SetParamMat("training", to_matrix(training))
+    SetParamMat(p, "training", to_matrix(training))
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("output")
-  IO_SetPassed("output_model")
-  IO_SetPassed("predictions")
+  SetPassed(p, "output")
+  SetPassed(p, "output_model")
+  SetPassed(p, "predictions")
 
   # Call the program.
-  perceptron_mlpackMain()
+  perceptron_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
-  output_model <- IO_GetParamPerceptronModelPtr("output_model")
+  output_model <- GetParamPerceptronModelPtr(p, "output_model", inputModels)
   attr(output_model, "type") <- "PerceptronModel"
 
   # Extract the results in order.
   out <- list(
-      "output" = IO_GetParamURow("output"),
+      "output" = GetParamURow(p, "output"),
       "output_model" = output_model,
-      "predictions" = IO_GetParamURow("predictions")
+      "predictions" = GetParamURow(p, "predictions")
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

@@ -11,7 +11,7 @@
 #'   (numeric).
 #' @param first_leaf_exact The flag to trigger sampling only after exactly
 #'   exploring the first leaf.  Default value "FALSE" (logical).
-#' @param input_model Pre-trained kNN model (RANNModel).
+#' @param input_model Pre-trained kNN model (RAModel).
 #' @param k Number of nearest neighbors to find.  Default value "0"
 #'   (integer).
 #' @param leaf_size Leaf size for tree building (used for kd-trees, UB
@@ -47,7 +47,7 @@
 #' \item{distances}{Matrix to output distances into (numeric matrix).}
 #' \item{neighbors}{Matrix to output neighbors into (integer matrix).}
 #' \item{output_model}{If specified, the kNN model will be output here
-#'   (RANNModel).}
+#'   (RAModel).}
 #'
 #' @details
 #' This program will calculate the k rank-approximate-nearest-neighbors of a set
@@ -98,97 +98,101 @@ krann <- function(alpha=NA,
                   tau=NA,
                   tree_type=NA,
                   verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("K-Rank-Approximate-Nearest-Neighbors (kRANN)")
+  # Create parameters and timers objects.
+  p <- CreateParams("krann")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
+  # Process each input argument before calling the binding.
   if (!identical(alpha, NA)) {
-    IO_SetParamDouble("alpha", alpha)
+    SetParamDouble(p, "alpha", alpha)
   }
 
   if (!identical(first_leaf_exact, FALSE)) {
-    IO_SetParamBool("first_leaf_exact", first_leaf_exact)
+    SetParamBool(p, "first_leaf_exact", first_leaf_exact)
   }
 
   if (!identical(input_model, NA)) {
-    IO_SetParamRANNModelPtr("input_model", input_model)
+    SetParamRAModelPtr(p, "input_model", input_model)
+    # Add to the list of input models we received.
+    inputModels <- append(inputModels, input_model)
   }
 
   if (!identical(k, NA)) {
-    IO_SetParamInt("k", k)
+    SetParamInt(p, "k", k)
   }
 
   if (!identical(leaf_size, NA)) {
-    IO_SetParamInt("leaf_size", leaf_size)
+    SetParamInt(p, "leaf_size", leaf_size)
   }
 
   if (!identical(naive, FALSE)) {
-    IO_SetParamBool("naive", naive)
+    SetParamBool(p, "naive", naive)
   }
 
   if (!identical(query, NA)) {
-    IO_SetParamMat("query", to_matrix(query))
+    SetParamMat(p, "query", to_matrix(query))
   }
 
   if (!identical(random_basis, FALSE)) {
-    IO_SetParamBool("random_basis", random_basis)
+    SetParamBool(p, "random_basis", random_basis)
   }
 
   if (!identical(reference, NA)) {
-    IO_SetParamMat("reference", to_matrix(reference))
+    SetParamMat(p, "reference", to_matrix(reference))
   }
 
   if (!identical(sample_at_leaves, FALSE)) {
-    IO_SetParamBool("sample_at_leaves", sample_at_leaves)
+    SetParamBool(p, "sample_at_leaves", sample_at_leaves)
   }
 
   if (!identical(seed, NA)) {
-    IO_SetParamInt("seed", seed)
+    SetParamInt(p, "seed", seed)
   }
 
   if (!identical(single_mode, FALSE)) {
-    IO_SetParamBool("single_mode", single_mode)
+    SetParamBool(p, "single_mode", single_mode)
   }
 
   if (!identical(single_sample_limit, NA)) {
-    IO_SetParamInt("single_sample_limit", single_sample_limit)
+    SetParamInt(p, "single_sample_limit", single_sample_limit)
   }
 
   if (!identical(tau, NA)) {
-    IO_SetParamDouble("tau", tau)
+    SetParamDouble(p, "tau", tau)
   }
 
   if (!identical(tree_type, NA)) {
-    IO_SetParamString("tree_type", tree_type)
+    SetParamString(p, "tree_type", tree_type)
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("distances")
-  IO_SetPassed("neighbors")
-  IO_SetPassed("output_model")
+  SetPassed(p, "distances")
+  SetPassed(p, "neighbors")
+  SetPassed(p, "output_model")
 
   # Call the program.
-  krann_mlpackMain()
+  krann_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
-  output_model <- IO_GetParamRANNModelPtr("output_model")
-  attr(output_model, "type") <- "RANNModel"
+  output_model <- GetParamRAModelPtr(p, "output_model", inputModels)
+  attr(output_model, "type") <- "RAModel"
 
   # Extract the results in order.
   out <- list(
-      "distances" = IO_GetParamMat("distances"),
-      "neighbors" = IO_GetParamUMat("neighbors"),
+      "distances" = GetParamMat(p, "distances"),
+      "neighbors" = GetParamUMat(p, "neighbors"),
       "output_model" = output_model
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

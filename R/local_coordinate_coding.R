@@ -93,77 +93,81 @@ local_coordinate_coding <- function(atoms=NA,
                                     tolerance=NA,
                                     training=NA,
                                     verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("Local Coordinate Coding")
+  # Create parameters and timers objects.
+  p <- CreateParams("local_coordinate_coding")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
+  # Process each input argument before calling the binding.
   if (!identical(atoms, NA)) {
-    IO_SetParamInt("atoms", atoms)
+    SetParamInt(p, "atoms", atoms)
   }
 
   if (!identical(initial_dictionary, NA)) {
-    IO_SetParamMat("initial_dictionary", to_matrix(initial_dictionary))
+    SetParamMat(p, "initial_dictionary", to_matrix(initial_dictionary))
   }
 
   if (!identical(input_model, NA)) {
-    IO_SetParamLocalCoordinateCodingPtr("input_model", input_model)
+    SetParamLocalCoordinateCodingPtr(p, "input_model", input_model)
+    # Add to the list of input models we received.
+    inputModels <- append(inputModels, input_model)
   }
 
   if (!identical(lambda, NA)) {
-    IO_SetParamDouble("lambda", lambda)
+    SetParamDouble(p, "lambda", lambda)
   }
 
   if (!identical(max_iterations, NA)) {
-    IO_SetParamInt("max_iterations", max_iterations)
+    SetParamInt(p, "max_iterations", max_iterations)
   }
 
   if (!identical(normalize, FALSE)) {
-    IO_SetParamBool("normalize", normalize)
+    SetParamBool(p, "normalize", normalize)
   }
 
   if (!identical(seed, NA)) {
-    IO_SetParamInt("seed", seed)
+    SetParamInt(p, "seed", seed)
   }
 
   if (!identical(test, NA)) {
-    IO_SetParamMat("test", to_matrix(test))
+    SetParamMat(p, "test", to_matrix(test))
   }
 
   if (!identical(tolerance, NA)) {
-    IO_SetParamDouble("tolerance", tolerance)
+    SetParamDouble(p, "tolerance", tolerance)
   }
 
   if (!identical(training, NA)) {
-    IO_SetParamMat("training", to_matrix(training))
+    SetParamMat(p, "training", to_matrix(training))
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("codes")
-  IO_SetPassed("dictionary")
-  IO_SetPassed("output_model")
+  SetPassed(p, "codes")
+  SetPassed(p, "dictionary")
+  SetPassed(p, "output_model")
 
   # Call the program.
-  local_coordinate_coding_mlpackMain()
+  local_coordinate_coding_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
-  output_model <- IO_GetParamLocalCoordinateCodingPtr("output_model")
+  output_model <- GetParamLocalCoordinateCodingPtr(p, "output_model", inputModels)
   attr(output_model, "type") <- "LocalCoordinateCoding"
 
   # Extract the results in order.
   out <- list(
-      "codes" = IO_GetParamMat("codes"),
-      "dictionary" = IO_GetParamMat("dictionary"),
+      "codes" = GetParamMat(p, "codes"),
+      "dictionary" = GetParamMat(p, "dictionary"),
       "output_model" = output_model
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

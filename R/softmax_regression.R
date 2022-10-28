@@ -33,6 +33,8 @@
 #'   (SoftmaxRegression).}
 #' \item{predictions}{Matrix to save predictions for test dataset into
 #'   (integer row).}
+#' \item{probabilities}{Matrix to save class probabilities for test dataset
+#'   into (numeric matrix).}
 #'
 #' @details
 #' This program performs softmax regression, a generalization of logistic
@@ -94,71 +96,77 @@ softmax_regression <- function(input_model=NA,
                                test_labels=NA,
                                training=NA,
                                verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("Softmax Regression")
+  # Create parameters and timers objects.
+  p <- CreateParams("softmax_regression")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
+  # Process each input argument before calling the binding.
   if (!identical(input_model, NA)) {
-    IO_SetParamSoftmaxRegressionPtr("input_model", input_model)
+    SetParamSoftmaxRegressionPtr(p, "input_model", input_model)
+    # Add to the list of input models we received.
+    inputModels <- append(inputModels, input_model)
   }
 
   if (!identical(labels, NA)) {
-    IO_SetParamURow("labels", to_matrix(labels))
+    SetParamURow(p, "labels", to_matrix(labels))
   }
 
   if (!identical(lambda, NA)) {
-    IO_SetParamDouble("lambda", lambda)
+    SetParamDouble(p, "lambda", lambda)
   }
 
   if (!identical(max_iterations, NA)) {
-    IO_SetParamInt("max_iterations", max_iterations)
+    SetParamInt(p, "max_iterations", max_iterations)
   }
 
   if (!identical(no_intercept, FALSE)) {
-    IO_SetParamBool("no_intercept", no_intercept)
+    SetParamBool(p, "no_intercept", no_intercept)
   }
 
   if (!identical(number_of_classes, NA)) {
-    IO_SetParamInt("number_of_classes", number_of_classes)
+    SetParamInt(p, "number_of_classes", number_of_classes)
   }
 
   if (!identical(test, NA)) {
-    IO_SetParamMat("test", to_matrix(test))
+    SetParamMat(p, "test", to_matrix(test))
   }
 
   if (!identical(test_labels, NA)) {
-    IO_SetParamURow("test_labels", to_matrix(test_labels))
+    SetParamURow(p, "test_labels", to_matrix(test_labels))
   }
 
   if (!identical(training, NA)) {
-    IO_SetParamMat("training", to_matrix(training))
+    SetParamMat(p, "training", to_matrix(training))
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("output_model")
-  IO_SetPassed("predictions")
+  SetPassed(p, "output_model")
+  SetPassed(p, "predictions")
+  SetPassed(p, "probabilities")
 
   # Call the program.
-  softmax_regression_mlpackMain()
+  softmax_regression_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
-  output_model <- IO_GetParamSoftmaxRegressionPtr("output_model")
+  output_model <- GetParamSoftmaxRegressionPtr(p, "output_model", inputModels)
   attr(output_model, "type") <- "SoftmaxRegression"
 
   # Extract the results in order.
   out <- list(
       "output_model" = output_model,
-      "predictions" = IO_GetParamURow("predictions")
+      "predictions" = GetParamURow(p, "predictions"),
+      "probabilities" = GetParamMat(p, "probabilities")
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

@@ -119,93 +119,95 @@ nca <- function(input,
                 tolerance=NA,
                 verbose=FALSE,
                 wolfe=NA) {
-  # Restore IO settings.
-  IO_RestoreSettings("Neighborhood Components Analysis (NCA)")
+  # Create parameters and timers objects.
+  p <- CreateParams("nca")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
-  IO_SetParamMat("input", to_matrix(input))
+  # Process each input argument before calling the binding.
+  SetParamMat(p, "input", to_matrix(input))
 
   if (!identical(armijo_constant, NA)) {
-    IO_SetParamDouble("armijo_constant", armijo_constant)
+    SetParamDouble(p, "armijo_constant", armijo_constant)
   }
 
   if (!identical(batch_size, NA)) {
-    IO_SetParamInt("batch_size", batch_size)
+    SetParamInt(p, "batch_size", batch_size)
   }
 
   if (!identical(labels, NA)) {
-    IO_SetParamURow("labels", to_matrix(labels))
+    SetParamURow(p, "labels", to_matrix(labels))
   }
 
   if (!identical(linear_scan, FALSE)) {
-    IO_SetParamBool("linear_scan", linear_scan)
+    SetParamBool(p, "linear_scan", linear_scan)
   }
 
   if (!identical(max_iterations, NA)) {
-    IO_SetParamInt("max_iterations", max_iterations)
+    SetParamInt(p, "max_iterations", max_iterations)
   }
 
   if (!identical(max_line_search_trials, NA)) {
-    IO_SetParamInt("max_line_search_trials", max_line_search_trials)
+    SetParamInt(p, "max_line_search_trials", max_line_search_trials)
   }
 
   if (!identical(max_step, NA)) {
-    IO_SetParamDouble("max_step", max_step)
+    SetParamDouble(p, "max_step", max_step)
   }
 
   if (!identical(min_step, NA)) {
-    IO_SetParamDouble("min_step", min_step)
+    SetParamDouble(p, "min_step", min_step)
   }
 
   if (!identical(normalize, FALSE)) {
-    IO_SetParamBool("normalize", normalize)
+    SetParamBool(p, "normalize", normalize)
   }
 
   if (!identical(num_basis, NA)) {
-    IO_SetParamInt("num_basis", num_basis)
+    SetParamInt(p, "num_basis", num_basis)
   }
 
   if (!identical(optimizer, NA)) {
-    IO_SetParamString("optimizer", optimizer)
+    SetParamString(p, "optimizer", optimizer)
   }
 
   if (!identical(seed, NA)) {
-    IO_SetParamInt("seed", seed)
+    SetParamInt(p, "seed", seed)
   }
 
   if (!identical(step_size, NA)) {
-    IO_SetParamDouble("step_size", step_size)
+    SetParamDouble(p, "step_size", step_size)
   }
 
   if (!identical(tolerance, NA)) {
-    IO_SetParamDouble("tolerance", tolerance)
+    SetParamDouble(p, "tolerance", tolerance)
   }
 
   if (!identical(wolfe, NA)) {
-    IO_SetParamDouble("wolfe", wolfe)
+    SetParamDouble(p, "wolfe", wolfe)
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("output")
+  SetPassed(p, "output")
 
   # Call the program.
-  nca_mlpackMain()
+  nca_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
 
   # Extract the results in order.
   out <- list(
-      "output" = IO_GetParamMat("output")
+      "output" = GetParamMat(p, "output")
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

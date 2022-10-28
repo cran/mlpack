@@ -60,57 +60,59 @@ image_converter <- function(input,
                             save=FALSE,
                             verbose=FALSE,
                             width=NA) {
-  # Restore IO settings.
-  IO_RestoreSettings("Image Converter")
+  # Create parameters and timers objects.
+  p <- CreateParams("image_converter")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
-  IO_SetParamVecString("input", input)
+  # Process each input argument before calling the binding.
+  SetParamVecString(p, "input", input)
 
   if (!identical(channels, NA)) {
-    IO_SetParamInt("channels", channels)
+    SetParamInt(p, "channels", channels)
   }
 
   if (!identical(dataset, NA)) {
-    IO_SetParamMat("dataset", to_matrix(dataset))
+    SetParamMat(p, "dataset", to_matrix(dataset))
   }
 
   if (!identical(height, NA)) {
-    IO_SetParamInt("height", height)
+    SetParamInt(p, "height", height)
   }
 
   if (!identical(quality, NA)) {
-    IO_SetParamInt("quality", quality)
+    SetParamInt(p, "quality", quality)
   }
 
   if (!identical(save, FALSE)) {
-    IO_SetParamBool("save", save)
+    SetParamBool(p, "save", save)
   }
 
   if (!identical(width, NA)) {
-    IO_SetParamInt("width", width)
+    SetParamInt(p, "width", width)
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("output")
+  SetPassed(p, "output")
 
   # Call the program.
-  image_converter_mlpackMain()
+  image_converter_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
 
   # Extract the results in order.
   out <- list(
-      "output" = IO_GetParamMat("output")
+      "output" = GetParamMat(p, "output")
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

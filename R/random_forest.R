@@ -32,6 +32,9 @@
 #' @param verbose Display informational messages and the full list of
 #'   parameters and timers at the end of execution.  Default value "FALSE"
 #'   (logical).
+#' @param warm_start If true and passed along with `training` and
+#'   `input_model` then trains more trees on top of existing model.  Default
+#'   value "FALSE" (logical).
 #'
 #' @return A list with several components:
 #' \item{output_model}{Model to save trained random forest to
@@ -109,86 +112,95 @@ random_forest <- function(input_model=NA,
                           test=NA,
                           test_labels=NA,
                           training=NA,
-                          verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("Random forests")
+                          verbose=FALSE,
+                          warm_start=FALSE) {
+  # Create parameters and timers objects.
+  p <- CreateParams("random_forest")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
+  # Process each input argument before calling the binding.
   if (!identical(input_model, NA)) {
-    IO_SetParamRandomForestModelPtr("input_model", input_model)
+    SetParamRandomForestModelPtr(p, "input_model", input_model)
+    # Add to the list of input models we received.
+    inputModels <- append(inputModels, input_model)
   }
 
   if (!identical(labels, NA)) {
-    IO_SetParamURow("labels", to_matrix(labels))
+    SetParamURow(p, "labels", to_matrix(labels))
   }
 
   if (!identical(maximum_depth, NA)) {
-    IO_SetParamInt("maximum_depth", maximum_depth)
+    SetParamInt(p, "maximum_depth", maximum_depth)
   }
 
   if (!identical(minimum_gain_split, NA)) {
-    IO_SetParamDouble("minimum_gain_split", minimum_gain_split)
+    SetParamDouble(p, "minimum_gain_split", minimum_gain_split)
   }
 
   if (!identical(minimum_leaf_size, NA)) {
-    IO_SetParamInt("minimum_leaf_size", minimum_leaf_size)
+    SetParamInt(p, "minimum_leaf_size", minimum_leaf_size)
   }
 
   if (!identical(num_trees, NA)) {
-    IO_SetParamInt("num_trees", num_trees)
+    SetParamInt(p, "num_trees", num_trees)
   }
 
   if (!identical(print_training_accuracy, FALSE)) {
-    IO_SetParamBool("print_training_accuracy", print_training_accuracy)
+    SetParamBool(p, "print_training_accuracy", print_training_accuracy)
   }
 
   if (!identical(seed, NA)) {
-    IO_SetParamInt("seed", seed)
+    SetParamInt(p, "seed", seed)
   }
 
   if (!identical(subspace_dim, NA)) {
-    IO_SetParamInt("subspace_dim", subspace_dim)
+    SetParamInt(p, "subspace_dim", subspace_dim)
   }
 
   if (!identical(test, NA)) {
-    IO_SetParamMat("test", to_matrix(test))
+    SetParamMat(p, "test", to_matrix(test))
   }
 
   if (!identical(test_labels, NA)) {
-    IO_SetParamURow("test_labels", to_matrix(test_labels))
+    SetParamURow(p, "test_labels", to_matrix(test_labels))
   }
 
   if (!identical(training, NA)) {
-    IO_SetParamMat("training", to_matrix(training))
+    SetParamMat(p, "training", to_matrix(training))
+  }
+
+  if (!identical(warm_start, FALSE)) {
+    SetParamBool(p, "warm_start", warm_start)
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("output_model")
-  IO_SetPassed("predictions")
-  IO_SetPassed("probabilities")
+  SetPassed(p, "output_model")
+  SetPassed(p, "predictions")
+  SetPassed(p, "probabilities")
 
   # Call the program.
-  random_forest_mlpackMain()
+  random_forest_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
-  output_model <- IO_GetParamRandomForestModelPtr("output_model")
+  output_model <- GetParamRandomForestModelPtr(p, "output_model", inputModels)
   attr(output_model, "type") <- "RandomForestModel"
 
   # Extract the results in order.
   out <- list(
       "output_model" = output_model,
-      "predictions" = IO_GetParamURow("predictions"),
-      "probabilities" = IO_GetParamMat("probabilities")
+      "predictions" = GetParamURow(p, "predictions"),
+      "probabilities" = GetParamMat(p, "probabilities")
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

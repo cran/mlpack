@@ -100,67 +100,69 @@ kernel_pca <- function(input,
                        offset=NA,
                        sampling=NA,
                        verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("Kernel Principal Components Analysis")
+  # Create parameters and timers objects.
+  p <- CreateParams("kernel_pca")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
-  IO_SetParamMat("input", to_matrix(input))
+  # Process each input argument before calling the binding.
+  SetParamMat(p, "input", to_matrix(input))
 
-  IO_SetParamString("kernel", kernel)
+  SetParamString(p, "kernel", kernel)
 
   if (!identical(bandwidth, NA)) {
-    IO_SetParamDouble("bandwidth", bandwidth)
+    SetParamDouble(p, "bandwidth", bandwidth)
   }
 
   if (!identical(center, FALSE)) {
-    IO_SetParamBool("center", center)
+    SetParamBool(p, "center", center)
   }
 
   if (!identical(degree, NA)) {
-    IO_SetParamDouble("degree", degree)
+    SetParamDouble(p, "degree", degree)
   }
 
   if (!identical(kernel_scale, NA)) {
-    IO_SetParamDouble("kernel_scale", kernel_scale)
+    SetParamDouble(p, "kernel_scale", kernel_scale)
   }
 
   if (!identical(new_dimensionality, NA)) {
-    IO_SetParamInt("new_dimensionality", new_dimensionality)
+    SetParamInt(p, "new_dimensionality", new_dimensionality)
   }
 
   if (!identical(nystroem_method, FALSE)) {
-    IO_SetParamBool("nystroem_method", nystroem_method)
+    SetParamBool(p, "nystroem_method", nystroem_method)
   }
 
   if (!identical(offset, NA)) {
-    IO_SetParamDouble("offset", offset)
+    SetParamDouble(p, "offset", offset)
   }
 
   if (!identical(sampling, NA)) {
-    IO_SetParamString("sampling", sampling)
+    SetParamString(p, "sampling", sampling)
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("output")
+  SetPassed(p, "output")
 
   # Call the program.
-  kernel_pca_mlpackMain()
+  kernel_pca_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
 
   # Extract the results in order.
   out <- list(
-      "output" = IO_GetParamMat("output")
+      "output" = GetParamMat(p, "output")
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

@@ -8,7 +8,6 @@ Serialize <- function(model, filename) {
   model_serialization_function <-
     switch(attributes(model)$type,
       "GaussianKernel" = SerializeGaussianKernelPtr,
-      "AdaBoostModel" = SerializeAdaBoostModelPtr,
       "ApproxKFNModel" = SerializeApproxKFNModelPtr,
       "BayesianLinearRegression" = SerializeBayesianLinearRegressionPtr,
       "CFModel" = SerializeCFModelPtr,
@@ -20,7 +19,6 @@ Serialize <- function(model, filename) {
       "HoeffdingTreeModel" = SerializeHoeffdingTreeModelPtr,
       "KDEModel" = SerializeKDEModelPtr,
       "LARS" = SerializeLARSPtr,
-      "LinearRegression" = SerializeLinearRegressionPtr,
       "LinearSVMModel" = SerializeLinearSVMModelPtr,
       "LocalCoordinateCoding" = SerializeLocalCoordinateCodingPtr,
       "LogisticRegression" = SerializeLogisticRegressionPtr,
@@ -31,9 +29,11 @@ Serialize <- function(model, filename) {
       "PerceptronModel" = SerializePerceptronModelPtr,
       "ScalingModel" = SerializeScalingModelPtr,
       "RandomForestModel" = SerializeRandomForestModelPtr,
-      "RANNModel" = SerializeRANNModelPtr,
+      "RAModel" = SerializeRAModelPtr,
       "SoftmaxRegression" = SerializeSoftmaxRegressionPtr,
       "SparseCoding" = SerializeSparseCodingPtr,
+      "AdaBoostModel" = SerializeAdaBoostModelPtr,
+      "LinearRegression" = SerializeLinearRegressionPtr,
       stop("Requested model type is not currently supported.")
     )
 
@@ -54,7 +54,6 @@ Unserialize <- function(filename) {
   model_unserialization_function <-
     switch(attributes(model)$type,
       "GaussianKernel" = DeserializeGaussianKernelPtr,
-      "AdaBoostModel" = DeserializeAdaBoostModelPtr,
       "ApproxKFNModel" = DeserializeApproxKFNModelPtr,
       "BayesianLinearRegression" = DeserializeBayesianLinearRegressionPtr,
       "CFModel" = DeserializeCFModelPtr,
@@ -66,7 +65,6 @@ Unserialize <- function(filename) {
       "HoeffdingTreeModel" = DeserializeHoeffdingTreeModelPtr,
       "KDEModel" = DeserializeKDEModelPtr,
       "LARS" = DeserializeLARSPtr,
-      "LinearRegression" = DeserializeLinearRegressionPtr,
       "LinearSVMModel" = DeserializeLinearSVMModelPtr,
       "LocalCoordinateCoding" = DeserializeLocalCoordinateCodingPtr,
       "LogisticRegression" = DeserializeLogisticRegressionPtr,
@@ -77,9 +75,11 @@ Unserialize <- function(filename) {
       "PerceptronModel" = DeserializePerceptronModelPtr,
       "ScalingModel" = DeserializeScalingModelPtr,
       "RandomForestModel" = DeserializeRandomForestModelPtr,
-      "RANNModel" = DeserializeRANNModelPtr,
+      "RAModel" = DeserializeRAModelPtr,
       "SoftmaxRegression" = DeserializeSoftmaxRegressionPtr,
       "SparseCoding" = DeserializeSparseCodingPtr,
+      "AdaBoostModel" = DeserializeAdaBoostModelPtr,
+      "LinearRegression" = DeserializeLinearRegressionPtr,
       stop("Requested model type is not currently supported.")
     )
 

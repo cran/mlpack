@@ -137,91 +137,95 @@ kde <- function(abs_error=NA,
                 rel_error=NA,
                 tree=NA,
                 verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("Kernel Density Estimation")
+  # Create parameters and timers objects.
+  p <- CreateParams("kde")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
+  # Process each input argument before calling the binding.
   if (!identical(abs_error, NA)) {
-    IO_SetParamDouble("abs_error", abs_error)
+    SetParamDouble(p, "abs_error", abs_error)
   }
 
   if (!identical(algorithm, NA)) {
-    IO_SetParamString("algorithm", algorithm)
+    SetParamString(p, "algorithm", algorithm)
   }
 
   if (!identical(bandwidth, NA)) {
-    IO_SetParamDouble("bandwidth", bandwidth)
+    SetParamDouble(p, "bandwidth", bandwidth)
   }
 
   if (!identical(initial_sample_size, NA)) {
-    IO_SetParamInt("initial_sample_size", initial_sample_size)
+    SetParamInt(p, "initial_sample_size", initial_sample_size)
   }
 
   if (!identical(input_model, NA)) {
-    IO_SetParamKDEModelPtr("input_model", input_model)
+    SetParamKDEModelPtr(p, "input_model", input_model)
+    # Add to the list of input models we received.
+    inputModels <- append(inputModels, input_model)
   }
 
   if (!identical(kernel, NA)) {
-    IO_SetParamString("kernel", kernel)
+    SetParamString(p, "kernel", kernel)
   }
 
   if (!identical(mc_break_coef, NA)) {
-    IO_SetParamDouble("mc_break_coef", mc_break_coef)
+    SetParamDouble(p, "mc_break_coef", mc_break_coef)
   }
 
   if (!identical(mc_entry_coef, NA)) {
-    IO_SetParamDouble("mc_entry_coef", mc_entry_coef)
+    SetParamDouble(p, "mc_entry_coef", mc_entry_coef)
   }
 
   if (!identical(mc_probability, NA)) {
-    IO_SetParamDouble("mc_probability", mc_probability)
+    SetParamDouble(p, "mc_probability", mc_probability)
   }
 
   if (!identical(monte_carlo, FALSE)) {
-    IO_SetParamBool("monte_carlo", monte_carlo)
+    SetParamBool(p, "monte_carlo", monte_carlo)
   }
 
   if (!identical(query, NA)) {
-    IO_SetParamMat("query", to_matrix(query))
+    SetParamMat(p, "query", to_matrix(query))
   }
 
   if (!identical(reference, NA)) {
-    IO_SetParamMat("reference", to_matrix(reference))
+    SetParamMat(p, "reference", to_matrix(reference))
   }
 
   if (!identical(rel_error, NA)) {
-    IO_SetParamDouble("rel_error", rel_error)
+    SetParamDouble(p, "rel_error", rel_error)
   }
 
   if (!identical(tree, NA)) {
-    IO_SetParamString("tree", tree)
+    SetParamString(p, "tree", tree)
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("output_model")
-  IO_SetPassed("predictions")
+  SetPassed(p, "output_model")
+  SetPassed(p, "predictions")
 
   # Call the program.
-  kde_mlpackMain()
+  kde_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
-  output_model <- IO_GetParamKDEModelPtr("output_model")
+  output_model <- GetParamKDEModelPtr(p, "output_model", inputModels)
   attr(output_model, "type") <- "KDEModel"
 
   # Extract the results in order.
   out <- list(
       "output_model" = output_model,
-      "predictions" = IO_GetParamCol("predictions")
+      "predictions" = GetParamCol(p, "predictions")
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

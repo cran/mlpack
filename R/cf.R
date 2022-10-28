@@ -142,99 +142,103 @@ cf <- function(algorithm=NA,
                test=NA,
                training=NA,
                verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("Collaborative Filtering")
+  # Create parameters and timers objects.
+  p <- CreateParams("cf")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
+  # Process each input argument before calling the binding.
   if (!identical(algorithm, NA)) {
-    IO_SetParamString("algorithm", algorithm)
+    SetParamString(p, "algorithm", algorithm)
   }
 
   if (!identical(all_user_recommendations, FALSE)) {
-    IO_SetParamBool("all_user_recommendations", all_user_recommendations)
+    SetParamBool(p, "all_user_recommendations", all_user_recommendations)
   }
 
   if (!identical(input_model, NA)) {
-    IO_SetParamCFModelPtr("input_model", input_model)
+    SetParamCFModelPtr(p, "input_model", input_model)
+    # Add to the list of input models we received.
+    inputModels <- append(inputModels, input_model)
   }
 
   if (!identical(interpolation, NA)) {
-    IO_SetParamString("interpolation", interpolation)
+    SetParamString(p, "interpolation", interpolation)
   }
 
   if (!identical(iteration_only_termination, FALSE)) {
-    IO_SetParamBool("iteration_only_termination", iteration_only_termination)
+    SetParamBool(p, "iteration_only_termination", iteration_only_termination)
   }
 
   if (!identical(max_iterations, NA)) {
-    IO_SetParamInt("max_iterations", max_iterations)
+    SetParamInt(p, "max_iterations", max_iterations)
   }
 
   if (!identical(min_residue, NA)) {
-    IO_SetParamDouble("min_residue", min_residue)
+    SetParamDouble(p, "min_residue", min_residue)
   }
 
   if (!identical(neighbor_search, NA)) {
-    IO_SetParamString("neighbor_search", neighbor_search)
+    SetParamString(p, "neighbor_search", neighbor_search)
   }
 
   if (!identical(neighborhood, NA)) {
-    IO_SetParamInt("neighborhood", neighborhood)
+    SetParamInt(p, "neighborhood", neighborhood)
   }
 
   if (!identical(normalization, NA)) {
-    IO_SetParamString("normalization", normalization)
+    SetParamString(p, "normalization", normalization)
   }
 
   if (!identical(query, NA)) {
-    IO_SetParamUMat("query", to_matrix(query))
+    SetParamUMat(p, "query", to_matrix(query))
   }
 
   if (!identical(rank, NA)) {
-    IO_SetParamInt("rank", rank)
+    SetParamInt(p, "rank", rank)
   }
 
   if (!identical(recommendations, NA)) {
-    IO_SetParamInt("recommendations", recommendations)
+    SetParamInt(p, "recommendations", recommendations)
   }
 
   if (!identical(seed, NA)) {
-    IO_SetParamInt("seed", seed)
+    SetParamInt(p, "seed", seed)
   }
 
   if (!identical(test, NA)) {
-    IO_SetParamMat("test", to_matrix(test))
+    SetParamMat(p, "test", to_matrix(test))
   }
 
   if (!identical(training, NA)) {
-    IO_SetParamMat("training", to_matrix(training))
+    SetParamMat(p, "training", to_matrix(training))
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("output")
-  IO_SetPassed("output_model")
+  SetPassed(p, "output")
+  SetPassed(p, "output_model")
 
   # Call the program.
-  cf_mlpackMain()
+  cf_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
-  output_model <- IO_GetParamCFModelPtr("output_model")
+  output_model <- GetParamCFModelPtr(p, "output_model", inputModels)
   attr(output_model, "type") <- "CFModel"
 
   # Extract the results in order.
   out <- list(
-      "output" = IO_GetParamUMat("output"),
+      "output" = GetParamUMat(p, "output"),
       "output_model" = output_model
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

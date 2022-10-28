@@ -70,61 +70,63 @@ nmf <- function(input,
                 seed=NA,
                 update_rules=NA,
                 verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("Non-negative Matrix Factorization")
+  # Create parameters and timers objects.
+  p <- CreateParams("nmf")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
-  IO_SetParamMat("input", to_matrix(input))
+  # Process each input argument before calling the binding.
+  SetParamMat(p, "input", to_matrix(input))
 
-  IO_SetParamInt("rank", rank)
+  SetParamInt(p, "rank", rank)
 
   if (!identical(initial_h, NA)) {
-    IO_SetParamMat("initial_h", to_matrix(initial_h))
+    SetParamMat(p, "initial_h", to_matrix(initial_h))
   }
 
   if (!identical(initial_w, NA)) {
-    IO_SetParamMat("initial_w", to_matrix(initial_w))
+    SetParamMat(p, "initial_w", to_matrix(initial_w))
   }
 
   if (!identical(max_iterations, NA)) {
-    IO_SetParamInt("max_iterations", max_iterations)
+    SetParamInt(p, "max_iterations", max_iterations)
   }
 
   if (!identical(min_residue, NA)) {
-    IO_SetParamDouble("min_residue", min_residue)
+    SetParamDouble(p, "min_residue", min_residue)
   }
 
   if (!identical(seed, NA)) {
-    IO_SetParamInt("seed", seed)
+    SetParamInt(p, "seed", seed)
   }
 
   if (!identical(update_rules, NA)) {
-    IO_SetParamString("update_rules", update_rules)
+    SetParamString(p, "update_rules", update_rules)
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("h")
-  IO_SetPassed("w")
+  SetPassed(p, "h")
+  SetPassed(p, "w")
 
   # Call the program.
-  nmf_mlpackMain()
+  nmf_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
 
   # Extract the results in order.
   out <- list(
-      "h" = IO_GetParamMat("h"),
-      "w" = IO_GetParamMat("w")
+      "h" = GetParamMat(p, "h"),
+      "w" = GetParamMat(p, "w")
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

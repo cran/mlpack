@@ -48,45 +48,47 @@ hmm_generate <- function(length,
                          seed=NA,
                          start_state=NA,
                          verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("Hidden Markov Model (HMM) Sequence Generator")
+  # Create parameters and timers objects.
+  p <- CreateParams("hmm_generate")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
-  IO_SetParamInt("length", length)
+  # Process each input argument before calling the binding.
+  SetParamInt(p, "length", length)
 
-  IO_SetParamHMMModelPtr("model", model)
+  SetParamHMMModelPtr(p, "model", model)
 
   if (!identical(seed, NA)) {
-    IO_SetParamInt("seed", seed)
+    SetParamInt(p, "seed", seed)
   }
 
   if (!identical(start_state, NA)) {
-    IO_SetParamInt("start_state", start_state)
+    SetParamInt(p, "start_state", start_state)
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("output")
-  IO_SetPassed("state")
+  SetPassed(p, "output")
+  SetPassed(p, "state")
 
   # Call the program.
-  hmm_generate_mlpackMain()
+  hmm_generate_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
 
   # Extract the results in order.
   out <- list(
-      "output" = IO_GetParamMat("output"),
-      "state" = IO_GetParamUMat("state")
+      "output" = GetParamMat(p, "output"),
+      "state" = GetParamUMat(p, "state")
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

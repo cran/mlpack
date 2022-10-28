@@ -36,35 +36,37 @@
 hmm_loglik <- function(input,
                        input_model,
                        verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("Hidden Markov Model (HMM) Sequence Log-Likelihood")
+  # Create parameters and timers objects.
+  p <- CreateParams("hmm_loglik")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
-  IO_SetParamMat("input", to_matrix(input))
+  # Process each input argument before calling the binding.
+  SetParamMat(p, "input", to_matrix(input))
 
-  IO_SetParamHMMModelPtr("input_model", input_model)
+  SetParamHMMModelPtr(p, "input_model", input_model)
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("log_likelihood")
+  SetPassed(p, "log_likelihood")
 
   # Call the program.
-  hmm_loglik_mlpackMain()
+  hmm_loglik_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
 
   # Extract the results in order.
   out <- list(
-      "log_likelihood" = IO_GetParamDouble("log_likelihood")
+      "log_likelihood" = GetParamDouble(p, "log_likelihood")
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

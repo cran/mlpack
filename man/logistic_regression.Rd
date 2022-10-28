@@ -57,13 +57,8 @@ parameters and timers at the end of execution.  Default value "FALSE"
 }
 \value{
 A list with several components:
-\item{output}{If test data is specified, this matrix is where the
-  predictions for the test set will be saved (integer row).}
 \item{output_model}{Output for trained logistic regression model
   (LogisticRegression).}
-\item{output_probabilities}{If test data is specified, this matrix is
-  where the class probabilities for the test set will be saved (numeric
-  matrix).}
 \item{predictions}{If test data is specified, this matrix is where the
   predictions for the test set will be saved (integer row).}
 \item{probabilities}{If test data is specified, this matrix is where the
@@ -79,9 +74,9 @@ An implementation of L2-regularized logistic regression using either the
 L-BFGS optimizer or SGD (stochastic gradient descent).  This solves the
 regression problem
 
-  y = (1 / 1 + e^-(X * b))
+  y = (1 / 1 + e^-(X * b)).
 
-where y takes values 0 or 1.
+In this setting, y corresponds to class labels and X corresponds to data.
 
 This program allows loading a logistic regression model (via the
 "input_model" parameter) or training a logistic regression model given
@@ -120,14 +115,9 @@ regression model is given with the "input_model" parameter.  The output
 predictions from the logistic regression model may be saved with the
 "predictions" parameter.
 
-Note : The following parameters are deprecated and will be removed in mlpack
-4: "output", "output_probabilities"
-Use "predictions" instead of "output"
-Use "probabilities" instead of "output_probabilities"
-
 This implementation of logistic regression does not support the general
 multi-class case but instead only the two-class case.  Any labels must be
-either 0 or 1.  For more classes, see the softmax_regression program.
+either 0 or 1.  For more classes, see the softmax regression implementation.
 }
 \examples{
 # As an example, to train a logistic regression model on the data '"data"'
@@ -145,7 +135,7 @@ lr_model <- output$output_model
 
 \dontrun{
 output <- logistic_regression(input_model=lr_model, test=test)
-predictions <- output$output
+predictions <- output$predictions
 }
 }
 \author{

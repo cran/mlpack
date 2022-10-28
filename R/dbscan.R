@@ -68,59 +68,61 @@ dbscan <- function(input,
                    single_mode=FALSE,
                    tree_type=NA,
                    verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("DBSCAN clustering")
+  # Create parameters and timers objects.
+  p <- CreateParams("dbscan")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
-  IO_SetParamMat("input", to_matrix(input))
+  # Process each input argument before calling the binding.
+  SetParamMat(p, "input", to_matrix(input))
 
   if (!identical(epsilon, NA)) {
-    IO_SetParamDouble("epsilon", epsilon)
+    SetParamDouble(p, "epsilon", epsilon)
   }
 
   if (!identical(min_size, NA)) {
-    IO_SetParamInt("min_size", min_size)
+    SetParamInt(p, "min_size", min_size)
   }
 
   if (!identical(naive, FALSE)) {
-    IO_SetParamBool("naive", naive)
+    SetParamBool(p, "naive", naive)
   }
 
   if (!identical(selection_type, NA)) {
-    IO_SetParamString("selection_type", selection_type)
+    SetParamString(p, "selection_type", selection_type)
   }
 
   if (!identical(single_mode, FALSE)) {
-    IO_SetParamBool("single_mode", single_mode)
+    SetParamBool(p, "single_mode", single_mode)
   }
 
   if (!identical(tree_type, NA)) {
-    IO_SetParamString("tree_type", tree_type)
+    SetParamString(p, "tree_type", tree_type)
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("assignments")
-  IO_SetPassed("centroids")
+  SetPassed(p, "assignments")
+  SetPassed(p, "centroids")
 
   # Call the program.
-  dbscan_mlpackMain()
+  dbscan_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
 
   # Extract the results in order.
   out <- list(
-      "assignments" = IO_GetParamURow("assignments"),
-      "centroids" = IO_GetParamMat("centroids")
+      "assignments" = GetParamURow(p, "assignments"),
+      "centroids" = GetParamMat(p, "centroids")
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

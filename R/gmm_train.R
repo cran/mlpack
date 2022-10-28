@@ -119,76 +119,82 @@ gmm_train <- function(gaussians,
                       tolerance=NA,
                       trials=NA,
                       verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("Gaussian Mixture Model (GMM) Training")
+  # Create parameters and timers objects.
+  p <- CreateParams("gmm_train")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
-  IO_SetParamInt("gaussians", gaussians)
+  # Process each input argument before calling the binding.
+  SetParamInt(p, "gaussians", gaussians)
 
-  IO_SetParamMat("input", to_matrix(input))
+  SetParamMat(p, "input", to_matrix(input))
 
   if (!identical(diagonal_covariance, FALSE)) {
-    IO_SetParamBool("diagonal_covariance", diagonal_covariance)
+    SetParamBool(p, "diagonal_covariance", diagonal_covariance)
   }
 
   if (!identical(input_model, NA)) {
-    IO_SetParamGMMPtr("input_model", input_model)
+    SetParamGMMPtr(p, "input_model", input_model)
+    # Add to the list of input models we received.
+    inputModels <- append(inputModels, input_model)
   }
 
   if (!identical(kmeans_max_iterations, NA)) {
-    IO_SetParamInt("kmeans_max_iterations", kmeans_max_iterations)
+    SetParamInt(p, "kmeans_max_iterations", kmeans_max_iterations)
   }
 
   if (!identical(max_iterations, NA)) {
-    IO_SetParamInt("max_iterations", max_iterations)
+    SetParamInt(p, "max_iterations", max_iterations)
   }
 
   if (!identical(no_force_positive, FALSE)) {
-    IO_SetParamBool("no_force_positive", no_force_positive)
+    SetParamBool(p, "no_force_positive", no_force_positive)
   }
 
   if (!identical(noise, NA)) {
-    IO_SetParamDouble("noise", noise)
+    SetParamDouble(p, "noise", noise)
   }
 
   if (!identical(percentage, NA)) {
-    IO_SetParamDouble("percentage", percentage)
+    SetParamDouble(p, "percentage", percentage)
   }
 
   if (!identical(refined_start, FALSE)) {
-    IO_SetParamBool("refined_start", refined_start)
+    SetParamBool(p, "refined_start", refined_start)
   }
 
   if (!identical(samplings, NA)) {
-    IO_SetParamInt("samplings", samplings)
+    SetParamInt(p, "samplings", samplings)
   }
 
   if (!identical(seed, NA)) {
-    IO_SetParamInt("seed", seed)
+    SetParamInt(p, "seed", seed)
   }
 
   if (!identical(tolerance, NA)) {
-    IO_SetParamDouble("tolerance", tolerance)
+    SetParamDouble(p, "tolerance", tolerance)
   }
 
   if (!identical(trials, NA)) {
-    IO_SetParamInt("trials", trials)
+    SetParamInt(p, "trials", trials)
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("output_model")
+  SetPassed(p, "output_model")
 
   # Call the program.
-  gmm_train_mlpackMain()
+  gmm_train_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
-  output_model <- IO_GetParamGMMPtr("output_model")
+  output_model <- GetParamGMMPtr(p, "output_model", inputModels)
   attr(output_model, "type") <- "GMM"
 
   # Extract the results in order.
@@ -196,8 +202,6 @@ gmm_train <- function(gaussians,
       "output_model" = output_model
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

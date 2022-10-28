@@ -38,39 +38,41 @@ gmm_generate <- function(input_model,
                          samples,
                          seed=NA,
                          verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("GMM Sample Generator")
+  # Create parameters and timers objects.
+  p <- CreateParams("gmm_generate")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
-  IO_SetParamGMMPtr("input_model", input_model)
+  # Process each input argument before calling the binding.
+  SetParamGMMPtr(p, "input_model", input_model)
 
-  IO_SetParamInt("samples", samples)
+  SetParamInt(p, "samples", samples)
 
   if (!identical(seed, NA)) {
-    IO_SetParamInt("seed", seed)
+    SetParamInt(p, "seed", seed)
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("output")
+  SetPassed(p, "output")
 
   # Call the program.
-  gmm_generate_mlpackMain()
+  gmm_generate_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
 
   # Extract the results in order.
   out <- list(
-      "output" = IO_GetParamMat("output")
+      "output" = GetParamMat(p, "output")
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

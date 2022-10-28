@@ -6,10 +6,12 @@
 #'
 #' @param input Matrix containing data (numeric matrix).
 #' @param input_labels Matrix containing labels (integer matrix).
-#' @param no_shuffle Avoid shuffling and splitting the data.  Default value
-#'   "FALSE" (logical).
+#' @param no_shuffle Avoid shuffling the data before splitting.  Default
+#'   value "FALSE" (logical).
 #' @param seed Random seed (0 for std::time(NULL)).  Default value "0"
 #'   (integer).
+#' @param stratify_data Stratify the data according to label.  Default
+#'   value "FALSE" (logical).
 #' @param test_ratio Ratio of test set; if not set,the ratio defaults to
 #'   0..  Default value "0.2" (numeric).
 #' @param verbose Display informational messages and the full list of
@@ -32,7 +34,7 @@
 #' The output training and test matrices may be saved with the "training" and
 #' "test" output parameters.
 #' 
-#' Optionally, labels can be also be split along with the data by specifying the
+#' Optionally, labels can also be split along with the data by specifying the
 #' "input_labels" parameter.  Splitting labels works the same way as splitting
 #' the data. The output training and test labels may be saved with the
 #' "training_labels" and "test_labels" output parameters, respectively.
@@ -73,61 +75,76 @@
 #' X_test <- output$test
 #' y_test <- output$test_labels
 #' }
+#' # To maintain the ratio of each class in the train and test sets,
+#' # the"stratify_data" option can be used.
+#' 
+#' \dontrun{
+#' output <- preprocess_split(input=X, test_ratio=0.4, stratify_data=TRUE)
+#' X_train <- output$training
+#' X_test <- output$test
+#' }
 preprocess_split <- function(input,
                              input_labels=NA,
                              no_shuffle=FALSE,
                              seed=NA,
+                             stratify_data=FALSE,
                              test_ratio=NA,
                              verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("Split Data")
+  # Create parameters and timers objects.
+  p <- CreateParams("preprocess_split")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
-  IO_SetParamMat("input", to_matrix(input))
+  # Process each input argument before calling the binding.
+  SetParamMat(p, "input", to_matrix(input))
 
   if (!identical(input_labels, NA)) {
-    IO_SetParamUMat("input_labels", to_matrix(input_labels))
+    SetParamUMat(p, "input_labels", to_matrix(input_labels))
   }
 
   if (!identical(no_shuffle, FALSE)) {
-    IO_SetParamBool("no_shuffle", no_shuffle)
+    SetParamBool(p, "no_shuffle", no_shuffle)
   }
 
   if (!identical(seed, NA)) {
-    IO_SetParamInt("seed", seed)
+    SetParamInt(p, "seed", seed)
+  }
+
+  if (!identical(stratify_data, FALSE)) {
+    SetParamBool(p, "stratify_data", stratify_data)
   }
 
   if (!identical(test_ratio, NA)) {
-    IO_SetParamDouble("test_ratio", test_ratio)
+    SetParamDouble(p, "test_ratio", test_ratio)
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("test")
-  IO_SetPassed("test_labels")
-  IO_SetPassed("training")
-  IO_SetPassed("training_labels")
+  SetPassed(p, "test")
+  SetPassed(p, "test_labels")
+  SetPassed(p, "training")
+  SetPassed(p, "training_labels")
 
   # Call the program.
-  preprocess_split_mlpackMain()
+  preprocess_split_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
 
   # Extract the results in order.
   out <- list(
-      "test" = IO_GetParamMat("test"),
-      "test_labels" = IO_GetParamUMat("test_labels"),
-      "training" = IO_GetParamMat("training"),
-      "training_labels" = IO_GetParamUMat("training_labels")
+      "test" = GetParamMat(p, "test"),
+      "test_labels" = GetParamUMat(p, "test_labels"),
+      "training" = GetParamMat(p, "training"),
+      "training_labels" = GetParamUMat(p, "training_labels")
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

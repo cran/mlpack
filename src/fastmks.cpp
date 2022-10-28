@@ -8,10 +8,16 @@
 #define BINDING_TYPE BINDING_TYPE_R
 #include <mlpack/methods/fastmks/fastmks_main.cpp>
 
+#define Realloc(p,n,t) (t *) R_chk_realloc( (void *)(p), (R_SIZE_T)((n) * sizeof(t)) )
+#define Free(p)        (R_chk_free( (void *)(p) ), (p) = NULL)
+
 // [[Rcpp::export]]
-void fastmks_mlpackMain()
+void fastmks_call(SEXP params, SEXP timers)
 {
-  mlpackMain();
+  util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
+  util::Timers& t = *Rcpp::as<Rcpp::XPtr<util::Timers>>(timers);
+
+  BINDING_FUNCTION(p, t);
 }
 
 // Any implementations of methods for dealing with model pointers will be put
@@ -19,17 +25,33 @@ void fastmks_mlpackMain()
 
 // Get the pointer to a FastMKSModel parameter.
 // [[Rcpp::export]]
-SEXP IO_GetParamFastMKSModelPtr(const std::string& paramName)
+SEXP GetParamFastMKSModelPtr(SEXP params,
+                                   const std::string& paramName,
+                                   SEXP inputModels)
 {
-  return std::move((Rcpp::XPtr<FastMKSModel>) IO::GetParam<FastMKSModel*>(paramName));
+  util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
+  Rcpp::List inputModelsList(inputModels);
+  FastMKSModel* modelPtr = p.Get<FastMKSModel*>(paramName);
+  for (int i = 0; i < inputModelsList.length(); ++i)
+  {
+    Rcpp::XPtr<FastMKSModel> inputModel =
+        Rcpp::as<Rcpp::XPtr<FastMKSModel>>(inputModelsList[i]);
+    // Don't create a new XPtr---just reuse the one given as input, so that we
+    // don't end up deleting it twice.
+    if (inputModel.get() == modelPtr)
+      return inputModel;
+  }
+
+  return std::move((Rcpp::XPtr<FastMKSModel>) p.Get<FastMKSModel*>(paramName));
 }
 
 // Set the pointer to a FastMKSModel parameter.
 // [[Rcpp::export]]
-void IO_SetParamFastMKSModelPtr(const std::string& paramName, SEXP ptr)
+void SetParamFastMKSModelPtr(SEXP params, const std::string& paramName, SEXP ptr)
 {
-  IO::GetParam<FastMKSModel*>(paramName) =  Rcpp::as<Rcpp::XPtr<FastMKSModel>>(ptr);
-  IO::SetPassed(paramName);
+  util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
+  p.Get<FastMKSModel*>(paramName) = Rcpp::as<Rcpp::XPtr<FastMKSModel>>(ptr);
+  p.SetPassed(paramName);
 }
 
 // Serialize a FastMKSModel pointer.
@@ -38,9 +60,9 @@ Rcpp::RawVector SerializeFastMKSModelPtr(SEXP ptr)
 {
   std::ostringstream oss;
   {
-    boost::archive::binary_oarchive oa(oss);
-    oa << boost::serialization::make_nvp("FastMKSModel",
-          *Rcpp::as<Rcpp::XPtr<FastMKSModel>>(ptr));
+    cereal::BinaryOutputArchive oa(oss);
+    oa(cereal::make_nvp("FastMKSModel",
+          *Rcpp::as<Rcpp::XPtr<FastMKSModel>>(ptr)));
   }
 
   Rcpp::RawVector raw_vec(oss.str().size());
@@ -60,8 +82,8 @@ SEXP DeserializeFastMKSModelPtr(Rcpp::RawVector str)
 
   std::istringstream iss(std::string((char *) &str[0], str.size()));
   {
-    boost::archive::binary_iarchive ia(iss);
-    ia >> boost::serialization::make_nvp("FastMKSModel", *ptr);
+    cereal::BinaryInputArchive ia(iss);
+    ia(cereal::make_nvp("FastMKSModel", *ptr));
   }
 
   // R will be responsible for freeing this.

@@ -64,58 +64,64 @@ hmm_train <- function(input_file,
                       tolerance=NA,
                       type=NA,
                       verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("Hidden Markov Model (HMM) Training")
+  # Create parameters and timers objects.
+  p <- CreateParams("hmm_train")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
-  IO_SetParamString("input_file", input_file)
+  # Process each input argument before calling the binding.
+  SetParamString(p, "input_file", input_file)
 
   if (!identical(batch, FALSE)) {
-    IO_SetParamBool("batch", batch)
+    SetParamBool(p, "batch", batch)
   }
 
   if (!identical(gaussians, NA)) {
-    IO_SetParamInt("gaussians", gaussians)
+    SetParamInt(p, "gaussians", gaussians)
   }
 
   if (!identical(input_model, NA)) {
-    IO_SetParamHMMModelPtr("input_model", input_model)
+    SetParamHMMModelPtr(p, "input_model", input_model)
+    # Add to the list of input models we received.
+    inputModels <- append(inputModels, input_model)
   }
 
   if (!identical(labels_file, NA)) {
-    IO_SetParamString("labels_file", labels_file)
+    SetParamString(p, "labels_file", labels_file)
   }
 
   if (!identical(seed, NA)) {
-    IO_SetParamInt("seed", seed)
+    SetParamInt(p, "seed", seed)
   }
 
   if (!identical(states, NA)) {
-    IO_SetParamInt("states", states)
+    SetParamInt(p, "states", states)
   }
 
   if (!identical(tolerance, NA)) {
-    IO_SetParamDouble("tolerance", tolerance)
+    SetParamDouble(p, "tolerance", tolerance)
   }
 
   if (!identical(type, NA)) {
-    IO_SetParamString("type", type)
+    SetParamString(p, "type", type)
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("output_model")
+  SetPassed(p, "output_model")
 
   # Call the program.
-  hmm_train_mlpackMain()
+  hmm_train_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
-  output_model <- IO_GetParamHMMModelPtr("output_model")
+  output_model <- GetParamHMMModelPtr(p, "output_model", inputModels)
   attr(output_model, "type") <- "HMMModel"
 
   # Extract the results in order.
@@ -123,8 +129,6 @@ hmm_train <- function(input_file,
       "output_model" = output_model
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

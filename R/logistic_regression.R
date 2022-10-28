@@ -30,13 +30,8 @@
 #'   (logical).
 #'
 #' @return A list with several components:
-#' \item{output}{If test data is specified, this matrix is where the
-#'   predictions for the test set will be saved (integer row).}
 #' \item{output_model}{Output for trained logistic regression model
 #'   (LogisticRegression).}
-#' \item{output_probabilities}{If test data is specified, this matrix is
-#'   where the class probabilities for the test set will be saved (numeric
-#'   matrix).}
 #' \item{predictions}{If test data is specified, this matrix is where the
 #'   predictions for the test set will be saved (integer row).}
 #' \item{probabilities}{If test data is specified, this matrix is where the
@@ -47,9 +42,9 @@
 #' L-BFGS optimizer or SGD (stochastic gradient descent).  This solves the
 #' regression problem
 #' 
-#'   y = (1 / 1 + e^-(X * b))
+#'   y = (1 / 1 + e^-(X * b)).
 #' 
-#' where y takes values 0 or 1.
+#' In this setting, y corresponds to class labels and X corresponds to data.
 #' 
 #' This program allows loading a logistic regression model (via the
 #' "input_model" parameter) or training a logistic regression model given
@@ -88,14 +83,9 @@
 #' predictions from the logistic regression model may be saved with the
 #' "predictions" parameter.
 #' 
-#' Note : The following parameters are deprecated and will be removed in mlpack
-#' 4: "output", "output_probabilities"
-#' Use "predictions" instead of "output"
-#' Use "probabilities" instead of "output_probabilities"
-#' 
 #' This implementation of logistic regression does not support the general
 #' multi-class case but instead only the two-class case.  Any labels must be
-#' either 0 or 1.  For more classes, see the softmax_regression program.
+#' either 0 or 1.  For more classes, see the softmax regression implementation.
 #'
 #' @author
 #' mlpack developers
@@ -117,7 +107,7 @@
 #' 
 #' \dontrun{
 #' output <- logistic_regression(input_model=lr_model, test=test)
-#' predictions <- output$output
+#' predictions <- output$predictions
 #' }
 logistic_regression <- function(batch_size=NA,
                                 decision_boundary=NA,
@@ -131,85 +121,85 @@ logistic_regression <- function(batch_size=NA,
                                 tolerance=NA,
                                 training=NA,
                                 verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("L2-regularized Logistic Regression and Prediction")
+  # Create parameters and timers objects.
+  p <- CreateParams("logistic_regression")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
+  # Process each input argument before calling the binding.
   if (!identical(batch_size, NA)) {
-    IO_SetParamInt("batch_size", batch_size)
+    SetParamInt(p, "batch_size", batch_size)
   }
 
   if (!identical(decision_boundary, NA)) {
-    IO_SetParamDouble("decision_boundary", decision_boundary)
+    SetParamDouble(p, "decision_boundary", decision_boundary)
   }
 
   if (!identical(input_model, NA)) {
-    IO_SetParamLogisticRegressionPtr("input_model", input_model)
+    SetParamLogisticRegressionPtr(p, "input_model", input_model)
+    # Add to the list of input models we received.
+    inputModels <- append(inputModels, input_model)
   }
 
   if (!identical(labels, NA)) {
-    IO_SetParamURow("labels", to_matrix(labels))
+    SetParamURow(p, "labels", to_matrix(labels))
   }
 
   if (!identical(lambda, NA)) {
-    IO_SetParamDouble("lambda", lambda)
+    SetParamDouble(p, "lambda", lambda)
   }
 
   if (!identical(max_iterations, NA)) {
-    IO_SetParamInt("max_iterations", max_iterations)
+    SetParamInt(p, "max_iterations", max_iterations)
   }
 
   if (!identical(optimizer, NA)) {
-    IO_SetParamString("optimizer", optimizer)
+    SetParamString(p, "optimizer", optimizer)
   }
 
   if (!identical(step_size, NA)) {
-    IO_SetParamDouble("step_size", step_size)
+    SetParamDouble(p, "step_size", step_size)
   }
 
   if (!identical(test, NA)) {
-    IO_SetParamMat("test", to_matrix(test))
+    SetParamMat(p, "test", to_matrix(test))
   }
 
   if (!identical(tolerance, NA)) {
-    IO_SetParamDouble("tolerance", tolerance)
+    SetParamDouble(p, "tolerance", tolerance)
   }
 
   if (!identical(training, NA)) {
-    IO_SetParamMat("training", to_matrix(training))
+    SetParamMat(p, "training", to_matrix(training))
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("output")
-  IO_SetPassed("output_model")
-  IO_SetPassed("output_probabilities")
-  IO_SetPassed("predictions")
-  IO_SetPassed("probabilities")
+  SetPassed(p, "output_model")
+  SetPassed(p, "predictions")
+  SetPassed(p, "probabilities")
 
   # Call the program.
-  logistic_regression_mlpackMain()
+  logistic_regression_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
-  output_model <- IO_GetParamLogisticRegressionPtr("output_model")
+  output_model <- GetParamLogisticRegressionPtr(p, "output_model", inputModels)
   attr(output_model, "type") <- "LogisticRegression"
 
   # Extract the results in order.
   out <- list(
-      "output" = IO_GetParamURow("output"),
       "output_model" = output_model,
-      "output_probabilities" = IO_GetParamMat("output_probabilities"),
-      "predictions" = IO_GetParamURow("predictions"),
-      "probabilities" = IO_GetParamMat("probabilities")
+      "predictions" = GetParamURow(p, "predictions"),
+      "probabilities" = GetParamMat(p, "probabilities")
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }

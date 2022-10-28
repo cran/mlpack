@@ -53,41 +53,43 @@ emst <- function(input,
                  leaf_size=NA,
                  naive=FALSE,
                  verbose=FALSE) {
-  # Restore IO settings.
-  IO_RestoreSettings("Fast Euclidean Minimum Spanning Tree")
+  # Create parameters and timers objects.
+  p <- CreateParams("emst")
+  t <- CreateTimers()
+  # Initialize an empty list that will hold all input models the user gave us,
+  # so that we don't accidentally create two XPtrs that point to thesame model.
+  inputModels <- vector()
 
-  # Process each input argument before calling mlpackMain().
-  IO_SetParamMat("input", to_matrix(input))
+  # Process each input argument before calling the binding.
+  SetParamMat(p, "input", to_matrix(input))
 
   if (!identical(leaf_size, NA)) {
-    IO_SetParamInt("leaf_size", leaf_size)
+    SetParamInt(p, "leaf_size", leaf_size)
   }
 
   if (!identical(naive, FALSE)) {
-    IO_SetParamBool("naive", naive)
+    SetParamBool(p, "naive", naive)
   }
 
   if (verbose) {
-    IO_EnableVerbose()
+    EnableVerbose()
   } else {
-    IO_DisableVerbose()
+    DisableVerbose()
   }
 
   # Mark all output options as passed.
-  IO_SetPassed("output")
+  SetPassed(p, "output")
 
   # Call the program.
-  emst_mlpackMain()
+  emst_call(p, t)
 
   # Add ModelType as attribute to the model pointer, if needed.
 
   # Extract the results in order.
   out <- list(
-      "output" = IO_GetParamMat("output")
+      "output" = GetParamMat(p, "output")
   )
 
-  # Clear the parameters.
-  IO_ClearSettings()
 
   return(out)
 }
