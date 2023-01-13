@@ -153,7 +153,7 @@ decision_tree <- function(input_model=NA,
   }
 
   if (!identical(weights, NA)) {
-    SetParamMat(p, "weights", to_matrix(weights))
+    SetParamMat(p, "weights", to_matrix(weights), TRUE)
   }
 
   if (verbose) {

@@ -129,7 +129,7 @@ gmm_train <- function(gaussians,
   # Process each input argument before calling the binding.
   SetParamInt(p, "gaussians", gaussians)
 
-  SetParamMat(p, "input", to_matrix(input))
+  SetParamMat(p, "input", to_matrix(input), TRUE)
 
   if (!identical(diagonal_covariance, FALSE)) {
     SetParamBool(p, "diagonal_covariance", diagonal_covariance)

@@ -108,7 +108,7 @@ kernel_pca <- function(input,
   inputModels <- vector()
 
   # Process each input argument before calling the binding.
-  SetParamMat(p, "input", to_matrix(input))
+  SetParamMat(p, "input", to_matrix(input), TRUE)
 
   SetParamString(p, "kernel", kernel)
 

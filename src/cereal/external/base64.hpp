@@ -123,5 +123,7 @@ namespace cereal
     }
   } // namespace base64
 } // namespace cereal
-
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
 #endif // CEREAL_EXTERNAL_BASE64_HPP_

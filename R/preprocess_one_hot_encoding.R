@@ -47,7 +47,7 @@ preprocess_one_hot_encoding <- function(dimensions,
   # Process each input argument before calling the binding.
   SetParamVecInt(p, "dimensions", dimensions)
 
-  SetParamMat(p, "input", to_matrix(input))
+  SetParamMat(p, "input", to_matrix(input), TRUE)
 
   if (verbose) {
     EnableVerbose()

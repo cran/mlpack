@@ -1650,14 +1650,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // SetParamMat
-void SetParamMat(SEXP params, const std::string& paramName, const arma::mat& paramValue);
-RcppExport SEXP _mlpack_SetParamMat(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP paramValueSEXP) {
+void SetParamMat(SEXP params, const std::string& paramName, const arma::mat& paramValue, bool transpose);
+RcppExport SEXP _mlpack_SetParamMat(SEXP paramsSEXP, SEXP paramNameSEXP, SEXP paramValueSEXP, SEXP transposeSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type paramName(paramNameSEXP);
     Rcpp::traits::input_parameter< const arma::mat& >::type paramValue(paramValueSEXP);
-    SetParamMat(params, paramName, paramValue);
+    Rcpp::traits::input_parameter< bool >::type transpose(transposeSEXP);
+    SetParamMat(params, paramName, paramValue, transpose);
     return R_NilValue;
 END_RCPP
 }
@@ -2315,7 +2316,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_mlpack_SetParamBool", (DL_FUNC) &_mlpack_SetParamBool, 3},
     {"_mlpack_SetParamVecString", (DL_FUNC) &_mlpack_SetParamVecString, 3},
     {"_mlpack_SetParamVecInt", (DL_FUNC) &_mlpack_SetParamVecInt, 3},
-    {"_mlpack_SetParamMat", (DL_FUNC) &_mlpack_SetParamMat, 3},
+    {"_mlpack_SetParamMat", (DL_FUNC) &_mlpack_SetParamMat, 4},
     {"_mlpack_SetParamUMat", (DL_FUNC) &_mlpack_SetParamUMat, 3},
     {"_mlpack_SetParamRow", (DL_FUNC) &_mlpack_SetParamRow, 3},
     {"_mlpack_SetParamURow", (DL_FUNC) &_mlpack_SetParamURow, 3},

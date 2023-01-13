@@ -136,7 +136,7 @@ kmeans <- function(clusters,
   # Process each input argument before calling the binding.
   SetParamInt(p, "clusters", clusters)
 
-  SetParamMat(p, "input", to_matrix(input))
+  SetParamMat(p, "input", to_matrix(input), TRUE)
 
   if (!identical(algorithm, NA)) {
     SetParamString(p, "algorithm", algorithm)
@@ -151,7 +151,7 @@ kmeans <- function(clusters,
   }
 
   if (!identical(initial_centroids, NA)) {
-    SetParamMat(p, "initial_centroids", to_matrix(initial_centroids))
+    SetParamMat(p, "initial_centroids", to_matrix(initial_centroids), TRUE)
   }
 
   if (!identical(kill_empty_clusters, FALSE)) {

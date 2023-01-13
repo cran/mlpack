@@ -169,7 +169,7 @@ lmnn <- function(input,
   inputModels <- vector()
 
   # Process each input argument before calling the binding.
-  SetParamMat(p, "input", to_matrix(input))
+  SetParamMat(p, "input", to_matrix(input), TRUE)
 
   if (!identical(batch_size, NA)) {
     SetParamInt(p, "batch_size", batch_size)
@@ -180,7 +180,7 @@ lmnn <- function(input,
   }
 
   if (!identical(distance, NA)) {
-    SetParamMat(p, "distance", to_matrix(distance))
+    SetParamMat(p, "distance", to_matrix(distance), TRUE)
   }
 
   if (!identical(k, NA)) {

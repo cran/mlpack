@@ -61,7 +61,7 @@ emst <- function(input,
   inputModels <- vector()
 
   # Process each input argument before calling the binding.
-  SetParamMat(p, "input", to_matrix(input))
+  SetParamMat(p, "input", to_matrix(input), TRUE)
 
   if (!identical(leaf_size, NA)) {
     SetParamInt(p, "leaf_size", leaf_size)

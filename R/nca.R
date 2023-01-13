@@ -127,7 +127,7 @@ nca <- function(input,
   inputModels <- vector()
 
   # Process each input argument before calling the binding.
-  SetParamMat(p, "input", to_matrix(input))
+  SetParamMat(p, "input", to_matrix(input), TRUE)
 
   if (!identical(armijo_constant, NA)) {
     SetParamDouble(p, "armijo_constant", armijo_constant)

@@ -130,7 +130,7 @@ approx_kfn <- function(algorithm=NA,
   }
 
   if (!identical(exact_distances, NA)) {
-    SetParamMat(p, "exact_distances", to_matrix(exact_distances))
+    SetParamMat(p, "exact_distances", to_matrix(exact_distances), TRUE)
   }
 
   if (!identical(input_model, NA)) {
@@ -152,11 +152,11 @@ approx_kfn <- function(algorithm=NA,
   }
 
   if (!identical(query, NA)) {
-    SetParamMat(p, "query", to_matrix(query))
+    SetParamMat(p, "query", to_matrix(query), TRUE)
   }
 
   if (!identical(reference, NA)) {
-    SetParamMat(p, "reference", to_matrix(reference))
+    SetParamMat(p, "reference", to_matrix(reference), TRUE)
   }
 
   if (verbose) {

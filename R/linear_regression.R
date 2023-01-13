@@ -95,11 +95,11 @@ linear_regression <- function(input_model=NA,
   }
 
   if (!identical(test, NA)) {
-    SetParamMat(p, "test", to_matrix(test))
+    SetParamMat(p, "test", to_matrix(test), TRUE)
   }
 
   if (!identical(training, NA)) {
-    SetParamMat(p, "training", to_matrix(training))
+    SetParamMat(p, "training", to_matrix(training), TRUE)
   }
 
   if (!identical(training_responses, NA)) {

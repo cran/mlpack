@@ -569,8 +569,8 @@ SetParamVecInt <- function(params, paramName, ints) {
     invisible(.Call('_mlpack_SetParamVecInt', PACKAGE = 'mlpack', params, paramName, ints))
 }
 
-SetParamMat <- function(params, paramName, paramValue) {
-    invisible(.Call('_mlpack_SetParamMat', PACKAGE = 'mlpack', params, paramName, paramValue))
+SetParamMat <- function(params, paramName, paramValue, transpose) {
+    invisible(.Call('_mlpack_SetParamMat', PACKAGE = 'mlpack', params, paramName, paramValue, transpose))
 }
 
 SetParamUMat <- function(params, paramName, paramValue) {

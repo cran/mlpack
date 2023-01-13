@@ -98,7 +98,7 @@ preprocess_split <- function(input,
   inputModels <- vector()
 
   # Process each input argument before calling the binding.
-  SetParamMat(p, "input", to_matrix(input))
+  SetParamMat(p, "input", to_matrix(input), TRUE)
 
   if (!identical(input_labels, NA)) {
     SetParamUMat(p, "input_labels", to_matrix(input_labels))

@@ -46,7 +46,7 @@ gmm_probability <- function(input,
   inputModels <- vector()
 
   # Process each input argument before calling the binding.
-  SetParamMat(p, "input", to_matrix(input))
+  SetParamMat(p, "input", to_matrix(input), TRUE)
 
   SetParamGMMPtr(p, "input_model", input_model)
 

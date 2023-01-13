@@ -122,7 +122,7 @@ kfn <- function(algorithm=NA,
   }
 
   if (!identical(query, NA)) {
-    SetParamMat(p, "query", to_matrix(query))
+    SetParamMat(p, "query", to_matrix(query), TRUE)
   }
 
   if (!identical(random_basis, FALSE)) {
@@ -130,7 +130,7 @@ kfn <- function(algorithm=NA,
   }
 
   if (!identical(reference, NA)) {
-    SetParamMat(p, "reference", to_matrix(reference))
+    SetParamMat(p, "reference", to_matrix(reference), TRUE)
   }
 
   if (!identical(seed, NA)) {
@@ -142,7 +142,7 @@ kfn <- function(algorithm=NA,
   }
 
   if (!identical(true_distances, NA)) {
-    SetParamMat(p, "true_distances", to_matrix(true_distances))
+    SetParamMat(p, "true_distances", to_matrix(true_distances), TRUE)
   }
 
   if (!identical(true_neighbors, NA)) {

@@ -188,11 +188,11 @@ kde <- function(abs_error=NA,
   }
 
   if (!identical(query, NA)) {
-    SetParamMat(p, "query", to_matrix(query))
+    SetParamMat(p, "query", to_matrix(query), TRUE)
   }
 
   if (!identical(reference, NA)) {
-    SetParamMat(p, "reference", to_matrix(reference))
+    SetParamMat(p, "reference", to_matrix(reference), TRUE)
   }
 
   if (!identical(rel_error, NA)) {

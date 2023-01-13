@@ -102,7 +102,7 @@ lars <- function(input=NA,
 
   # Process each input argument before calling the binding.
   if (!identical(input, NA)) {
-    SetParamMat(p, "input", to_matrix(input))
+    SetParamMat(p, "input", to_matrix(input), FALSE)
   }
 
   if (!identical(input_model, NA)) {
@@ -120,11 +120,11 @@ lars <- function(input=NA,
   }
 
   if (!identical(responses, NA)) {
-    SetParamMat(p, "responses", to_matrix(responses))
+    SetParamMat(p, "responses", to_matrix(responses), TRUE)
   }
 
   if (!identical(test, NA)) {
-    SetParamMat(p, "test", to_matrix(test))
+    SetParamMat(p, "test", to_matrix(test), FALSE)
   }
 
   if (!identical(use_cholesky, FALSE)) {

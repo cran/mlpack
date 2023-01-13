@@ -75,7 +75,7 @@ image_converter <- function(input,
   }
 
   if (!identical(dataset, NA)) {
-    SetParamMat(p, "dataset", to_matrix(dataset))
+    SetParamMat(p, "dataset", to_matrix(dataset), TRUE)
   }
 
   if (!identical(height, NA)) {

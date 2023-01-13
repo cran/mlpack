@@ -100,7 +100,7 @@ preprocess_scale <- function(input,
   inputModels <- vector()
 
   # Process each input argument before calling the binding.
-  SetParamMat(p, "input", to_matrix(input))
+  SetParamMat(p, "input", to_matrix(input), TRUE)
 
   if (!identical(epsilon, NA)) {
     SetParamDouble(p, "epsilon", epsilon)

@@ -105,7 +105,7 @@ bayesian_linear_regression <- function(center=FALSE,
   }
 
   if (!identical(input, NA)) {
-    SetParamMat(p, "input", to_matrix(input))
+    SetParamMat(p, "input", to_matrix(input), TRUE)
   }
 
   if (!identical(input_model, NA)) {
@@ -123,7 +123,7 @@ bayesian_linear_regression <- function(center=FALSE,
   }
 
   if (!identical(test, NA)) {
-    SetParamMat(p, "test", to_matrix(test))
+    SetParamMat(p, "test", to_matrix(test), TRUE)
   }
 
   if (verbose) {

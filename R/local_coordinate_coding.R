@@ -106,7 +106,7 @@ local_coordinate_coding <- function(atoms=NA,
   }
 
   if (!identical(initial_dictionary, NA)) {
-    SetParamMat(p, "initial_dictionary", to_matrix(initial_dictionary))
+    SetParamMat(p, "initial_dictionary", to_matrix(initial_dictionary), TRUE)
   }
 
   if (!identical(input_model, NA)) {
@@ -132,7 +132,7 @@ local_coordinate_coding <- function(atoms=NA,
   }
 
   if (!identical(test, NA)) {
-    SetParamMat(p, "test", to_matrix(test))
+    SetParamMat(p, "test", to_matrix(test), TRUE)
   }
 
   if (!identical(tolerance, NA)) {
@@ -140,7 +140,7 @@ local_coordinate_coding <- function(atoms=NA,
   }
 
   if (!identical(training, NA)) {
-    SetParamMat(p, "training", to_matrix(training))
+    SetParamMat(p, "training", to_matrix(training), TRUE)
   }
 
   if (verbose) {

@@ -78,16 +78,16 @@ nmf <- function(input,
   inputModels <- vector()
 
   # Process each input argument before calling the binding.
-  SetParamMat(p, "input", to_matrix(input))
+  SetParamMat(p, "input", to_matrix(input), TRUE)
 
   SetParamInt(p, "rank", rank)
 
   if (!identical(initial_h, NA)) {
-    SetParamMat(p, "initial_h", to_matrix(initial_h))
+    SetParamMat(p, "initial_h", to_matrix(initial_h), TRUE)
   }
 
   if (!identical(initial_w, NA)) {
-    SetParamMat(p, "initial_w", to_matrix(initial_w))
+    SetParamMat(p, "initial_w", to_matrix(initial_w), TRUE)
   }
 
   if (!identical(max_iterations, NA)) {

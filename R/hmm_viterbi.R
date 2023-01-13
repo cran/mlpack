@@ -46,7 +46,7 @@ hmm_viterbi <- function(input,
   inputModels <- vector()
 
   # Process each input argument before calling the binding.
-  SetParamMat(p, "input", to_matrix(input))
+  SetParamMat(p, "input", to_matrix(input), TRUE)
 
   SetParamHMMModelPtr(p, "input_model", input_model)
 

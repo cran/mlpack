@@ -17,6 +17,7 @@ test_r_binding(
   model_in = NA,
   row_in = NA,
   str_vector_in = NA,
+  tmatrix_in = NA,
   ucol_in = NA,
   umatrix_in = NA,
   urow_in = NA,
@@ -52,6 +53,8 @@ matrix/data.frame with info).}
 \item{row_in}{Input row (numeric row).}
 
 \item{str_vector_in}{Input vector of strings (character vector).}
+
+\item{tmatrix_in}{Input (transposed) matrix (numeric matrix).}
 
 \item{ucol_in}{Input unsigned column (integer column).}
 

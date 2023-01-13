@@ -19,6 +19,7 @@
 #' @param model_in Input model (GaussianKernel).
 #' @param row_in Input row (numeric row).
 #' @param str_vector_in Input vector of strings (character vector).
+#' @param tmatrix_in Input (transposed) matrix (numeric matrix).
 #' @param ucol_in Input unsigned column (integer column).
 #' @param umatrix_in Input unsigned matrix (integer matrix).
 #' @param urow_in Input unsigned row (integer row).
@@ -69,6 +70,7 @@ test_r_binding <- function(double_in,
                            model_in=NA,
                            row_in=NA,
                            str_vector_in=NA,
+                           tmatrix_in=NA,
                            ucol_in=NA,
                            umatrix_in=NA,
                            urow_in=NA,
@@ -110,7 +112,7 @@ test_r_binding <- function(double_in,
   }
 
   if (!identical(matrix_in, NA)) {
-    SetParamMat(p, "matrix_in", to_matrix(matrix_in))
+    SetParamMat(p, "matrix_in", to_matrix(matrix_in), TRUE)
   }
 
   if (!identical(model_in, NA)) {
@@ -125,6 +127,10 @@ test_r_binding <- function(double_in,
 
   if (!identical(str_vector_in, NA)) {
     SetParamVecString(p, "str_vector_in", str_vector_in)
+  }
+
+  if (!identical(tmatrix_in, NA)) {
+    SetParamMat(p, "tmatrix_in", to_matrix(tmatrix_in), FALSE)
   }
 
   if (!identical(ucol_in, NA)) {
