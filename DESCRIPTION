@@ -1,7 +1,7 @@
 Package: mlpack
 Title: 'Rcpp' Integration for the 'mlpack' Library
-Version: 4.0.1
-Date: 2022-12-29
+Version: 4.1.0
+Date: 2023-04-27
 Authors@R: c(
     person("Yashwant", "Singh Parihar", email = "yashwantsingh.sngh@gmail.com", role = c("aut", "ctb", "cph")),
     person("Ryan", "Curtin", email = "ryan@ratml.org", role = c("aut", "ctb", "cph", "cre")),
@@ -86,7 +86,9 @@ Authors@R: c(
     person("Sourabh", "Varshney", email = "sourabhvarshney111@gmail.com", role = c("ctb", "cph")),
     person("Projyal", "Dev", email = "projyal@gmail.com", role = c("ctb", "cph")),
     person("Nikhil", "Goel", email = "nikhilgoel199797@gmail.com", role = c("ctb", "cph")),
+    person("Shikhar", "Jaiswal", email = "jaiswalshikhar87@gmail.com", role = c("ctb", "cph")),
     person("B", "Kartheek Reddy", email = "bkartheekreddy@gmail.com", role = c("ctb", "cph")),
+    person("Atharva", "Khandait", email = "akhandait45@gmail.com", role = c("ctb", "cph")),
     person("Wenhao", "Huang", email = "wenhao.huang.work@gmail.com", role = c("ctb", "cph")),
     person("Roberto", "Hueso", email = "robertohueso96@gmail.com", role = c("ctb", "cph")),
     person("Prabhat", "Sharma", email = "prabhatsharma7298@gmail.com", role = c("ctb", "cph")),
@@ -110,6 +112,7 @@ Authors@R: c(
     person("Bishwa", "Karki", email = "karkeebishwa1@gmail.com", role = c("ctb", "cph")),
     person("Mehul", "Kumar Nirala", email = "mehulkumarnirala@gmail.com", role = c("ctb", "cph")),
     person("Heet", "Sankesara", email = "heetsankesara3@gmail.com", role = c("ctb", "cph")),
+    person("Jeffin", "Sam", email = "sam.jeffin@gmail.com", role = c("ctb", "cph")),
     person("Vikas", "S Shetty", email = "shettyvikas209@gmail.com", role = c("ctb", "cph")),
     person("Khizir", "Siddiqui", email = "khizirsiddiqui@gmail.com", role = c("ctb", "cph")),
     person("Tejasvi", "Tomar", email = "tstomar@outlook.com", role = c("ctb", "cph")),
@@ -117,6 +120,8 @@ Authors@R: c(
     person("Ziyang", "Jiang", email = "zij004@alumni.stanford.edu", role = c("ctb", "cph")),
     person("Rohit", "Kartik", email = "rohit.audrey@gmail.com", role = c("ctb", "cph")),
     person("Aditya", "Viki", email = "adityaviki01@gmail.com", role = c("ctb", "cph")),
+    person("Kartik", "Dutt", email = "kartikdutt@live.in", role = c("ctb", "cph")),
+    person("Suryoday", "Basak", email = "suryodaybasak@gmail.com", role = c("ctb", "cph")),
     person("Sriram", "S K", email = "sriramsk1999@gmail.com", role = c("ctb", "cph")),
     person("Manoranjan", "Kumar Bharti ( Nakul Bharti )", email = "knakul853@gmail.com", role = c("ctb", "cph")),
     person("Saraansh", "Tandon", email = "saraanshtandon1999@gmail.com", role = c("ctb", "cph")),
@@ -133,15 +138,19 @@ Authors@R: c(
     person("Alex", "Nguyen", email = "alexvn.edu@gmail.com", role = c("ctb", "cph")),
     person("Gaurav", "Ghati", email = "gauravghatii@gmail.com", role = c("ctb", "cph")),
     person("Anmolpreet", "Singh", email = "anmol323c@gmail.com", role = c("ctb", "cph")),
+    person("Anjishnu", "Mukherjee", email = "amukher6@gmu.edu", role = c("ctb", "cph")),
+    person("Omar", "Shrit", email = "omar@shrit.me", role = c("ctb", "cph")),
     person("Tru", "Hoang", email = "trugiahoang@gmail.com", role = c("ctb", "cph")),
     person("Mark", "Fischinger", email = "markfischinger@gmail.com", role = c("ctb", "cph")),
     person("Muhammad", "Fawwaz Mayda", email = "maydafawwaz@gmail.com", role = c("ctb", "cph")),
     person("Roshan", "Nrusing Swain", email = "swainroshan001@gmail.com", role = c("ctb", "cph")),
     person("Suvarsha", "Chennareddy", email = "suvarshachennareddy@gmail.com", role = c("ctb", "cph")),
     person("Shubham", "Agrawal", email = "shubham.agra1206@gmail.com", role = c("ctb", "cph")),
+    person("James", "Joseph Balamuta", email = "balamut2@illinois.edu", role = c("ctb", "cph")),
     person("Sri", "Madhan M", email = "srimadhan11@gmail.com", role = c("ctb", "cph")),
     person("Zhuojin", "Liu", email = "zhuojinliu.cs@gmail.com", role = c("ctb", "cph")),
-    person("Richèl", "Bilderbeek", email = "richel@richelbilderbeek.nl", role = c("ctb", "cph")))
+    person("Richèl", "Bilderbeek", email = "richel@richelbilderbeek.nl", role = c("ctb", "cph")),
+    person("Chetan", "Pandey", email = "chetanpandey1266@gmail.com", role = c("ctb", "cph")))
 Description: A fast, flexible machine learning library, written in C++, that
              aims to provide fast, extensible implementations of cutting-edge
              machine learning algorithms.  See also Curtin et al. (2018)
@@ -154,13 +163,13 @@ Imports: Rcpp (>= 0.12.12)
 LinkingTo: Rcpp, RcppArmadillo (>= 0.9.800), RcppEnsmallen (>=
         0.2.10.0)
 Suggests: testthat (>= 2.1.0)
-URL: https://www.mlpack.org/doc/mlpack-4.0.1/r_documentation.html,
+URL: https://www.mlpack.org/doc/mlpack-git/r_documentation.html,
         https://github.com/mlpack/mlpack
 BugReports: https://github.com/mlpack/mlpack/issues
 RoxygenNote: 7.2.3
 Encoding: UTF-8
 NeedsCompilation: yes
-Packaged: 2022-12-29 16:15:36 UTC; runner
+Packaged: 2023-04-27 14:05:02 UTC; runner
 Author: Yashwant Singh Parihar [aut, ctb, cph],
   Ryan Curtin [aut, ctb, cph, cre],
   Dirk Eddelbuettel [aut, ctb, cph],
@@ -244,7 +253,9 @@ Author: Yashwant Singh Parihar [aut, ctb, cph],
   Sourabh Varshney [ctb, cph],
   Projyal Dev [ctb, cph],
   Nikhil Goel [ctb, cph],
+  Shikhar Jaiswal [ctb, cph],
   B Kartheek Reddy [ctb, cph],
+  Atharva Khandait [ctb, cph],
   Wenhao Huang [ctb, cph],
   Roberto Hueso [ctb, cph],
   Prabhat Sharma [ctb, cph],
@@ -268,6 +279,7 @@ Author: Yashwant Singh Parihar [aut, ctb, cph],
   Bishwa Karki [ctb, cph],
   Mehul Kumar Nirala [ctb, cph],
   Heet Sankesara [ctb, cph],
+  Jeffin Sam [ctb, cph],
   Vikas S Shetty [ctb, cph],
   Khizir Siddiqui [ctb, cph],
   Tejasvi Tomar [ctb, cph],
@@ -275,6 +287,8 @@ Author: Yashwant Singh Parihar [aut, ctb, cph],
   Ziyang Jiang [ctb, cph],
   Rohit Kartik [ctb, cph],
   Aditya Viki [ctb, cph],
+  Kartik Dutt [ctb, cph],
+  Suryoday Basak [ctb, cph],
   Sriram S K [ctb, cph],
   Manoranjan Kumar Bharti ( Nakul Bharti ) [ctb, cph],
   Saraansh Tandon [ctb, cph],
@@ -291,15 +305,19 @@ Author: Yashwant Singh Parihar [aut, ctb, cph],
   Alex Nguyen [ctb, cph],
   Gaurav Ghati [ctb, cph],
   Anmolpreet Singh [ctb, cph],
+  Anjishnu Mukherjee [ctb, cph],
+  Omar Shrit [ctb, cph],
   Tru Hoang [ctb, cph],
   Mark Fischinger [ctb, cph],
   Muhammad Fawwaz Mayda [ctb, cph],
   Roshan Nrusing Swain [ctb, cph],
   Suvarsha Chennareddy [ctb, cph],
   Shubham Agrawal [ctb, cph],
+  James Joseph Balamuta [ctb, cph],
   Sri Madhan M [ctb, cph],
   Zhuojin Liu [ctb, cph],
-  Richèl Bilderbeek [ctb, cph]
+  Richèl Bilderbeek [ctb, cph],
+  Chetan Pandey [ctb, cph]
 Maintainer: Ryan Curtin <ryan@ratml.org>
 Repository: CRAN
-Date/Publication: 2023-01-13 10:10:02 UTC
+Date/Publication: 2023-05-01 16:30:06 UTC

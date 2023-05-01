@@ -120,6 +120,9 @@ update rules
  - 'SVDCompleteIncremental' -- SVD complete incremental learning
  - 'BiasSVD' -- Bias SVD using a SGD optimizer
  - 'SVDPP' -- SVD++ using a SGD optimizer
+ - 'RandSVD' -- RandomizedSVD learning
+ - 'QSVD' -- QuicSVD learning
+ - 'BKSVD' -- Block Krylov SVD learning
 
 
 The following neighbor search algorithms can be specified via the
