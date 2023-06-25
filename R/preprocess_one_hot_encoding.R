@@ -3,9 +3,11 @@
 #' @description
 #' A utility to do one-hot encoding on features of dataset.
 #'
-#' @param dimensions Index of dimensions thatneed to be one-hot encoded
-#'   (integer vector).
-#' @param input Matrix containing data (numeric matrix).
+#' @param input Matrix containing data (numeric matrix/data.frame with
+#'   info).
+#' @param dimensions Index of dimensions that need to be one-hot encoded
+#'   (if unspecified, all categorical dimensions are one-hot encoded) (integer
+#'   vector).
 #' @param verbose Display informational messages and the full list of
 #'   parameters and timers at the end of execution.  Default value "FALSE"
 #'   (logical).
@@ -18,6 +20,10 @@
 #' This utility takes a dataset and a vector of indices and does one-hot
 #' encoding of the respective features at those indices. Indices represent the
 #' IDs of the dimensions to be one-hot encoded.
+#' 
+#' If no dimensions are specified with "dimensions", then all categorical-type
+#' dimensions will be one-hot encoded. Otherwise, only the dimensions given in
+#' "dimensions" will be one-hot encoded.
 #' 
 #' The output matrix with encoded features may be saved with the "output"
 #' parameters.
@@ -34,8 +40,8 @@
 #' output <- preprocess_one_hot_encoding(input=X, dimensions=1, dimensions=3)
 #' X_ouput <- output$output
 #' }
-preprocess_one_hot_encoding <- function(dimensions,
-                                        input,
+preprocess_one_hot_encoding <- function(input,
+                                        dimensions=NA,
                                         verbose=FALSE) {
   # Create parameters and timers objects.
   p <- CreateParams("preprocess_one_hot_encoding")
@@ -45,9 +51,12 @@ preprocess_one_hot_encoding <- function(dimensions,
   inputModels <- vector()
 
   # Process each input argument before calling the binding.
-  SetParamVecInt(p, "dimensions", dimensions)
+  input <- to_matrix_with_info(input)
+  SetParamMatWithInfo(p, "input", input$info, input$data)
 
-  SetParamMat(p, "input", to_matrix(input), TRUE)
+  if (!identical(dimensions, NA)) {
+    SetParamVecInt(p, "dimensions", dimensions)
+  }
 
   if (verbose) {
     EnableVerbose()

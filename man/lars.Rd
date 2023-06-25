@@ -9,6 +9,8 @@ lars(
   input_model = NA,
   lambda1 = NA,
   lambda2 = NA,
+  no_intercept = FALSE,
+  no_normalize = FALSE,
   responses = NA,
   test = NA,
   use_cholesky = FALSE,
@@ -25,6 +27,12 @@ value "0" (numeric).}
 
 \item{lambda2}{Regularization parameter for l2-norm penalty.  Default
 value "0" (numeric).}
+
+\item{no_intercept}{Do not fit an intercept in the model.  Default value
+"FALSE" (logical).}
+
+\item{no_normalize}{Do not normalize data to unit variance before
+modeling.  Default value "FALSE" (logical).}
 
 \item{responses}{Matrix of responses/observations (y) (numeric matrix).}
 

@@ -11,6 +11,10 @@
 #'   value "0" (numeric).
 #' @param lambda2 Regularization parameter for l2-norm penalty.  Default
 #'   value "0" (numeric).
+#' @param no_intercept Do not fit an intercept in the model.  Default value
+#'   "FALSE" (logical).
+#' @param no_normalize Do not normalize data to unit variance before
+#'   modeling.  Default value "FALSE" (logical).
 #' @param responses Matrix of responses/observations (y) (numeric matrix).
 #' @param test Matrix containing points to regress on (test points)
 #'   (numeric matrix).
@@ -89,6 +93,8 @@ lars <- function(input=NA,
                  input_model=NA,
                  lambda1=NA,
                  lambda2=NA,
+                 no_intercept=FALSE,
+                 no_normalize=FALSE,
                  responses=NA,
                  test=NA,
                  use_cholesky=FALSE,
@@ -117,6 +123,14 @@ lars <- function(input=NA,
 
   if (!identical(lambda2, NA)) {
     SetParamDouble(p, "lambda2", lambda2)
+  }
+
+  if (!identical(no_intercept, FALSE)) {
+    SetParamBool(p, "no_intercept", no_intercept)
+  }
+
+  if (!identical(no_normalize, FALSE)) {
+    SetParamBool(p, "no_normalize", no_normalize)
   }
 
   if (!identical(responses, NA)) {

@@ -4,13 +4,15 @@
 \alias{preprocess_one_hot_encoding}
 \title{One Hot Encoding}
 \usage{
-preprocess_one_hot_encoding(dimensions, input, verbose = FALSE)
+preprocess_one_hot_encoding(input, dimensions = NA, verbose = FALSE)
 }
 \arguments{
-\item{dimensions}{Index of dimensions thatneed to be one-hot encoded
-(integer vector).}
+\item{input}{Matrix containing data (numeric matrix/data.frame with
+info).}
 
-\item{input}{Matrix containing data (numeric matrix).}
+\item{dimensions}{Index of dimensions that need to be one-hot encoded
+(if unspecified, all categorical dimensions are one-hot encoded) (integer
+vector).}
 
 \item{verbose}{Display informational messages and the full list of
 parameters and timers at the end of execution.  Default value "FALSE"
@@ -28,6 +30,10 @@ A utility to do one-hot encoding on features of dataset.
 This utility takes a dataset and a vector of indices and does one-hot
 encoding of the respective features at those indices. Indices represent the
 IDs of the dimensions to be one-hot encoded.
+
+If no dimensions are specified with "dimensions", then all categorical-type
+dimensions will be one-hot encoded. Otherwise, only the dimensions given in
+"dimensions" will be one-hot encoded.
 
 The output matrix with encoded features may be saved with the "output"
 parameters.
