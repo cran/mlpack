@@ -3,6 +3,7 @@
 \docType{package}
 \name{mlpack}
 \alias{mlpack}
+\alias{mlpack-package}
 \title{mlpack}
 \description{
 mlpack is a fast, flexible machine learning library, written in C++, that
