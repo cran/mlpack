@@ -1,7 +1,7 @@
 Package: mlpack
 Title: 'Rcpp' Integration for the 'mlpack' Library
-Version: 4.2.1
-Date: 2023-09-05
+Version: 4.3.0
+Date: 2023-11-27
 Authors@R: c(
     person("Yashwant", "Singh Parihar", email = "yashwantsingh.sngh@gmail.com", role = c("aut", "ctb", "cph")),
     person("Ryan", "Curtin", email = "ryan@ratml.org", role = c("aut", "ctb", "cph", "cre")),
@@ -169,7 +169,7 @@ BugReports: https://github.com/mlpack/mlpack/issues
 RoxygenNote: 7.2.3
 Encoding: UTF-8
 NeedsCompilation: yes
-Packaged: 2023-09-05 18:25:51 UTC; runner
+Packaged: 2023-11-27 19:13:30 UTC; runner
 Author: Yashwant Singh Parihar [aut, ctb, cph],
   Ryan Curtin [aut, ctb, cph, cre],
   Dirk Eddelbuettel [aut, ctb, cph],
@@ -320,4 +320,4 @@ Author: Yashwant Singh Parihar [aut, ctb, cph],
   Chetan Pandey [ctb, cph]
 Maintainer: Ryan Curtin <ryan@ratml.org>
 Repository: CRAN
-Date/Publication: 2023-09-26 17:10:02 UTC
+Date/Publication: 2023-11-29 06:40:02 UTC
