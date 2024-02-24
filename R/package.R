@@ -6,10 +6,8 @@
 #' programs, C++ classes and bindings for : Python, Julia, Go and R which can
 #' then be integrated into larger-scale machine learning solutions.
 #'
-#' @docType package
 #' @name mlpack
 #' @aliases mlpack-package
-#' @author mlpack Team
 #' @importFrom Rcpp evalCpp
 #' @useDynLib mlpack
-NULL
+"_PACKAGE"

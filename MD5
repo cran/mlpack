@@ -1,4 +1,4 @@
-0aab6d9c93303fdfeab4ca16753d8d50 *DESCRIPTION
+c8deefabeab3145c74cdf52d9ccc4543 *DESCRIPTION
 e0c639d28f3b3cc5e4a7f138f75d2a9d *LICENSE
 daf1f3f67dfd8a78f7834a66e6071b34 *NAMESPACE
 61114966ef36687f495d445f62ebe2da *R/RcppExports.R
@@ -20,6 +20,7 @@ fef5057e921906650e6c3446c8747977 *R/hmm_loglik.R
 51b264aaacd13ca5a32c53da8d5fce93 *R/hmm_viterbi.R
 fe9dc2c158bfff75689fcbf695a692f5 *R/hoeffding_tree.R
 90a916dd5f465ef55efc513fcd8255e8 *R/image_converter.R
+a8badfadd190550262488f864e7d0422 *R/inline.R
 409834fbdb24e60f3b5e2f5893c632ae *R/kde.R
 4c0ca589444d73e60eb2c1997dd88ad3 *R/kernel_pca.R
 dfa4a5b7e21506ffe921ddf39d76e567 *R/kfn.R
@@ -38,7 +39,7 @@ f75db0927b8c18e7e1b2756175c5d9dd *R/mean_shift.R
 fa26d4c042deeb88a73299f4110638c6 *R/nbc.R
 897ac0be2a10275d9212af5e8a52015e *R/nca.R
 bf1e7b6d872dcdaa845a40f7bf7269a3 *R/nmf.R
-d733a8e56069b05160ab303e00df95b7 *R/package.R
+e599f3f3246308d7a64ea53801c4e3dc *R/package.R
 23a2ffd7bc4a1a5f77f1f87cccaa5064 *R/pca.R
 7c58c1d111d0e8746a4dc0438a5ef7c4 *R/perceptron.R
 75ab116edde8a42e4db95da9dbdf7117 *R/preprocess_binarize.R
@@ -1257,7 +1258,7 @@ b0685d119730c21639e6f0043ee08431 *man/logistic_regression.Rd
 022ecb60e098aa0345ab8cb272d85be8 *man/lsh.Rd
 e4f4e30f2c353309e1082ee1c28db463 *man/mean_shift.Rd
 2dcc9fa0a2e54f869d2e7c1d0b9d83a3 *man/mlpack-serialization.Rd
-78fc132771725e2d75645595056cf1eb *man/mlpack.Rd
+2c3a2ba86491eb4248c041de4376d716 *man/mlpack.Rd
 007849dbd2a83f2af87a68078b405ded *man/nbc.Rd
 9963b7cc1241152d0a4d2a59dce7c625 *man/nca.Rd
 78bbde46c37f31768239475935a425ae *man/nmf.Rd
@@ -1274,7 +1275,7 @@ ef0326f5d83248a77f8e4b562bbf1e49 *man/softmax_regression.Rd
 3ebe2ee437c807eeb4024c6dba12609d *man/sparse_coding.Rd
 ed63ab04febfe1fabd3be40ac904d877 *man/test_r_binding.Rd
 17bc8ee801bbbf9cb3621b1a8f2b2128 *src/Makevars
-8ce414f9600b6526171d44d1e68516eb *src/Makevars.win
+30311b047856ff81e57a27b037000732 *src/Makevars.win
 185e172d98ae67cecdeabb32e947c4aa *src/RcppExports.cpp
 11234b5af93b0cd87fe457928fb441c8 *src/adaboost.cpp
 eedeb41b082f9e180deff1ec34d50139 *src/approx_kfn.cpp
