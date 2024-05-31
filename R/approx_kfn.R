@@ -24,8 +24,8 @@
 #' @param reference Matrix containing the reference dataset (numeric
 #'   matrix).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
 #' \item{distances}{Matrix to save furthest neighbor distances to (numeric
@@ -112,7 +112,7 @@ approx_kfn <- function(algorithm=NA,
                        num_tables=NA,
                        query=NA,
                        reference=NA,
-                       verbose=FALSE) {
+                       verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("approx_kfn")
   t <- CreateTimers()
@@ -159,10 +159,8 @@ approx_kfn <- function(algorithm=NA,
     SetParamMat(p, "reference", to_matrix(reference), TRUE)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.

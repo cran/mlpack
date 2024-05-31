@@ -18,8 +18,8 @@
 #' @param update_rules Update rules for each iteration; ( multdist |
 #'   multdiv | als ).  Default value "multdist" (character).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
 #' \item{h}{Matrix to save the calculated H to (numeric matrix).}
@@ -69,7 +69,7 @@ nmf <- function(input,
                 min_residue=NA,
                 seed=NA,
                 update_rules=NA,
-                verbose=FALSE) {
+                verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("nmf")
   t <- CreateTimers()
@@ -106,10 +106,8 @@ nmf <- function(input,
     SetParamString(p, "update_rules", update_rules)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.

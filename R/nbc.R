@@ -13,16 +13,12 @@
 #' @param test A matrix containing the test set (numeric matrix).
 #' @param training A matrix containing the training set (numeric matrix).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
-#' \item{output}{The matrix in which the predicted labels for the test set
-#'   will be written (deprecated) (integer row).}
 #' \item{output_model}{File to save trained Naive Bayes model to
 #'   (NBCModel).}
-#' \item{output_probs}{The matrix in which the predicted probability of
-#'   labels for the test set will be written (deprecated) (numeric matrix).}
 #' \item{predictions}{The matrix in which the predicted labels for the test
 #'   set will be written (integer row).}
 #' \item{probabilities}{The matrix in which the predicted probability of
@@ -50,9 +46,6 @@
 #' "test" parameter, and the classifications may be saved with the
 #' "predictions"predictions  parameter.  If saving the trained model is desired,
 #' this may be done with the "output_model" output parameter.
-#' 
-#' Note: the "output" and "output_probs" parameters are deprecated and will be
-#' removed in mlpack 4.0.0.  Use "predictions" and "probabilities" instead.
 #'
 #' @author
 #' mlpack developers
@@ -74,14 +67,14 @@
 #' 
 #' \dontrun{
 #' output <- nbc(input_model=nbc_model, test=test_set)
-#' predictions <- output$output
+#' predictions <- output$predictions
 #' }
 nbc <- function(incremental_variance=FALSE,
                 input_model=NA,
                 labels=NA,
                 test=NA,
                 training=NA,
-                verbose=FALSE) {
+                verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("nbc")
   t <- CreateTimers()
@@ -112,16 +105,12 @@ nbc <- function(incremental_variance=FALSE,
     SetParamMat(p, "training", to_matrix(training), TRUE)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.
-  SetPassed(p, "output")
   SetPassed(p, "output_model")
-  SetPassed(p, "output_probs")
   SetPassed(p, "predictions")
   SetPassed(p, "probabilities")
 
@@ -134,9 +123,7 @@ nbc <- function(incremental_variance=FALSE,
 
   # Extract the results in order.
   out <- list(
-      "output" = GetParamURow(p, "output"),
       "output_model" = output_model,
-      "output_probs" = GetParamMat(p, "output_probs"),
       "predictions" = GetParamURow(p, "predictions"),
       "probabilities" = GetParamMat(p, "probabilities")
   )

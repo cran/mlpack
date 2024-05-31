@@ -24,8 +24,8 @@
 #' @param type Type of HMM: discrete | gaussian | diag_gmm | gmm.  Default
 #'   value "gaussian" (character).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
 #' \item{output_model}{Output for trained HMM (HMMModel).}
@@ -63,7 +63,7 @@ hmm_train <- function(input_file,
                       states=NA,
                       tolerance=NA,
                       type=NA,
-                      verbose=FALSE) {
+                      verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("hmm_train")
   t <- CreateTimers()
@@ -108,10 +108,8 @@ hmm_train <- function(input_file,
     SetParamString(p, "type", type)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.

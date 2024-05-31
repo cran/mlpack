@@ -649,14 +649,6 @@ IO_GetParamMatWithInfo <- function(params, paramName) {
     .Call('_mlpack_IO_GetParamMatWithInfo', PACKAGE = 'mlpack', params, paramName)
 }
 
-EnableVerbose <- function() {
-    invisible(.Call('_mlpack_EnableVerbose', PACKAGE = 'mlpack'))
-}
-
-DisableVerbose <- function() {
-    invisible(.Call('_mlpack_DisableVerbose', PACKAGE = 'mlpack'))
-}
-
 ResetTimers <- function() {
     invisible(.Call('_mlpack_ResetTimers', PACKAGE = 'mlpack'))
 }

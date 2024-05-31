@@ -18,7 +18,7 @@ kfn(
   tree_type = NA,
   true_distances = NA,
   true_neighbors = NA,
-  verbose = FALSE
+  verbose = getOption("mlpack.verbose", FALSE)
 )
 }
 \arguments{
@@ -68,8 +68,8 @@ error (average relative error) (it is printed when -v is specified)
 is printed when -v is specified) (integer matrix).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
 A list with several components:

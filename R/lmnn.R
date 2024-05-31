@@ -43,8 +43,8 @@
 #' @param tolerance Maximum tolerance for termination of AMSGrad, BB_SGD,
 #'   SGD or L-BFGS.  Default value "1e-07" (numeric).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
 #' \item{centered_data}{Output matrix for mean-centered dataset (numeric
@@ -160,7 +160,7 @@ lmnn <- function(input,
                  seed=NA,
                  step_size=NA,
                  tolerance=NA,
-                 verbose=FALSE) {
+                 verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("lmnn")
   t <- CreateTimers()
@@ -239,10 +239,8 @@ lmnn <- function(input,
     SetParamDouble(p, "tolerance", tolerance)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.

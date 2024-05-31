@@ -17,7 +17,7 @@ random_forest(
   test = NA,
   test_labels = NA,
   training = NA,
-  verbose = FALSE,
+  verbose = getOption("mlpack.verbose", FALSE),
   warm_start = FALSE
 )
 }
@@ -58,8 +58,8 @@ desired (integer row).}
 \item{training}{Training dataset (numeric matrix).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 
 \item{warm_start}{If true and passed along with `training` and
 `input_model` then trains more trees on top of existing model.  Default
@@ -87,8 +87,8 @@ saved for later use, or a random forest may be loaded and predictions or
 class probabilities for points may be generated.
 
 The training set and associated labels are specified with the "training" and
-"labels" parameters, respectively.  The labels should be in the range [0,
-num_classes - 1]. Optionally, if "labels" is not specified, the labels are
+"labels" parameters, respectively.  The labels should be in the range `[0,
+num_classes - 1]`. Optionally, if "labels" is not specified, the labels are
 assumed to be the last dimension of the training dataset.
 
 When a model is trained, the "output_model" output parameter may be used to

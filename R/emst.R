@@ -11,8 +11,8 @@
 #' @param naive Compute the MST using O(n^2) naive algorithm.  Default
 #'   value "FALSE" (logical).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
 #' \item{output}{Output data.  Stored as an edge list (numeric matrix).}
@@ -52,7 +52,7 @@
 emst <- function(input,
                  leaf_size=NA,
                  naive=FALSE,
-                 verbose=FALSE) {
+                 verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("emst")
   t <- CreateTimers()
@@ -71,10 +71,8 @@ emst <- function(input,
     SetParamBool(p, "naive", naive)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.

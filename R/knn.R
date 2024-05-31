@@ -38,8 +38,8 @@
 #' @param true_neighbors Matrix of true neighbors to compute the recall (it
 #'   is printed when -v is specified) (integer matrix).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
 #' \item{distances}{Matrix to output distances into (numeric matrix).}
@@ -87,7 +87,7 @@ knn <- function(algorithm=NA,
                 tree_type=NA,
                 true_distances=NA,
                 true_neighbors=NA,
-                verbose=FALSE) {
+                verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("knn")
   t <- CreateTimers()
@@ -154,10 +154,8 @@ knn <- function(algorithm=NA,
     SetParamUMat(p, "true_neighbors", to_matrix(true_neighbors))
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.

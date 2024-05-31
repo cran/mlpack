@@ -20,7 +20,7 @@ krann(
   single_sample_limit = NA,
   tau = NA,
   tree_type = NA,
-  verbose = FALSE
+  verbose = getOption("mlpack.verbose", FALSE)
 )
 }
 \arguments{
@@ -72,8 +72,8 @@ data.  Default value "5" (numeric).}
 (character).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
 A list with several components:

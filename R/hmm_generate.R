@@ -12,8 +12,8 @@
 #' @param start_state Starting state of sequence.  Default value "0"
 #'   (integer).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
 #' \item{output}{Matrix to save observation sequence to (numeric matrix).}
@@ -47,7 +47,7 @@ hmm_generate <- function(length,
                          model,
                          seed=NA,
                          start_state=NA,
-                         verbose=FALSE) {
+                         verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("hmm_generate")
   t <- CreateTimers()
@@ -68,10 +68,8 @@ hmm_generate <- function(length,
     SetParamInt(p, "start_state", start_state)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.

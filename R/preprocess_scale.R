@@ -20,8 +20,8 @@
 #' @param seed Random seed (0 for std::time(NULL)).  Default value "0"
 #'   (integer).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
 #' \item{output}{Matrix to save scaled data to (numeric matrix).}
@@ -91,7 +91,7 @@ preprocess_scale <- function(input,
                              min_value=NA,
                              scaler_method=NA,
                              seed=NA,
-                             verbose=FALSE) {
+                             verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("preprocess_scale")
   t <- CreateTimers()
@@ -132,10 +132,8 @@ preprocess_scale <- function(input,
     SetParamInt(p, "seed", seed)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.

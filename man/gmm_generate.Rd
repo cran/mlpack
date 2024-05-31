@@ -4,7 +4,12 @@
 \alias{gmm_generate}
 \title{GMM Sample Generator}
 \usage{
-gmm_generate(input_model, samples, seed = NA, verbose = FALSE)
+gmm_generate(
+  input_model,
+  samples,
+  seed = NA,
+  verbose = getOption("mlpack.verbose", FALSE)
+)
 }
 \arguments{
 \item{input_model}{Input GMM model to generate samples from (GMM).}
@@ -15,8 +20,8 @@ gmm_generate(input_model, samples, seed = NA, verbose = FALSE)
 value "0" (integer).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
 A list with several components:

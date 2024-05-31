@@ -14,13 +14,12 @@
 #'   error during training.  Default value "1e-10" (numeric).
 #' @param training Dataset for training AdaBoost (numeric matrix).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #' @param weak_learner The type of weak learner to use: 'decision_stump',
 #'   or 'perceptron'.  Default value "decision_stump" (character).
 #'
 #' @return A list with several components:
-#' \item{output}{Predicted labels for the test set (integer row).}
 #' \item{output_model}{Output trained AdaBoost model (AdaBoostModel).}
 #' \item{predictions}{Predicted labels for the test set (integer row).}
 #' \item{probabilities}{Predicted class probabilities for each point in the
@@ -50,10 +49,6 @@
 #' the "test" parameter.  The predicted classes for each point in the test
 #' dataset are output to the "predictions" output parameter.  The AdaBoost model
 #' itself is output to the "output_model" output parameter.
-#' 
-#' Note: the following parameter is deprecated and will be removed in mlpack
-#' 4.0.0: "output".
-#' Use "predictions" instead of "output".
 #'
 #' @author
 #' mlpack developers
@@ -83,7 +78,7 @@ adaboost <- function(input_model=NA,
                      test=NA,
                      tolerance=NA,
                      training=NA,
-                     verbose=FALSE,
+                     verbose=getOption("mlpack.verbose", FALSE),
                      weak_learner=NA) {
   # Create parameters and timers objects.
   p <- CreateParams("adaboost")
@@ -119,18 +114,15 @@ adaboost <- function(input_model=NA,
     SetParamMat(p, "training", to_matrix(training), TRUE)
   }
 
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
+  }
+
   if (!identical(weak_learner, NA)) {
     SetParamString(p, "weak_learner", weak_learner)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
-  }
-
   # Mark all output options as passed.
-  SetPassed(p, "output")
   SetPassed(p, "output_model")
   SetPassed(p, "predictions")
   SetPassed(p, "probabilities")
@@ -144,7 +136,6 @@ adaboost <- function(input_model=NA,
 
   # Extract the results in order.
   out <- list(
-      "output" = GetParamURow(p, "output"),
       "output_model" = output_model,
       "predictions" = GetParamURow(p, "predictions"),
       "probabilities" = GetParamMat(p, "probabilities")

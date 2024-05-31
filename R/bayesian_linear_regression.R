@@ -14,8 +14,8 @@
 #' @param test Matrix containing points to regress on (test points)
 #'   (numeric matrix).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
 #' \item{output_model}{Output BayesianLinearRegression model
@@ -91,7 +91,7 @@ bayesian_linear_regression <- function(center=FALSE,
                                        responses=NA,
                                        scale=FALSE,
                                        test=NA,
-                                       verbose=FALSE) {
+                                       verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("bayesian_linear_regression")
   t <- CreateTimers()
@@ -126,10 +126,8 @@ bayesian_linear_regression <- function(center=FALSE,
     SetParamMat(p, "test", to_matrix(test), TRUE)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.

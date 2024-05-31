@@ -25,8 +25,8 @@
 #' @param urow_in Input unsigned row (integer row).
 #' @param vector_in Input vector of numbers (integer vector).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
 #' \item{col_out}{Output column. 2x input colum (numeric column).}
@@ -75,7 +75,7 @@ test_r_binding <- function(double_in,
                            umatrix_in=NA,
                            urow_in=NA,
                            vector_in=NA,
-                           verbose=FALSE) {
+                           verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("test_R_binding")
   t <- CreateTimers()
@@ -149,10 +149,8 @@ test_r_binding <- function(double_in,
     SetParamVecInt(p, "vector_in", vector_in)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.

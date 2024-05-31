@@ -10,7 +10,7 @@ preprocess_describe(
   population = FALSE,
   precision = NA,
   row_major = FALSE,
-  verbose = FALSE,
+  verbose = getOption("mlpack.verbose", FALSE),
   width = NA
 )
 }
@@ -33,8 +33,8 @@ represents a point, so this option is generally not necessary..  Default
 value "FALSE" (logical).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 
 \item{width}{Width of the output table.  Default value "8" (integer).}
 }

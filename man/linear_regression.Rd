@@ -10,7 +10,7 @@ linear_regression(
   test = NA,
   training = NA,
   training_responses = NA,
-  verbose = FALSE
+  verbose = getOption("mlpack.verbose", FALSE)
 )
 }
 \arguments{
@@ -30,8 +30,8 @@ not given, the responses are assumed to be the last row of the input file
 (numeric row).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
 A list with several components:

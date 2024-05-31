@@ -23,8 +23,8 @@
 #'   (numeric).
 #' @param training Matrix of training data (X) (numeric matrix).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
 #' \item{codes}{Output codes matrix (numeric matrix).}
@@ -92,7 +92,7 @@ local_coordinate_coding <- function(atoms=NA,
                                     test=NA,
                                     tolerance=NA,
                                     training=NA,
-                                    verbose=FALSE) {
+                                    verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("local_coordinate_coding")
   t <- CreateTimers()
@@ -143,10 +143,8 @@ local_coordinate_coding <- function(atoms=NA,
     SetParamMat(p, "training", to_matrix(training), TRUE)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.

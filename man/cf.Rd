@@ -21,7 +21,7 @@ cf(
   seed = NA,
   test = NA,
   training = NA,
-  verbose = FALSE
+  verbose = getOption("mlpack.verbose", FALSE)
 )
 }
 \arguments{
@@ -73,8 +73,8 @@ query user.  Default value "5" (integer).}
 \item{training}{Input dataset to perform CF on (numeric matrix).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
 A list with several components:
@@ -111,7 +111,8 @@ neighborhood) to be considered when generating recommendations can be
 specified with the "neighborhood" parameter.
 
 For performing the matrix decomposition, the following optimization
-algorithms can be specified via the "algorithm" parameter: 
+algorithms can be specified via the "algorithm" parameter:
+
  - 'RegSVD' -- Regularized SVD using a SGD optimizer
  - 'NMF' -- Non-negative matrix factorization with alternating least squares
 update rules
@@ -127,6 +128,7 @@ update rules
 
 The following neighbor search algorithms can be specified via the
 "neighbor_search" parameter:
+
  - 'cosine'  -- Cosine Search Algorithm
  - 'euclidean'  -- Euclidean Search Algorithm
  - 'pearson'  -- Pearson Search Algorithm
@@ -134,6 +136,7 @@ The following neighbor search algorithms can be specified via the
 
 The following weight interpolation algorithms can be specified via the
 "interpolation" parameter:
+
  - 'average'  -- Average Interpolation Algorithm
  - 'regression'  -- Regression Interpolation Algorithm
  - 'similarity'  -- Similarity Interpolation Algorithm
@@ -141,6 +144,7 @@ The following weight interpolation algorithms can be specified via the
 
 The following ranking normalization algorithms can be specified via the
 "normalization" parameter:
+
  - 'none'  -- No Normalization
  - 'item_mean'  -- Item Mean Normalization
  - 'overall_mean'  -- Overall Mean Normalization

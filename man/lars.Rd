@@ -14,7 +14,7 @@ lars(
   responses = NA,
   test = NA,
   use_cholesky = FALSE,
-  verbose = FALSE
+  verbose = getOption("mlpack.verbose", FALSE)
 )
 }
 \arguments{
@@ -44,8 +44,8 @@ than explicitly computing the full Gram matrix.  Default value "FALSE"
 (logical).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
 A list with several components:

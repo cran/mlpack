@@ -14,7 +14,7 @@ approx_kfn(
   num_tables = NA,
   query = NA,
   reference = NA,
-  verbose = FALSE
+  verbose = getOption("mlpack.verbose", FALSE)
 )
 }
 \arguments{
@@ -45,8 +45,8 @@ Default value "5" (integer).}
 matrix).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
 A list with several components:

@@ -17,8 +17,6 @@
 #'   value "20" (integer).
 #' @param print_training_accuracy Print the training accuracy.  Default
 #'   value "FALSE" (logical).
-#' @param print_training_error Print the training error (deprecated; will
-#'   be removed in mlpack 4.0.0).  Default value "FALSE" (logical).
 #' @param test Testing dataset (may be categorical) (numeric
 #'   matrix/data.frame with info).
 #' @param test_labels Test point labels, if accuracy calculation is desired
@@ -26,8 +24,8 @@
 #' @param training Training dataset (may be categorical) (numeric
 #'   matrix/data.frame with info).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #' @param weights The weight of label (numeric matrix).
 #'
 #' @return A list with several components:
@@ -44,8 +42,8 @@
 #' this program can train a decision tree on that data.
 #' 
 #' The training set and associated labels are specified with the "training" and
-#' "labels" parameters, respectively.  The labels should be in the range [0,
-#' num_classes - 1]. Optionally, if "labels" is not specified, the labels are
+#' "labels" parameters, respectively.  The labels should be in the range `[0,
+#' num_classes - 1]`. Optionally, if "labels" is not specified, the labels are
 #' assumed to be the last dimension of the training dataset.
 #' 
 #' When a model is trained, the "output_model" output parameter may be used to
@@ -55,8 +53,9 @@
 #' parameter specifies the minimum number of training points that must fall into
 #' each leaf for it to be split.  The "minimum_gain_split" parameter specifies
 #' the minimum gain that is needed for the node to split.  The "maximum_depth"
-#' parameter specifies the maximum depth of the tree.  If "print_training_error"
-#' is specified, the training error will be printed.
+#' parameter specifies the maximum depth of the tree.  If
+#' "print_training_accuracy" is specified, the training accuracy will be
+#' printed.
 #' 
 #' Test data may be specified with the "test" parameter, and if performance
 #' numbers are desired for that test set, labels may be specified with the
@@ -94,11 +93,10 @@ decision_tree <- function(input_model=NA,
                           minimum_gain_split=NA,
                           minimum_leaf_size=NA,
                           print_training_accuracy=FALSE,
-                          print_training_error=FALSE,
                           test=NA,
                           test_labels=NA,
                           training=NA,
-                          verbose=FALSE,
+                          verbose=getOption("mlpack.verbose", FALSE),
                           weights=NA) {
   # Create parameters and timers objects.
   p <- CreateParams("decision_tree")
@@ -134,10 +132,6 @@ decision_tree <- function(input_model=NA,
     SetParamBool(p, "print_training_accuracy", print_training_accuracy)
   }
 
-  if (!identical(print_training_error, FALSE)) {
-    SetParamBool(p, "print_training_error", print_training_error)
-  }
-
   if (!identical(test, NA)) {
     test <- to_matrix_with_info(test)
     SetParamMatWithInfo(p, "test", test$info, test$data)
@@ -152,14 +146,12 @@ decision_tree <- function(input_model=NA,
     SetParamMatWithInfo(p, "training", training$info, training$data)
   }
 
-  if (!identical(weights, NA)) {
-    SetParamMat(p, "weights", to_matrix(weights), TRUE)
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(weights, NA)) {
+    SetParamMat(p, "weights", to_matrix(weights), TRUE)
   }
 
   # Mark all output options as passed.

@@ -9,8 +9,8 @@
 #' @param input File containing observations (numeric matrix).
 #' @param input_model File containing HMM (HMMModel).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
 #' \item{log_likelihood}{Log-likelihood of the sequence.  Default value "0"
@@ -35,7 +35,7 @@
 #' }
 hmm_loglik <- function(input,
                        input_model,
-                       verbose=FALSE) {
+                       verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("hmm_loglik")
   t <- CreateTimers()
@@ -48,10 +48,8 @@ hmm_loglik <- function(input,
 
   SetParamHMMModelPtr(p, "input_model", input_model)
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.

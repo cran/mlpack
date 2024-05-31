@@ -17,13 +17,18 @@ void softmax_regression_call(SEXP params, SEXP timers)
   util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
   util::Timers& t = *Rcpp::as<Rcpp::XPtr<util::Timers>>(timers);
 
+  if (p.Has("verbose"))
+    Log::Info.ignoreInput = false;
+  else
+    Log::Info.ignoreInput = true;
+
   BINDING_FUNCTION(p, t);
 }
 
 // Any implementations of methods for dealing with model pointers will be put
 // below this comment, if needed.
 
-// Get the pointer to a SoftmaxRegression parameter.
+// Get the pointer to a SoftmaxRegression<> parameter.
 // [[Rcpp::export]]
 SEXP GetParamSoftmaxRegressionPtr(SEXP params,
                                    const std::string& paramName,
@@ -31,30 +36,30 @@ SEXP GetParamSoftmaxRegressionPtr(SEXP params,
 {
   util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
   Rcpp::List inputModelsList(inputModels);
-  SoftmaxRegression* modelPtr = p.Get<SoftmaxRegression*>(paramName);
+  SoftmaxRegression<>* modelPtr = p.Get<SoftmaxRegression<>*>(paramName);
   for (int i = 0; i < inputModelsList.length(); ++i)
   {
-    Rcpp::XPtr<SoftmaxRegression> inputModel =
-        Rcpp::as<Rcpp::XPtr<SoftmaxRegression>>(inputModelsList[i]);
+    Rcpp::XPtr<SoftmaxRegression<>> inputModel =
+        Rcpp::as<Rcpp::XPtr<SoftmaxRegression<>>>(inputModelsList[i]);
     // Don't create a new XPtr---just reuse the one given as input, so that we
     // don't end up deleting it twice.
     if (inputModel.get() == modelPtr)
       return inputModel;
   }
 
-  return std::move((Rcpp::XPtr<SoftmaxRegression>) p.Get<SoftmaxRegression*>(paramName));
+  return std::move((Rcpp::XPtr<SoftmaxRegression<>>) p.Get<SoftmaxRegression<>*>(paramName));
 }
 
-// Set the pointer to a SoftmaxRegression parameter.
+// Set the pointer to a SoftmaxRegression<> parameter.
 // [[Rcpp::export]]
 void SetParamSoftmaxRegressionPtr(SEXP params, const std::string& paramName, SEXP ptr)
 {
   util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
-  p.Get<SoftmaxRegression*>(paramName) = Rcpp::as<Rcpp::XPtr<SoftmaxRegression>>(ptr);
+  p.Get<SoftmaxRegression<>*>(paramName) = Rcpp::as<Rcpp::XPtr<SoftmaxRegression<>>>(ptr);
   p.SetPassed(paramName);
 }
 
-// Serialize a SoftmaxRegression pointer.
+// Serialize a SoftmaxRegression<> pointer.
 // [[Rcpp::export]]
 Rcpp::RawVector SerializeSoftmaxRegressionPtr(SEXP ptr)
 {
@@ -62,7 +67,7 @@ Rcpp::RawVector SerializeSoftmaxRegressionPtr(SEXP ptr)
   {
     cereal::BinaryOutputArchive oa(oss);
     oa(cereal::make_nvp("SoftmaxRegression",
-          *Rcpp::as<Rcpp::XPtr<SoftmaxRegression>>(ptr)));
+          *Rcpp::as<Rcpp::XPtr<SoftmaxRegression<>>>(ptr)));
   }
 
   Rcpp::RawVector raw_vec(oss.str().size());
@@ -74,11 +79,11 @@ Rcpp::RawVector SerializeSoftmaxRegressionPtr(SEXP ptr)
   return raw_vec;
 }
 
-// Deserialize a SoftmaxRegression pointer.
+// Deserialize a SoftmaxRegression<> pointer.
 // [[Rcpp::export]]
 SEXP DeserializeSoftmaxRegressionPtr(Rcpp::RawVector str)
 {
-  SoftmaxRegression* ptr = new SoftmaxRegression();
+  SoftmaxRegression<>* ptr = new SoftmaxRegression<>();
 
   std::istringstream iss(std::string((char *) &str[0], str.size()));
   {
@@ -87,7 +92,7 @@ SEXP DeserializeSoftmaxRegressionPtr(Rcpp::RawVector str)
   }
 
   // R will be responsible for freeing this.
-  return std::move((Rcpp::XPtr<SoftmaxRegression>)ptr);
+  return std::move((Rcpp::XPtr<SoftmaxRegression<>>)ptr);
 }
 
 

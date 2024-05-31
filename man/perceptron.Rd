@@ -10,7 +10,7 @@ perceptron(
   max_iterations = NA,
   test = NA,
   training = NA,
-  verbose = FALSE
+  verbose = getOption("mlpack.verbose", FALSE)
 )
 }
 \arguments{
@@ -27,13 +27,11 @@ to be ru.  Default value "1000" (integer).}
 \item{training}{A matrix containing the training set (numeric matrix).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
 A list with several components:
-\item{output}{The matrix in which the predicted labels for the test set
-  will be written (integer row).}
 \item{output_model}{Output for trained perceptron model
   (PerceptronModel).}
 \item{predictions}{The matrix in which the predicted labels for the test
@@ -61,10 +59,6 @@ classification on a test dataset (via the "test" parameter) and the
 classification results on the test set may be saved with the "predictions"
 output parameter.  The perceptron model may be saved with the "output_model"
 output parameter.
-
-Note: the following parameter is deprecated and will be removed in mlpack
-4.0.0: "output".
-Use "predictions" instead of "output".
 }
 \examples{
 # The training data given with the "training" option may have class labels as

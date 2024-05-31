@@ -21,8 +21,8 @@
 #'   given radius, one will be removed.  A radius of 0 or less means an estimate
 #'   will be calculated and used for the radius.  Default value "0" (numeric).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
 #' \item{centroid}{If specified, the centroids of each cluster will be
@@ -61,7 +61,7 @@ mean_shift <- function(input,
                        labels_only=FALSE,
                        max_iterations=NA,
                        radius=NA,
-                       verbose=FALSE) {
+                       verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("mean_shift")
   t <- CreateTimers()
@@ -92,10 +92,8 @@ mean_shift <- function(input,
     SetParamDouble(p, "radius", radius)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.

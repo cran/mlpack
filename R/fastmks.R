@@ -29,8 +29,8 @@
 #' @param single If true, single-tree search is used (as opposed to
 #'   dual-tree search.  Default value "FALSE" (logical).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
 #' \item{indices}{Output matrix of indices (integer matrix).}
@@ -81,7 +81,7 @@ fastmks <- function(bandwidth=NA,
                     reference=NA,
                     scale=NA,
                     single=FALSE,
-                    verbose=FALSE) {
+                    verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("fastmks")
   t <- CreateTimers()
@@ -140,10 +140,8 @@ fastmks <- function(bandwidth=NA,
     SetParamBool(p, "single", single)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.

@@ -12,7 +12,7 @@ dbscan(
   selection_type = NA,
   single_mode = FALSE,
   tree_type = NA,
-  verbose = FALSE
+  verbose = getOption("mlpack.verbose", FALSE)
 )
 }
 \arguments{
@@ -39,8 +39,8 @@ tree to use ('kd', 'r', 'r-star', 'x', 'hilbert-r', 'r-plus',
 'r-plus-plus', 'cover', 'ball').  Default value "kd" (character).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
 A list with several components:

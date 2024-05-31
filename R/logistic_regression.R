@@ -18,6 +18,9 @@
 #'   limit).  Default value "10000" (integer).
 #' @param optimizer Optimizer to use for training ('lbfgs' or 'sgd'). 
 #'   Default value "lbfgs" (character).
+#' @param print_training_accuracy If set, then the accuracy of the model on
+#'   the training set will be printed (verbose must also be specified).  Default
+#'   value "FALSE" (logical).
 #' @param step_size Step size for SGD optimizer.  Default value "0.01"
 #'   (numeric).
 #' @param test Matrix containing test dataset (numeric matrix).
@@ -26,8 +29,8 @@
 #' @param training A matrix containing the training set (the matrix of
 #'   predictors, X) (numeric matrix).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
 #' \item{output_model}{Output for trained logistic regression model
@@ -97,7 +100,8 @@
 #' # '"lr_model"', the following command may be used:
 #' 
 #' \dontrun{
-#' output <- logistic_regression(training=data, labels=labels, lambda=0.1)
+#' output <- logistic_regression(training=data, labels=labels, lambda=0.1,
+#'   print_training_accuracy=TRUE)
 #' lr_model <- output$output_model
 #' }
 #' 
@@ -116,11 +120,12 @@ logistic_regression <- function(batch_size=NA,
                                 lambda=NA,
                                 max_iterations=NA,
                                 optimizer=NA,
+                                print_training_accuracy=FALSE,
                                 step_size=NA,
                                 test=NA,
                                 tolerance=NA,
                                 training=NA,
-                                verbose=FALSE) {
+                                verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("logistic_regression")
   t <- CreateTimers()
@@ -159,6 +164,10 @@ logistic_regression <- function(batch_size=NA,
     SetParamString(p, "optimizer", optimizer)
   }
 
+  if (!identical(print_training_accuracy, FALSE)) {
+    SetParamBool(p, "print_training_accuracy", print_training_accuracy)
+  }
+
   if (!identical(step_size, NA)) {
     SetParamDouble(p, "step_size", step_size)
   }
@@ -175,10 +184,8 @@ logistic_regression <- function(batch_size=NA,
     SetParamMat(p, "training", to_matrix(training), TRUE)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.

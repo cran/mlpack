@@ -4,7 +4,13 @@
 \alias{hmm_generate}
 \title{Hidden Markov Model (HMM) Sequence Generator}
 \usage{
-hmm_generate(length, model, seed = NA, start_state = NA, verbose = FALSE)
+hmm_generate(
+  length,
+  model,
+  seed = NA,
+  start_state = NA,
+  verbose = getOption("mlpack.verbose", FALSE)
+)
 }
 \arguments{
 \item{length}{Length of sequence to generate (integer).}
@@ -18,8 +24,8 @@ value "0" (integer).}
 (integer).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
 A list with several components:

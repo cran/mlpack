@@ -20,7 +20,7 @@ nca(
   seed = NA,
   step_size = NA,
   tolerance = NA,
-  verbose = FALSE,
+  verbose = getOption("mlpack.verbose", FALSE),
   wolfe = NA
 )
 }
@@ -70,8 +70,8 @@ Default value "0.01" (numeric).}
 Default value "1e-07" (numeric).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 
 \item{wolfe}{Wolfe condition parameter for L-BFGS.  Default value "0.9"
 (numeric).}

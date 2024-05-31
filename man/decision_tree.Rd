@@ -11,11 +11,10 @@ decision_tree(
   minimum_gain_split = NA,
   minimum_leaf_size = NA,
   print_training_accuracy = FALSE,
-  print_training_error = FALSE,
   test = NA,
   test_labels = NA,
   training = NA,
-  verbose = FALSE,
+  verbose = getOption("mlpack.verbose", FALSE),
   weights = NA
 )
 }
@@ -37,9 +36,6 @@ value "20" (integer).}
 \item{print_training_accuracy}{Print the training accuracy.  Default
 value "FALSE" (logical).}
 
-\item{print_training_error}{Print the training error (deprecated; will
-be removed in mlpack 4.0.0).  Default value "FALSE" (logical).}
-
 \item{test}{Testing dataset (may be categorical) (numeric
 matrix/data.frame with info).}
 
@@ -50,8 +46,8 @@ matrix/data.frame with info).}
 matrix/data.frame with info).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 
 \item{weights}{The weight of label (numeric matrix).}
 }
@@ -76,8 +72,8 @@ or categorical features, and associated labels for each point in the dataset,
 this program can train a decision tree on that data.
 
 The training set and associated labels are specified with the "training" and
-"labels" parameters, respectively.  The labels should be in the range [0,
-num_classes - 1]. Optionally, if "labels" is not specified, the labels are
+"labels" parameters, respectively.  The labels should be in the range `[0,
+num_classes - 1]`. Optionally, if "labels" is not specified, the labels are
 assumed to be the last dimension of the training dataset.
 
 When a model is trained, the "output_model" output parameter may be used to
@@ -87,8 +83,9 @@ when the "training" parameter is specified.  The "minimum_leaf_size"
 parameter specifies the minimum number of training points that must fall into
 each leaf for it to be split.  The "minimum_gain_split" parameter specifies
 the minimum gain that is needed for the node to split.  The "maximum_depth"
-parameter specifies the maximum depth of the tree.  If "print_training_error"
-is specified, the training error will be printed.
+parameter specifies the maximum depth of the tree.  If
+"print_training_accuracy" is specified, the training accuracy will be
+printed.
 
 Test data may be specified with the "test" parameter, and if performance
 numbers are desired for that test set, labels may be specified with the

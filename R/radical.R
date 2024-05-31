@@ -20,8 +20,8 @@
 #' @param sweeps Number of sweeps; each sweep calls Radical2D once for each
 #'   pair of dimensions.  Default value "0" (integer).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
 #' \item{output_ic}{Matrix to save independent components to (numeric
@@ -60,7 +60,7 @@ radical <- function(input,
                     replicates=NA,
                     seed=NA,
                     sweeps=NA,
-                    verbose=FALSE) {
+                    verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("radical")
   t <- CreateTimers()
@@ -95,10 +95,8 @@ radical <- function(input,
     SetParamInt(p, "sweeps", sweeps)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.

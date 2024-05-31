@@ -11,7 +11,7 @@ image_converter(
   height = NA,
   quality = NA,
   save = FALSE,
-  verbose = FALSE,
+  verbose = getOption("mlpack.verbose", FALSE),
   width = NA
 )
 }
@@ -32,8 +32,8 @@ Default value "90" (integer).}
 \item{save}{Save a dataset as images.  Default value "FALSE" (logical).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 
 \item{width}{Width of the image.  Default value "0" (integer).}
 }

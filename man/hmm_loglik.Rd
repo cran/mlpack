@@ -4,7 +4,7 @@
 \alias{hmm_loglik}
 \title{Hidden Markov Model (HMM) Sequence Log-Likelihood}
 \usage{
-hmm_loglik(input, input_model, verbose = FALSE)
+hmm_loglik(input, input_model, verbose = getOption("mlpack.verbose", FALSE))
 }
 \arguments{
 \item{input}{File containing observations (numeric matrix).}
@@ -12,8 +12,8 @@ hmm_loglik(input, input_model, verbose = FALSE)
 \item{input_model}{File containing HMM (HMMModel).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
 A list with several components:

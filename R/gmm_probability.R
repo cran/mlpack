@@ -9,8 +9,8 @@
 #'   matrix).
 #' @param input_model Input GMM to use as model (GMM).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
 #' \item{output}{Matrix to store calculated probabilities in (numeric
@@ -37,7 +37,7 @@
 #' }
 gmm_probability <- function(input,
                             input_model,
-                            verbose=FALSE) {
+                            verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("gmm_probability")
   t <- CreateTimers()
@@ -50,10 +50,8 @@ gmm_probability <- function(input,
 
   SetParamGMMPtr(p, "input_model", input_model)
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.

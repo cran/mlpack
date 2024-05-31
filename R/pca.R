@@ -18,8 +18,8 @@
 #'   and 1.  If 1, all variance is retained.  Overrides -d.  Default value "0"
 #'   (numeric).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
 #' \item{output}{Matrix to save modified dataset to (numeric matrix).}
@@ -60,7 +60,7 @@ pca <- function(input,
                 new_dimensionality=NA,
                 scale=FALSE,
                 var_to_retain=NA,
-                verbose=FALSE) {
+                verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("pca")
   t <- CreateTimers()
@@ -87,10 +87,8 @@ pca <- function(input,
     SetParamDouble(p, "var_to_retain", var_to_retain)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.

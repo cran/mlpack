@@ -17,8 +17,8 @@
 #'   not given, the responses are assumed to be the last row of the input file
 #'   (numeric row).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
 #' \item{output_model}{Output LinearRegression model (LinearRegression).}
@@ -75,7 +75,7 @@ linear_regression <- function(input_model=NA,
                               test=NA,
                               training=NA,
                               training_responses=NA,
-                              verbose=FALSE) {
+                              verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("linear_regression")
   t <- CreateTimers()
@@ -106,10 +106,8 @@ linear_regression <- function(input_model=NA,
     SetParamRow(p, "training_responses", to_matrix(training_responses))
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.

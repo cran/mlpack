@@ -17,7 +17,7 @@ fastmks(
   reference = NA,
   scale = NA,
   single = FALSE,
-  verbose = FALSE
+  verbose = getOption("mlpack.verbose", FALSE)
 )
 }
 \arguments{
@@ -56,8 +56,8 @@ Default value "0" (numeric).}
 dual-tree search.  Default value "FALSE" (logical).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
 A list with several components:

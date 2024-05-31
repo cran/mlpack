@@ -37,8 +37,8 @@
 #' @param seed Random seed.  If 0, 'std::time(NULL)' is used.  Default
 #'   value "0" (integer).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
 #' \item{centroid}{If specified, the centroids of each cluster will  be
@@ -125,7 +125,7 @@ kmeans <- function(clusters,
                    refined_start=FALSE,
                    samplings=NA,
                    seed=NA,
-                   verbose=FALSE) {
+                   verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("kmeans")
   t <- CreateTimers()
@@ -186,10 +186,8 @@ kmeans <- function(clusters,
     SetParamInt(p, "seed", seed)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.

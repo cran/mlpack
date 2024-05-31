@@ -12,8 +12,8 @@
 #' @param threshold Threshold to be applied for binarization. If not set,
 #'   the threshold defaults to 0.0.  Default value "0" (numeric).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
 #' \item{output}{Matrix in which to save the output (numeric matrix).}
@@ -52,7 +52,7 @@
 preprocess_binarize <- function(input,
                                 dimension=NA,
                                 threshold=NA,
-                                verbose=FALSE) {
+                                verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("preprocess_binarize")
   t <- CreateTimers()
@@ -71,10 +71,8 @@ preprocess_binarize <- function(input,
     SetParamDouble(p, "threshold", threshold)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.

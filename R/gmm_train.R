@@ -37,8 +37,8 @@
 #' @param trials Number of trials to perform in training GMM.  Default
 #'   value "1" (integer).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
 #' \item{output_model}{Output for trained GMM model (GMM).}
@@ -118,7 +118,7 @@ gmm_train <- function(gaussians,
                       seed=NA,
                       tolerance=NA,
                       trials=NA,
-                      verbose=FALSE) {
+                      verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("gmm_train")
   t <- CreateTimers()
@@ -181,10 +181,8 @@ gmm_train <- function(gaussians,
     SetParamInt(p, "trials", trials)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.

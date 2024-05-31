@@ -9,8 +9,8 @@
 #' @param input Matrix containing observations (numeric matrix).
 #' @param input_model Trained HMM to use (HMMModel).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
 #' \item{output}{File to save predicted state sequence to (integer
@@ -37,7 +37,7 @@
 #' }
 hmm_viterbi <- function(input,
                         input_model,
-                        verbose=FALSE) {
+                        verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("hmm_viterbi")
   t <- CreateTimers()
@@ -50,10 +50,8 @@ hmm_viterbi <- function(input,
 
   SetParamHMMModelPtr(p, "input_model", input_model)
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.

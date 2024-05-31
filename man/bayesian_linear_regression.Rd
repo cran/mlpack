@@ -11,7 +11,7 @@ bayesian_linear_regression(
   responses = NA,
   scale = FALSE,
   test = NA,
-  verbose = FALSE
+  verbose = getOption("mlpack.verbose", FALSE)
 )
 }
 \arguments{
@@ -32,8 +32,8 @@ Default value "FALSE" (logical).}
 (numeric matrix).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
 A list with several components:

@@ -25,8 +25,8 @@
 #' @param training A matrix containing the training set (the matrix of
 #'   predictors, X) (numeric matrix).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
 #' \item{output_model}{File to save trained softmax regression model to
@@ -95,7 +95,7 @@ softmax_regression <- function(input_model=NA,
                                test=NA,
                                test_labels=NA,
                                training=NA,
-                               verbose=FALSE) {
+                               verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("softmax_regression")
   t <- CreateTimers()
@@ -142,10 +142,8 @@ softmax_regression <- function(input_model=NA,
     SetParamMat(p, "training", to_matrix(training), TRUE)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.

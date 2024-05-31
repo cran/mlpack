@@ -4,7 +4,7 @@
 \alias{hmm_viterbi}
 \title{Hidden Markov Model (HMM) Viterbi State Prediction}
 \usage{
-hmm_viterbi(input, input_model, verbose = FALSE)
+hmm_viterbi(input, input_model, verbose = getOption("mlpack.verbose", FALSE))
 }
 \arguments{
 \item{input}{Matrix containing observations (numeric matrix).}
@@ -12,8 +12,8 @@ hmm_viterbi(input, input_model, verbose = FALSE)
 \item{input_model}{Trained HMM to use (HMMModel).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
 A list with several components:

@@ -10,7 +10,7 @@ nbc(
   labels = NA,
   test = NA,
   training = NA,
-  verbose = FALSE
+  verbose = getOption("mlpack.verbose", FALSE)
 )
 }
 \arguments{
@@ -27,17 +27,13 @@ row).}
 \item{training}{A matrix containing the training set (numeric matrix).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
 A list with several components:
-\item{output}{The matrix in which the predicted labels for the test set
-  will be written (deprecated) (integer row).}
 \item{output_model}{File to save trained Naive Bayes model to
   (NBCModel).}
-\item{output_probs}{The matrix in which the predicted probability of
-  labels for the test set will be written (deprecated) (numeric matrix).}
 \item{predictions}{The matrix in which the predicted labels for the test
   set will be written (integer row).}
 \item{probabilities}{The matrix in which the predicted probability of
@@ -70,9 +66,6 @@ If classifying a test set is desired, the test set may be specified with the
 "test" parameter, and the classifications may be saved with the
 "predictions"predictions  parameter.  If saving the trained model is desired,
 this may be done with the "output_model" output parameter.
-
-Note: the "output" and "output_probs" parameters are deprecated and will be
-removed in mlpack 4.0.0.  Use "predictions" and "probabilities" instead.
 }
 \examples{
 # For example, to train a Naive Bayes classifier on the dataset "data" with
@@ -90,7 +83,7 @@ nbc_model <- output$output_model
 
 \dontrun{
 output <- nbc(input_model=nbc_model, test=test_set)
-predictions <- output$output
+predictions <- output$predictions
 }
 }
 \author{

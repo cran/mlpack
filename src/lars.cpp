@@ -17,13 +17,18 @@ void lars_call(SEXP params, SEXP timers)
   util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
   util::Timers& t = *Rcpp::as<Rcpp::XPtr<util::Timers>>(timers);
 
+  if (p.Has("verbose"))
+    Log::Info.ignoreInput = false;
+  else
+    Log::Info.ignoreInput = true;
+
   BINDING_FUNCTION(p, t);
 }
 
 // Any implementations of methods for dealing with model pointers will be put
 // below this comment, if needed.
 
-// Get the pointer to a LARS parameter.
+// Get the pointer to a LARS<> parameter.
 // [[Rcpp::export]]
 SEXP GetParamLARSPtr(SEXP params,
                                    const std::string& paramName,
@@ -31,30 +36,30 @@ SEXP GetParamLARSPtr(SEXP params,
 {
   util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
   Rcpp::List inputModelsList(inputModels);
-  LARS* modelPtr = p.Get<LARS*>(paramName);
+  LARS<>* modelPtr = p.Get<LARS<>*>(paramName);
   for (int i = 0; i < inputModelsList.length(); ++i)
   {
-    Rcpp::XPtr<LARS> inputModel =
-        Rcpp::as<Rcpp::XPtr<LARS>>(inputModelsList[i]);
+    Rcpp::XPtr<LARS<>> inputModel =
+        Rcpp::as<Rcpp::XPtr<LARS<>>>(inputModelsList[i]);
     // Don't create a new XPtr---just reuse the one given as input, so that we
     // don't end up deleting it twice.
     if (inputModel.get() == modelPtr)
       return inputModel;
   }
 
-  return std::move((Rcpp::XPtr<LARS>) p.Get<LARS*>(paramName));
+  return std::move((Rcpp::XPtr<LARS<>>) p.Get<LARS<>*>(paramName));
 }
 
-// Set the pointer to a LARS parameter.
+// Set the pointer to a LARS<> parameter.
 // [[Rcpp::export]]
 void SetParamLARSPtr(SEXP params, const std::string& paramName, SEXP ptr)
 {
   util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
-  p.Get<LARS*>(paramName) = Rcpp::as<Rcpp::XPtr<LARS>>(ptr);
+  p.Get<LARS<>*>(paramName) = Rcpp::as<Rcpp::XPtr<LARS<>>>(ptr);
   p.SetPassed(paramName);
 }
 
-// Serialize a LARS pointer.
+// Serialize a LARS<> pointer.
 // [[Rcpp::export]]
 Rcpp::RawVector SerializeLARSPtr(SEXP ptr)
 {
@@ -62,7 +67,7 @@ Rcpp::RawVector SerializeLARSPtr(SEXP ptr)
   {
     cereal::BinaryOutputArchive oa(oss);
     oa(cereal::make_nvp("LARS",
-          *Rcpp::as<Rcpp::XPtr<LARS>>(ptr)));
+          *Rcpp::as<Rcpp::XPtr<LARS<>>>(ptr)));
   }
 
   Rcpp::RawVector raw_vec(oss.str().size());
@@ -74,11 +79,11 @@ Rcpp::RawVector SerializeLARSPtr(SEXP ptr)
   return raw_vec;
 }
 
-// Deserialize a LARS pointer.
+// Deserialize a LARS<> pointer.
 // [[Rcpp::export]]
 SEXP DeserializeLARSPtr(Rcpp::RawVector str)
 {
-  LARS* ptr = new LARS();
+  LARS<>* ptr = new LARS<>();
 
   std::istringstream iss(std::string((char *) &str[0], str.size()));
   {
@@ -87,7 +92,7 @@ SEXP DeserializeLARSPtr(Rcpp::RawVector str)
   }
 
   // R will be responsible for freeing this.
-  return std::move((Rcpp::XPtr<LARS>)ptr);
+  return std::move((Rcpp::XPtr<LARS<>>)ptr);
 }
 
 

@@ -4,7 +4,11 @@
 \alias{gmm_probability}
 \title{GMM Probability Calculator}
 \usage{
-gmm_probability(input, input_model, verbose = FALSE)
+gmm_probability(
+  input,
+  input_model,
+  verbose = getOption("mlpack.verbose", FALSE)
+)
 }
 \arguments{
 \item{input}{Input matrix to calculate probabilities of (numeric
@@ -13,8 +17,8 @@ matrix).}
 \item{input_model}{Input GMM to use as model (GMM).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
 A list with several components:

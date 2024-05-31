@@ -17,13 +17,18 @@ void sparse_coding_call(SEXP params, SEXP timers)
   util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
   util::Timers& t = *Rcpp::as<Rcpp::XPtr<util::Timers>>(timers);
 
+  if (p.Has("verbose"))
+    Log::Info.ignoreInput = false;
+  else
+    Log::Info.ignoreInput = true;
+
   BINDING_FUNCTION(p, t);
 }
 
 // Any implementations of methods for dealing with model pointers will be put
 // below this comment, if needed.
 
-// Get the pointer to a SparseCoding parameter.
+// Get the pointer to a SparseCoding<> parameter.
 // [[Rcpp::export]]
 SEXP GetParamSparseCodingPtr(SEXP params,
                                    const std::string& paramName,
@@ -31,30 +36,30 @@ SEXP GetParamSparseCodingPtr(SEXP params,
 {
   util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
   Rcpp::List inputModelsList(inputModels);
-  SparseCoding* modelPtr = p.Get<SparseCoding*>(paramName);
+  SparseCoding<>* modelPtr = p.Get<SparseCoding<>*>(paramName);
   for (int i = 0; i < inputModelsList.length(); ++i)
   {
-    Rcpp::XPtr<SparseCoding> inputModel =
-        Rcpp::as<Rcpp::XPtr<SparseCoding>>(inputModelsList[i]);
+    Rcpp::XPtr<SparseCoding<>> inputModel =
+        Rcpp::as<Rcpp::XPtr<SparseCoding<>>>(inputModelsList[i]);
     // Don't create a new XPtr---just reuse the one given as input, so that we
     // don't end up deleting it twice.
     if (inputModel.get() == modelPtr)
       return inputModel;
   }
 
-  return std::move((Rcpp::XPtr<SparseCoding>) p.Get<SparseCoding*>(paramName));
+  return std::move((Rcpp::XPtr<SparseCoding<>>) p.Get<SparseCoding<>*>(paramName));
 }
 
-// Set the pointer to a SparseCoding parameter.
+// Set the pointer to a SparseCoding<> parameter.
 // [[Rcpp::export]]
 void SetParamSparseCodingPtr(SEXP params, const std::string& paramName, SEXP ptr)
 {
   util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
-  p.Get<SparseCoding*>(paramName) = Rcpp::as<Rcpp::XPtr<SparseCoding>>(ptr);
+  p.Get<SparseCoding<>*>(paramName) = Rcpp::as<Rcpp::XPtr<SparseCoding<>>>(ptr);
   p.SetPassed(paramName);
 }
 
-// Serialize a SparseCoding pointer.
+// Serialize a SparseCoding<> pointer.
 // [[Rcpp::export]]
 Rcpp::RawVector SerializeSparseCodingPtr(SEXP ptr)
 {
@@ -62,7 +67,7 @@ Rcpp::RawVector SerializeSparseCodingPtr(SEXP ptr)
   {
     cereal::BinaryOutputArchive oa(oss);
     oa(cereal::make_nvp("SparseCoding",
-          *Rcpp::as<Rcpp::XPtr<SparseCoding>>(ptr)));
+          *Rcpp::as<Rcpp::XPtr<SparseCoding<>>>(ptr)));
   }
 
   Rcpp::RawVector raw_vec(oss.str().size());
@@ -74,11 +79,11 @@ Rcpp::RawVector SerializeSparseCodingPtr(SEXP ptr)
   return raw_vec;
 }
 
-// Deserialize a SparseCoding pointer.
+// Deserialize a SparseCoding<> pointer.
 // [[Rcpp::export]]
 SEXP DeserializeSparseCodingPtr(Rcpp::RawVector str)
 {
-  SparseCoding* ptr = new SparseCoding();
+  SparseCoding<>* ptr = new SparseCoding<>();
 
   std::istringstream iss(std::string((char *) &str[0], str.size()));
   {
@@ -87,7 +92,7 @@ SEXP DeserializeSparseCodingPtr(Rcpp::RawVector str)
   }
 
   // R will be responsible for freeing this.
-  return std::move((Rcpp::XPtr<SparseCoding>)ptr);
+  return std::move((Rcpp::XPtr<SparseCoding<>>)ptr);
 }
 
 

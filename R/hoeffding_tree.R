@@ -36,8 +36,8 @@
 #' @param training Training dataset (may be categorical) (numeric
 #'   matrix/data.frame with info).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
 #' \item{output_model}{Output for trained Hoeffding tree model
@@ -110,7 +110,7 @@ hoeffding_tree <- function(batch_mode=FALSE,
                            test=NA,
                            test_labels=NA,
                            training=NA,
-                           verbose=FALSE) {
+                           verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("hoeffding_tree")
   t <- CreateTimers()
@@ -179,10 +179,8 @@ hoeffding_tree <- function(batch_mode=FALSE,
     SetParamMatWithInfo(p, "training", training$info, training$data)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.

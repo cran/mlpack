@@ -17,7 +17,7 @@ lsh(
   seed = NA,
   tables = NA,
   true_neighbors = NA,
-  verbose = FALSE
+  verbose = getOption("mlpack.verbose", FALSE)
 )
 }
 \arguments{
@@ -58,8 +58,8 @@ value "0" (integer).}
 (the recall is printed when -v is specified) (integer matrix).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
 A list with several components:

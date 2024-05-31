@@ -4,7 +4,12 @@
 \alias{preprocess_binarize}
 \title{Binarize Data}
 \usage{
-preprocess_binarize(input, dimension = NA, threshold = NA, verbose = FALSE)
+preprocess_binarize(
+  input,
+  dimension = NA,
+  threshold = NA,
+  verbose = getOption("mlpack.verbose", FALSE)
+)
 }
 \arguments{
 \item{input}{Input data matrix (numeric matrix).}
@@ -17,8 +22,8 @@ program will binarize every dimension by default.  Default value "0"
 the threshold defaults to 0.0.  Default value "0" (numeric).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
 A list with several components:

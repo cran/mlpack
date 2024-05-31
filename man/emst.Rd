@@ -4,7 +4,12 @@
 \alias{emst}
 \title{Fast Euclidean Minimum Spanning Tree}
 \usage{
-emst(input, leaf_size = NA, naive = FALSE, verbose = FALSE)
+emst(
+  input,
+  leaf_size = NA,
+  naive = FALSE,
+  verbose = getOption("mlpack.verbose", FALSE)
+)
 }
 \arguments{
 \item{input}{Input data matrix (numeric matrix).}
@@ -17,8 +22,8 @@ requirements.  Default value "1" (integer).}
 value "FALSE" (logical).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
 A list with several components:

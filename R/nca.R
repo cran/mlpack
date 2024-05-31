@@ -36,8 +36,8 @@
 #' @param tolerance Maximum tolerance for termination of SGD or L-BFGS. 
 #'   Default value "1e-07" (numeric).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #' @param wolfe Wolfe condition parameter for L-BFGS.  Default value "0.9"
 #'   (numeric).
 #'
@@ -117,7 +117,7 @@ nca <- function(input,
                 seed=NA,
                 step_size=NA,
                 tolerance=NA,
-                verbose=FALSE,
+                verbose=getOption("mlpack.verbose", FALSE),
                 wolfe=NA) {
   # Create parameters and timers objects.
   p <- CreateParams("nca")
@@ -185,14 +185,12 @@ nca <- function(input,
     SetParamDouble(p, "tolerance", tolerance)
   }
 
-  if (!identical(wolfe, NA)) {
-    SetParamDouble(p, "wolfe", wolfe)
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(wolfe, NA)) {
+    SetParamDouble(p, "wolfe", wolfe)
   }
 
   # Mark all output options as passed.

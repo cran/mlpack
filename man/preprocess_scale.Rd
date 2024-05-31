@@ -13,7 +13,7 @@ preprocess_scale(
   min_value = NA,
   scaler_method = NA,
   seed = NA,
-  verbose = FALSE
+  verbose = getOption("mlpack.verbose", FALSE)
 )
 }
 \arguments{
@@ -40,8 +40,8 @@ standard_scaler.  Default value "standard_scaler" (character).}
 (integer).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
 A list with several components:

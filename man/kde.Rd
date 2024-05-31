@@ -19,7 +19,7 @@ kde(
   reference = NA,
   rel_error = NA,
   tree = NA,
-  verbose = FALSE
+  verbose = getOption("mlpack.verbose", FALSE)
 )
 }
 \arguments{
@@ -66,8 +66,8 @@ value "0.05" (numeric).}
 'cover-tree', 'octree', 'r-tree').  Default value "kd-tree" (character).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
 A list with several components:

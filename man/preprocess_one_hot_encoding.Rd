@@ -4,7 +4,11 @@
 \alias{preprocess_one_hot_encoding}
 \title{One Hot Encoding}
 \usage{
-preprocess_one_hot_encoding(input, dimensions = NA, verbose = FALSE)
+preprocess_one_hot_encoding(
+  input,
+  dimensions = NA,
+  verbose = getOption("mlpack.verbose", FALSE)
+)
 }
 \arguments{
 \item{input}{Matrix containing data (numeric matrix/data.frame with
@@ -15,8 +19,8 @@ info).}
 vector).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
 A list with several components:

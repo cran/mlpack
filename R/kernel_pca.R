@@ -26,8 +26,8 @@
 #' @param sampling Sampling scheme to use for the Nystroem method:
 #'   'kmeans', 'random', 'ordered.  Default value "kmeans" (character).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
 #' \item{output}{Matrix to save modified dataset to (numeric matrix).}
@@ -44,25 +44,25 @@
 #' The kernels that are supported are listed below:
 #' 
 #'  * 'linear': the standard linear dot product (same as normal PCA):
-#'     K(x, y) = x^T y
+#'     `K(x, y) = x^T y`
 #' 
 #'  * 'gaussian': a Gaussian kernel; requires bandwidth:
-#'     K(x, y) = exp(-(|| x - y || ^ 2) / (2 * (bandwidth ^ 2)))
+#'     `K(x, y) = exp(-(|| x - y || ^ 2) / (2 * (bandwidth ^ 2)))`
 #' 
 #'  * 'polynomial': polynomial kernel; requires offset and degree:
-#'     K(x, y) = (x^T y + offset) ^ degree
+#'     `K(x, y) = (x^T y + offset) ^ degree`
 #' 
 #'  * 'hyptan': hyperbolic tangent kernel; requires scale and offset:
-#'     K(x, y) = tanh(scale * (x^T y) + offset)
+#'     `K(x, y) = tanh(scale * (x^T y) + offset)`
 #' 
 #'  * 'laplacian': Laplacian kernel; requires bandwidth:
-#'     K(x, y) = exp(-(|| x - y ||) / bandwidth)
+#'     `K(x, y) = exp(-(|| x - y ||) / bandwidth)`
 #' 
 #'  * 'epanechnikov': Epanechnikov kernel; requires bandwidth:
-#'     K(x, y) = max(0, 1 - || x - y ||^2 / bandwidth^2)
+#'     `K(x, y) = max(0, 1 - || x - y ||^2 / bandwidth^2)`
 #' 
 #'  * 'cosine': cosine distance:
-#'     K(x, y) = 1 - (x^T y) / (|| x || * || y ||)
+#'     `K(x, y) = 1 - (x^T y) / (|| x || * || y ||)`
 #' 
 #' The parameters for each of the kernels should be specified with the options
 #' "bandwidth", "kernel_scale", "offset", or "degree" (or a combination of those
@@ -99,7 +99,7 @@ kernel_pca <- function(input,
                        nystroem_method=FALSE,
                        offset=NA,
                        sampling=NA,
-                       verbose=FALSE) {
+                       verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("kernel_pca")
   t <- CreateTimers()
@@ -144,10 +144,8 @@ kernel_pca <- function(input,
     SetParamString(p, "sampling", sampling)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.

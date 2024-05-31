@@ -15,8 +15,8 @@
 #' @param test_ratio Ratio of test set; if not set,the ratio defaults to
 #'   0..  Default value "0.2" (numeric).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
 #' \item{test}{Matrix to save test data to (numeric matrix).}
@@ -89,7 +89,7 @@ preprocess_split <- function(input,
                              seed=NA,
                              stratify_data=FALSE,
                              test_ratio=NA,
-                             verbose=FALSE) {
+                             verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("preprocess_split")
   t <- CreateTimers()
@@ -120,10 +120,8 @@ preprocess_split <- function(input,
     SetParamDouble(p, "test_ratio", test_ratio)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.

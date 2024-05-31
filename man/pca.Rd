@@ -10,7 +10,7 @@ pca(
   new_dimensionality = NA,
   scale = FALSE,
   var_to_retain = NA,
-  verbose = FALSE
+  verbose = getOption("mlpack.verbose", FALSE)
 )
 }
 \arguments{
@@ -31,8 +31,8 @@ and 1.  If 1, all variance is retained.  Overrides -d.  Default value "0"
 (numeric).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
 A list with several components:

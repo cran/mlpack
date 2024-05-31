@@ -20,8 +20,8 @@
 #'   tree to use ('kd', 'r', 'r-star', 'x', 'hilbert-r', 'r-plus',
 #'   'r-plus-plus', 'cover', 'ball').  Default value "kd" (character).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
 #' \item{assignments}{Output matrix for assignments of each point (integer
@@ -67,7 +67,7 @@ dbscan <- function(input,
                    selection_type=NA,
                    single_mode=FALSE,
                    tree_type=NA,
-                   verbose=FALSE) {
+                   verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("dbscan")
   t <- CreateTimers()
@@ -102,10 +102,8 @@ dbscan <- function(input,
     SetParamString(p, "tree_type", tree_type)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.

@@ -14,12 +14,10 @@
 #' @param test A matrix containing the test set (numeric matrix).
 #' @param training A matrix containing the training set (numeric matrix).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
-#' \item{output}{The matrix in which the predicted labels for the test set
-#'   will be written (integer row).}
 #' \item{output_model}{Output for trained perceptron model
 #'   (PerceptronModel).}
 #' \item{predictions}{The matrix in which the predicted labels for the test
@@ -41,10 +39,6 @@
 #' classification results on the test set may be saved with the "predictions"
 #' output parameter.  The perceptron model may be saved with the "output_model"
 #' output parameter.
-#' 
-#' Note: the following parameter is deprecated and will be removed in mlpack
-#' 4.0.0: "output".
-#' Use "predictions" instead of "output".
 #'
 #' @author
 #' mlpack developers
@@ -88,7 +82,7 @@ perceptron <- function(input_model=NA,
                        max_iterations=NA,
                        test=NA,
                        training=NA,
-                       verbose=FALSE) {
+                       verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("perceptron")
   t <- CreateTimers()
@@ -119,14 +113,11 @@ perceptron <- function(input_model=NA,
     SetParamMat(p, "training", to_matrix(training), TRUE)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.
-  SetPassed(p, "output")
   SetPassed(p, "output_model")
   SetPassed(p, "predictions")
 
@@ -139,7 +130,6 @@ perceptron <- function(input_model=NA,
 
   # Extract the results in order.
   out <- list(
-      "output" = GetParamURow(p, "output"),
       "output_model" = output_model,
       "predictions" = GetParamURow(p, "predictions")
   )

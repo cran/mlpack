@@ -11,7 +11,7 @@ mean_shift(
   labels_only = FALSE,
   max_iterations = NA,
   radius = NA,
-  verbose = FALSE
+  verbose = getOption("mlpack.verbose", FALSE)
 )
 }
 \arguments{
@@ -37,8 +37,8 @@ given radius, one will be removed.  A radius of 0 or less means an estimate
 will be calculated and used for the radius.  Default value "0" (numeric).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
 A list with several components:

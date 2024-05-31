@@ -16,8 +16,8 @@
 #'   Default value "90" (integer).
 #' @param save Save a dataset as images.  Default value "FALSE" (logical).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #' @param width Width of the image.  Default value "0" (integer).
 #'
 #' @return A list with several components:
@@ -58,7 +58,7 @@ image_converter <- function(input,
                             height=NA,
                             quality=NA,
                             save=FALSE,
-                            verbose=FALSE,
+                            verbose=getOption("mlpack.verbose", FALSE),
                             width=NA) {
   # Create parameters and timers objects.
   p <- CreateParams("image_converter")
@@ -90,14 +90,12 @@ image_converter <- function(input,
     SetParamBool(p, "save", save)
   }
 
-  if (!identical(width, NA)) {
-    SetParamInt(p, "width", width)
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(width, NA)) {
+    SetParamInt(p, "width", width)
   }
 
   # Mark all output options as passed.

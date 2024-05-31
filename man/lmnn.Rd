@@ -23,7 +23,7 @@ lmnn(
   seed = NA,
   step_size = NA,
   tolerance = NA,
-  verbose = FALSE
+  verbose = getOption("mlpack.verbose", FALSE)
 )
 }
 \arguments{
@@ -82,8 +82,8 @@ value "0.01" (numeric).}
 SGD or L-BFGS.  Default value "1e-07" (numeric).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
 A list with several components:

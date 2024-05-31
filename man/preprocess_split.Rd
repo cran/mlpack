@@ -11,7 +11,7 @@ preprocess_split(
   seed = NA,
   stratify_data = FALSE,
   test_ratio = NA,
-  verbose = FALSE
+  verbose = getOption("mlpack.verbose", FALSE)
 )
 }
 \arguments{
@@ -32,8 +32,8 @@ value "FALSE" (logical).}
 0..  Default value "0.2" (numeric).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
 A list with several components:

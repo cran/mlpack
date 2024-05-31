@@ -1891,24 +1891,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// EnableVerbose
-void EnableVerbose();
-RcppExport SEXP _mlpack_EnableVerbose() {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    EnableVerbose();
-    return R_NilValue;
-END_RCPP
-}
-// DisableVerbose
-void DisableVerbose();
-RcppExport SEXP _mlpack_DisableVerbose() {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    DisableVerbose();
-    return R_NilValue;
-END_RCPP
-}
 // ResetTimers
 void ResetTimers();
 RcppExport SEXP _mlpack_ResetTimers() {
@@ -2336,8 +2318,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_mlpack_GetParamCol", (DL_FUNC) &_mlpack_GetParamCol, 2},
     {"_mlpack_GetParamUCol", (DL_FUNC) &_mlpack_GetParamUCol, 2},
     {"_mlpack_IO_GetParamMatWithInfo", (DL_FUNC) &_mlpack_IO_GetParamMatWithInfo, 2},
-    {"_mlpack_EnableVerbose", (DL_FUNC) &_mlpack_EnableVerbose, 0},
-    {"_mlpack_DisableVerbose", (DL_FUNC) &_mlpack_DisableVerbose, 0},
     {"_mlpack_ResetTimers", (DL_FUNC) &_mlpack_ResetTimers, 0},
     {"_mlpack_SetPassed", (DL_FUNC) &_mlpack_SetPassed, 2},
     {"_mlpack_radical_call", (DL_FUNC) &_mlpack_radical_call, 2},

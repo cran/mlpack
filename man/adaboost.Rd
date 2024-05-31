@@ -11,7 +11,7 @@ adaboost(
   test = NA,
   tolerance = NA,
   training = NA,
-  verbose = FALSE,
+  verbose = getOption("mlpack.verbose", FALSE),
   weak_learner = NA
 )
 }
@@ -31,15 +31,14 @@ error during training.  Default value "1e-10" (numeric).}
 \item{training}{Dataset for training AdaBoost (numeric matrix).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 
 \item{weak_learner}{The type of weak learner to use: 'decision_stump',
 or 'perceptron'.  Default value "decision_stump" (character).}
 }
 \value{
 A list with several components:
-\item{output}{Predicted labels for the test set (integer row).}
 \item{output_model}{Output trained AdaBoost model (AdaBoostModel).}
 \item{predictions}{Predicted labels for the test set (integer row).}
 \item{probabilities}{Predicted class probabilities for each point in the
@@ -74,10 +73,6 @@ predictions for a given test dataset.  A test dataset may be specified with
 the "test" parameter.  The predicted classes for each point in the test
 dataset are output to the "predictions" output parameter.  The AdaBoost model
 itself is output to the "output_model" output parameter.
-
-Note: the following parameter is deprecated and will be removed in mlpack
-4.0.0: "output".
-Use "predictions" instead of "output".
 }
 \examples{
 # For example, to run AdaBoost on an input dataset "data" with labels

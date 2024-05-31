@@ -37,8 +37,8 @@
 #' @param test Test set to calculate RMSE on (numeric matrix).
 #' @param training Input dataset to perform CF on (numeric matrix).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
 #' \item{output}{Matrix that will store output recommendations (integer
@@ -69,7 +69,8 @@
 #' specified with the "neighborhood" parameter.
 #' 
 #' For performing the matrix decomposition, the following optimization
-#' algorithms can be specified via the "algorithm" parameter: 
+#' algorithms can be specified via the "algorithm" parameter:
+#' 
 #'  - 'RegSVD' -- Regularized SVD using a SGD optimizer
 #'  - 'NMF' -- Non-negative matrix factorization with alternating least squares
 #' update rules
@@ -85,6 +86,7 @@
 #' 
 #' The following neighbor search algorithms can be specified via the
 #' "neighbor_search" parameter:
+#' 
 #'  - 'cosine'  -- Cosine Search Algorithm
 #'  - 'euclidean'  -- Euclidean Search Algorithm
 #'  - 'pearson'  -- Pearson Search Algorithm
@@ -92,6 +94,7 @@
 #' 
 #' The following weight interpolation algorithms can be specified via the
 #' "interpolation" parameter:
+#' 
 #'  - 'average'  -- Average Interpolation Algorithm
 #'  - 'regression'  -- Regression Interpolation Algorithm
 #'  - 'similarity'  -- Similarity Interpolation Algorithm
@@ -99,6 +102,7 @@
 #' 
 #' The following ranking normalization algorithms can be specified via the
 #' "normalization" parameter:
+#' 
 #'  - 'none'  -- No Normalization
 #'  - 'item_mean'  -- Item Mean Normalization
 #'  - 'overall_mean'  -- Overall Mean Normalization
@@ -144,7 +148,7 @@ cf <- function(algorithm=NA,
                seed=NA,
                test=NA,
                training=NA,
-               verbose=FALSE) {
+               verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("cf")
   t <- CreateTimers()
@@ -219,10 +223,8 @@ cf <- function(algorithm=NA,
     SetParamMat(p, "training", to_matrix(training), TRUE)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.

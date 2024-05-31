@@ -17,13 +17,18 @@ void bayesian_linear_regression_call(SEXP params, SEXP timers)
   util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
   util::Timers& t = *Rcpp::as<Rcpp::XPtr<util::Timers>>(timers);
 
+  if (p.Has("verbose"))
+    Log::Info.ignoreInput = false;
+  else
+    Log::Info.ignoreInput = true;
+
   BINDING_FUNCTION(p, t);
 }
 
 // Any implementations of methods for dealing with model pointers will be put
 // below this comment, if needed.
 
-// Get the pointer to a BayesianLinearRegression parameter.
+// Get the pointer to a BayesianLinearRegression<> parameter.
 // [[Rcpp::export]]
 SEXP GetParamBayesianLinearRegressionPtr(SEXP params,
                                    const std::string& paramName,
@@ -31,30 +36,30 @@ SEXP GetParamBayesianLinearRegressionPtr(SEXP params,
 {
   util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
   Rcpp::List inputModelsList(inputModels);
-  BayesianLinearRegression* modelPtr = p.Get<BayesianLinearRegression*>(paramName);
+  BayesianLinearRegression<>* modelPtr = p.Get<BayesianLinearRegression<>*>(paramName);
   for (int i = 0; i < inputModelsList.length(); ++i)
   {
-    Rcpp::XPtr<BayesianLinearRegression> inputModel =
-        Rcpp::as<Rcpp::XPtr<BayesianLinearRegression>>(inputModelsList[i]);
+    Rcpp::XPtr<BayesianLinearRegression<>> inputModel =
+        Rcpp::as<Rcpp::XPtr<BayesianLinearRegression<>>>(inputModelsList[i]);
     // Don't create a new XPtr---just reuse the one given as input, so that we
     // don't end up deleting it twice.
     if (inputModel.get() == modelPtr)
       return inputModel;
   }
 
-  return std::move((Rcpp::XPtr<BayesianLinearRegression>) p.Get<BayesianLinearRegression*>(paramName));
+  return std::move((Rcpp::XPtr<BayesianLinearRegression<>>) p.Get<BayesianLinearRegression<>*>(paramName));
 }
 
-// Set the pointer to a BayesianLinearRegression parameter.
+// Set the pointer to a BayesianLinearRegression<> parameter.
 // [[Rcpp::export]]
 void SetParamBayesianLinearRegressionPtr(SEXP params, const std::string& paramName, SEXP ptr)
 {
   util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
-  p.Get<BayesianLinearRegression*>(paramName) = Rcpp::as<Rcpp::XPtr<BayesianLinearRegression>>(ptr);
+  p.Get<BayesianLinearRegression<>*>(paramName) = Rcpp::as<Rcpp::XPtr<BayesianLinearRegression<>>>(ptr);
   p.SetPassed(paramName);
 }
 
-// Serialize a BayesianLinearRegression pointer.
+// Serialize a BayesianLinearRegression<> pointer.
 // [[Rcpp::export]]
 Rcpp::RawVector SerializeBayesianLinearRegressionPtr(SEXP ptr)
 {
@@ -62,7 +67,7 @@ Rcpp::RawVector SerializeBayesianLinearRegressionPtr(SEXP ptr)
   {
     cereal::BinaryOutputArchive oa(oss);
     oa(cereal::make_nvp("BayesianLinearRegression",
-          *Rcpp::as<Rcpp::XPtr<BayesianLinearRegression>>(ptr)));
+          *Rcpp::as<Rcpp::XPtr<BayesianLinearRegression<>>>(ptr)));
   }
 
   Rcpp::RawVector raw_vec(oss.str().size());
@@ -74,11 +79,11 @@ Rcpp::RawVector SerializeBayesianLinearRegressionPtr(SEXP ptr)
   return raw_vec;
 }
 
-// Deserialize a BayesianLinearRegression pointer.
+// Deserialize a BayesianLinearRegression<> pointer.
 // [[Rcpp::export]]
 SEXP DeserializeBayesianLinearRegressionPtr(Rcpp::RawVector str)
 {
-  BayesianLinearRegression* ptr = new BayesianLinearRegression();
+  BayesianLinearRegression<>* ptr = new BayesianLinearRegression<>();
 
   std::istringstream iss(std::string((char *) &str[0], str.size()));
   {
@@ -87,7 +92,7 @@ SEXP DeserializeBayesianLinearRegressionPtr(Rcpp::RawVector str)
   }
 
   // R will be responsible for freeing this.
-  return std::move((Rcpp::XPtr<BayesianLinearRegression>)ptr);
+  return std::move((Rcpp::XPtr<BayesianLinearRegression<>>)ptr);
 }
 
 

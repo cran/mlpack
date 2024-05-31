@@ -21,8 +21,8 @@
 #' @param training The data set on which to build a density estimation tree
 #'   (numeric matrix).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
 #' \item{output_model}{Output to save trained density estimation tree to
@@ -76,7 +76,7 @@ det <- function(folds=NA,
                 skip_pruning=FALSE,
                 test=NA,
                 training=NA,
-                verbose=FALSE) {
+                verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("det")
   t <- CreateTimers()
@@ -119,10 +119,8 @@ det <- function(folds=NA,
     SetParamMat(p, "training", to_matrix(training), TRUE)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.

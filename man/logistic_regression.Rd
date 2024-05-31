@@ -12,11 +12,12 @@ logistic_regression(
   lambda = NA,
   max_iterations = NA,
   optimizer = NA,
+  print_training_accuracy = FALSE,
   step_size = NA,
   test = NA,
   tolerance = NA,
   training = NA,
-  verbose = FALSE
+  verbose = getOption("mlpack.verbose", FALSE)
 )
 }
 \arguments{
@@ -40,6 +41,10 @@ limit).  Default value "10000" (integer).}
 \item{optimizer}{Optimizer to use for training ('lbfgs' or 'sgd'). 
 Default value "lbfgs" (character).}
 
+\item{print_training_accuracy}{If set, then the accuracy of the model on
+the training set will be printed (verbose must also be specified).  Default
+value "FALSE" (logical).}
+
 \item{step_size}{Step size for SGD optimizer.  Default value "0.01"
 (numeric).}
 
@@ -52,8 +57,8 @@ Default value "lbfgs" (character).}
 predictors, X) (numeric matrix).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
 A list with several components:
@@ -125,7 +130,8 @@ either 0 or 1.  For more classes, see the softmax regression implementation.
 # '"lr_model"', the following command may be used:
 
 \dontrun{
-output <- logistic_regression(training=data, labels=labels, lambda=0.1)
+output <- logistic_regression(training=data, labels=labels, lambda=0.1,
+  print_training_accuracy=TRUE)
 lr_model <- output$output_model
 }
 

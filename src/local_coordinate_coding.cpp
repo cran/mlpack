@@ -17,13 +17,18 @@ void local_coordinate_coding_call(SEXP params, SEXP timers)
   util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
   util::Timers& t = *Rcpp::as<Rcpp::XPtr<util::Timers>>(timers);
 
+  if (p.Has("verbose"))
+    Log::Info.ignoreInput = false;
+  else
+    Log::Info.ignoreInput = true;
+
   BINDING_FUNCTION(p, t);
 }
 
 // Any implementations of methods for dealing with model pointers will be put
 // below this comment, if needed.
 
-// Get the pointer to a LocalCoordinateCoding parameter.
+// Get the pointer to a LocalCoordinateCoding<> parameter.
 // [[Rcpp::export]]
 SEXP GetParamLocalCoordinateCodingPtr(SEXP params,
                                    const std::string& paramName,
@@ -31,30 +36,30 @@ SEXP GetParamLocalCoordinateCodingPtr(SEXP params,
 {
   util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
   Rcpp::List inputModelsList(inputModels);
-  LocalCoordinateCoding* modelPtr = p.Get<LocalCoordinateCoding*>(paramName);
+  LocalCoordinateCoding<>* modelPtr = p.Get<LocalCoordinateCoding<>*>(paramName);
   for (int i = 0; i < inputModelsList.length(); ++i)
   {
-    Rcpp::XPtr<LocalCoordinateCoding> inputModel =
-        Rcpp::as<Rcpp::XPtr<LocalCoordinateCoding>>(inputModelsList[i]);
+    Rcpp::XPtr<LocalCoordinateCoding<>> inputModel =
+        Rcpp::as<Rcpp::XPtr<LocalCoordinateCoding<>>>(inputModelsList[i]);
     // Don't create a new XPtr---just reuse the one given as input, so that we
     // don't end up deleting it twice.
     if (inputModel.get() == modelPtr)
       return inputModel;
   }
 
-  return std::move((Rcpp::XPtr<LocalCoordinateCoding>) p.Get<LocalCoordinateCoding*>(paramName));
+  return std::move((Rcpp::XPtr<LocalCoordinateCoding<>>) p.Get<LocalCoordinateCoding<>*>(paramName));
 }
 
-// Set the pointer to a LocalCoordinateCoding parameter.
+// Set the pointer to a LocalCoordinateCoding<> parameter.
 // [[Rcpp::export]]
 void SetParamLocalCoordinateCodingPtr(SEXP params, const std::string& paramName, SEXP ptr)
 {
   util::Params& p = *Rcpp::as<Rcpp::XPtr<util::Params>>(params);
-  p.Get<LocalCoordinateCoding*>(paramName) = Rcpp::as<Rcpp::XPtr<LocalCoordinateCoding>>(ptr);
+  p.Get<LocalCoordinateCoding<>*>(paramName) = Rcpp::as<Rcpp::XPtr<LocalCoordinateCoding<>>>(ptr);
   p.SetPassed(paramName);
 }
 
-// Serialize a LocalCoordinateCoding pointer.
+// Serialize a LocalCoordinateCoding<> pointer.
 // [[Rcpp::export]]
 Rcpp::RawVector SerializeLocalCoordinateCodingPtr(SEXP ptr)
 {
@@ -62,7 +67,7 @@ Rcpp::RawVector SerializeLocalCoordinateCodingPtr(SEXP ptr)
   {
     cereal::BinaryOutputArchive oa(oss);
     oa(cereal::make_nvp("LocalCoordinateCoding",
-          *Rcpp::as<Rcpp::XPtr<LocalCoordinateCoding>>(ptr)));
+          *Rcpp::as<Rcpp::XPtr<LocalCoordinateCoding<>>>(ptr)));
   }
 
   Rcpp::RawVector raw_vec(oss.str().size());
@@ -74,11 +79,11 @@ Rcpp::RawVector SerializeLocalCoordinateCodingPtr(SEXP ptr)
   return raw_vec;
 }
 
-// Deserialize a LocalCoordinateCoding pointer.
+// Deserialize a LocalCoordinateCoding<> pointer.
 // [[Rcpp::export]]
 SEXP DeserializeLocalCoordinateCodingPtr(Rcpp::RawVector str)
 {
-  LocalCoordinateCoding* ptr = new LocalCoordinateCoding();
+  LocalCoordinateCoding<>* ptr = new LocalCoordinateCoding<>();
 
   std::istringstream iss(std::string((char *) &str[0], str.size()));
   {
@@ -87,7 +92,7 @@ SEXP DeserializeLocalCoordinateCodingPtr(Rcpp::RawVector str)
   }
 
   // R will be responsible for freeing this.
-  return std::move((Rcpp::XPtr<LocalCoordinateCoding>)ptr);
+  return std::move((Rcpp::XPtr<LocalCoordinateCoding<>>)ptr);
 }
 
 

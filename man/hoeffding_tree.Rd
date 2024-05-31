@@ -19,7 +19,7 @@ hoeffding_tree(
   test = NA,
   test_labels = NA,
   training = NA,
-  verbose = FALSE
+  verbose = getOption("mlpack.verbose", FALSE)
 )
 }
 \arguments{
@@ -67,8 +67,8 @@ matrix/data.frame with info).}
 matrix/data.frame with info).}
 
 \item{verbose}{Display informational messages and the full list of
-parameters and timers at the end of execution.  Default value "FALSE"
-(logical).}
+parameters and timers at the end of execution.  Default value
+"getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
 A list with several components:

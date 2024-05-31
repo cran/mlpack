@@ -17,8 +17,8 @@
 #'   represents a point, so this option is generally not necessary..  Default
 #'   value "FALSE" (logical).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #' @param width Width of the output table.  Default value "8" (integer).
 #'
 #'
@@ -59,7 +59,7 @@ preprocess_describe <- function(input,
                                 population=FALSE,
                                 precision=NA,
                                 row_major=FALSE,
-                                verbose=FALSE,
+                                verbose=getOption("mlpack.verbose", FALSE),
                                 width=NA) {
   # Create parameters and timers objects.
   p <- CreateParams("preprocess_describe")
@@ -87,14 +87,12 @@ preprocess_describe <- function(input,
     SetParamBool(p, "row_major", row_major)
   }
 
-  if (!identical(width, NA)) {
-    SetParamInt(p, "width", width)
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(width, NA)) {
+    SetParamInt(p, "width", width)
   }
 
   # Mark all output options as passed.

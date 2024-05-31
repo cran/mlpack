@@ -40,8 +40,8 @@
 #'   'r-star', 'hilbert-r', 'r-plus', 'r-plus-plus', 'oct'.  Default value "kd"
 #'   (character).
 #' @param verbose Display informational messages and the full list of
-#'   parameters and timers at the end of execution.  Default value "FALSE"
-#'   (logical).
+#'   parameters and timers at the end of execution.  Default value
+#'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
 #' @return A list with several components:
 #' \item{distances}{Matrix to output distances into (numeric matrix).}
@@ -97,7 +97,7 @@ krann <- function(alpha=NA,
                   single_sample_limit=NA,
                   tau=NA,
                   tree_type=NA,
-                  verbose=FALSE) {
+                  verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("krann")
   t <- CreateTimers()
@@ -168,10 +168,8 @@ krann <- function(alpha=NA,
     SetParamString(p, "tree_type", tree_type)
   }
 
-  if (verbose) {
-    EnableVerbose()
-  } else {
-    DisableVerbose()
+  if (!identical(verbose, FALSE)) {
+    SetParamBool(p, "verbose", verbose)
   }
 
   # Mark all output options as passed.
