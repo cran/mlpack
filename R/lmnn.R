@@ -30,8 +30,6 @@
 #'   BB_SGD and SGD.  Default value "50" (integer).
 #' @param print_accuracy Print accuracies on initial and transformed
 #'   datase.  Default value "FALSE" (logical).
-#' @param range Number of iterations after which impostors needs to be
-#'   recalculate.  Default value "1" (integer).
 #' @param rank Rank of distance matrix to be optimized..  Default value "0"
 #'   (integer).
 #' @param regularization Regularization for LMNN objective function. 
@@ -42,6 +40,8 @@
 #'   value "0.01" (numeric).
 #' @param tolerance Maximum tolerance for termination of AMSGrad, BB_SGD,
 #'   SGD or L-BFGS.  Default value "1e-07" (numeric).
+#' @param update_interval Number of iterations after which impostors need
+#'   to be recalculated.  Default value "1" (integer).
 #' @param verbose Display informational messages and the full list of
 #'   parameters and timers at the end of execution.  Default value
 #'   "getOption("mlpack.verbose", FALSE)" (logical).
@@ -77,7 +77,7 @@
 #' as a trade of between the pulling and pushing terms (specified with
 #' "regularization"), In addition, this implementation of LMNN includes a
 #' parameter to decide the interval after which impostors must be re-calculated
-#' (specified with "range").
+#' (specified with "update_interval").
 #' 
 #' Output can either be the learned distance matrix (specified with "output"),
 #' or the transformed dataset  (specified with "transformed_data"), or both.
@@ -135,11 +135,12 @@
 #' output <- output$output
 #' }
 #' 
-#' # An another program call making use of range & regularization parameter with
-#' # dataset having labels as last column can be made as: 
+#' # Another program call making use of update interval & regularization
+#' # parameter with dataset having labels as last column can be made as: 
 #' 
 #' \dontrun{
-#' output <- lmnn(input=letter_recognition, k=5, range=10, regularization=0.4)
+#' output <- lmnn(input=letter_recognition, k=5, update_interval=10,
+#'   regularization=0.4)
 #' output <- output$output
 #' }
 lmnn <- function(input,
@@ -154,12 +155,12 @@ lmnn <- function(input,
                  optimizer=NA,
                  passes=NA,
                  print_accuracy=FALSE,
-                 range=NA,
                  rank=NA,
                  regularization=NA,
                  seed=NA,
                  step_size=NA,
                  tolerance=NA,
+                 update_interval=NA,
                  verbose=getOption("mlpack.verbose", FALSE)) {
   # Create parameters and timers objects.
   p <- CreateParams("lmnn")
@@ -215,10 +216,6 @@ lmnn <- function(input,
     SetParamBool(p, "print_accuracy", print_accuracy)
   }
 
-  if (!identical(range, NA)) {
-    SetParamInt(p, "range", range)
-  }
-
   if (!identical(rank, NA)) {
     SetParamInt(p, "rank", rank)
   }
@@ -237,6 +234,10 @@ lmnn <- function(input,
 
   if (!identical(tolerance, NA)) {
     SetParamDouble(p, "tolerance", tolerance)
+  }
+
+  if (!identical(update_interval, NA)) {
+    SetParamInt(p, "update_interval", update_interval)
   }
 
   if (!identical(verbose, FALSE)) {

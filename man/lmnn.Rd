@@ -17,12 +17,12 @@ lmnn(
   optimizer = NA,
   passes = NA,
   print_accuracy = FALSE,
-  range = NA,
   rank = NA,
   regularization = NA,
   seed = NA,
   step_size = NA,
   tolerance = NA,
+  update_interval = NA,
   verbose = getOption("mlpack.verbose", FALSE)
 )
 }
@@ -63,9 +63,6 @@ BB_SGD and SGD.  Default value "50" (integer).}
 \item{print_accuracy}{Print accuracies on initial and transformed
 datase.  Default value "FALSE" (logical).}
 
-\item{range}{Number of iterations after which impostors needs to be
-recalculate.  Default value "1" (integer).}
-
 \item{rank}{Rank of distance matrix to be optimized..  Default value "0"
 (integer).}
 
@@ -80,6 +77,9 @@ value "0.01" (numeric).}
 
 \item{tolerance}{Maximum tolerance for termination of AMSGrad, BB_SGD,
 SGD or L-BFGS.  Default value "1e-07" (numeric).}
+
+\item{update_interval}{Number of iterations after which impostors need
+to be recalculated.  Default value "1" (integer).}
 
 \item{verbose}{Display informational messages and the full list of
 parameters and timers at the end of execution.  Default value
@@ -123,7 +123,7 @@ specified with "k"), A regularization parameter can also be passed, It acts
 as a trade of between the pulling and pushing terms (specified with
 "regularization"), In addition, this implementation of LMNN includes a
 parameter to decide the interval after which impostors must be re-calculated
-(specified with "range").
+(specified with "update_interval").
 
 Output can either be the learned distance matrix (specified with "output"),
 or the transformed dataset  (specified with "transformed_data"), or both.
@@ -177,11 +177,12 @@ output <- lmnn(input=iris, labels=iris_labels, k=3, optimizer="bbsgd")
 output <- output$output
 }
 
-# An another program call making use of range & regularization parameter with
-# dataset having labels as last column can be made as: 
+# Another program call making use of update interval & regularization
+# parameter with dataset having labels as last column can be made as: 
 
 \dontrun{
-output <- lmnn(input=letter_recognition, k=5, range=10, regularization=0.4)
+output <- lmnn(input=letter_recognition, k=5, update_interval=10,
+  regularization=0.4)
 output <- output$output
 }
 }

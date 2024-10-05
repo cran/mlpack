@@ -335,7 +335,6 @@ typename MatType::elem_type AdaBoost<WeakLearnerType, MatType>::TrainInternal(
   wl.clear();
   alpha.clear();
 
-  this->tolerance = tolerance;
   this->numClasses = numClasses;
 
   // crt is the cumulative rt value for terminating the optimization when rt is

@@ -177,6 +177,7 @@ Other contributors:
   \item Zhuojin Liu \email{zhuojinliu.cs@gmail.com} [contributor, copyright holder]
   \item Richèl Bilderbeek \email{richel@richelbilderbeek.nl} [contributor, copyright holder]
   \item Chetan Pandey \email{chetanpandey1266@gmail.com} [contributor, copyright holder]
+  \item Nikolay Apanasov \email{nikolay@apanasov.org} [contributor, copyright holder]
 }
 
 }

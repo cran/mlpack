@@ -1,7 +1,7 @@
 Package: mlpack
 Title: 'Rcpp' Integration for the 'mlpack' Library
-Version: 4.4.0
-Date: 2024-05-28
+Version: 4.5.0
+Date: 2024-09-18
 Authors@R: c(
     person("Yashwant", "Singh Parihar", email = "yashwantsingh.sngh@gmail.com", role = c("aut", "ctb", "cph")),
     person("Ryan", "Curtin", email = "ryan@ratml.org", role = c("aut", "ctb", "cph", "cre")),
@@ -150,7 +150,8 @@ Authors@R: c(
     person("Sri", "Madhan M", email = "srimadhan11@gmail.com", role = c("ctb", "cph")),
     person("Zhuojin", "Liu", email = "zhuojinliu.cs@gmail.com", role = c("ctb", "cph")),
     person("Richèl", "Bilderbeek", email = "richel@richelbilderbeek.nl", role = c("ctb", "cph")),
-    person("Chetan", "Pandey", email = "chetanpandey1266@gmail.com", role = c("ctb", "cph")))
+    person("Chetan", "Pandey", email = "chetanpandey1266@gmail.com", role = c("ctb", "cph")),
+    person("Nikolay", "Apanasov", email = "nikolay@apanasov.org", role = c("ctb", "cph")))
 Description: A fast, flexible machine learning library, written in C++, that
              aims to provide fast, extensible implementations of cutting-edge
              machine learning algorithms.  See also Curtin et al. (2023)
@@ -160,16 +161,15 @@ SystemRequirements: A C++17 compiler. Version 8 or later of GCC will be
 License: BSD_3_clause + file LICENSE
 Depends: R (>= 4.3.0)
 Imports: Rcpp (>= 0.12.12)
-LinkingTo: Rcpp, RcppArmadillo (>= 0.9.800), RcppEnsmallen (>=
-        0.2.10.0)
+LinkingTo: Rcpp, RcppArmadillo (>= 0.10.8), RcppEnsmallen (>= 0.2.10.0)
 Suggests: testthat (>= 2.1.0)
 URL: https://www.mlpack.org/doc/mlpack-git/r_documentation.html,
         https://github.com/mlpack/mlpack
 BugReports: https://github.com/mlpack/mlpack/issues
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Encoding: UTF-8
 NeedsCompilation: yes
-Packaged: 2024-05-28 21:46:11 UTC; runner
+Packaged: 2024-09-18 13:36:40 UTC; runner
 Author: Yashwant Singh Parihar [aut, ctb, cph],
   Ryan Curtin [aut, ctb, cph, cre],
   Dirk Eddelbuettel [aut, ctb, cph],
@@ -317,7 +317,8 @@ Author: Yashwant Singh Parihar [aut, ctb, cph],
   Sri Madhan M [ctb, cph],
   Zhuojin Liu [ctb, cph],
   Richèl Bilderbeek [ctb, cph],
-  Chetan Pandey [ctb, cph]
+  Chetan Pandey [ctb, cph],
+  Nikolay Apanasov [ctb, cph]
 Maintainer: Ryan Curtin <ryan@ratml.org>
 Repository: CRAN
-Date/Publication: 2024-05-31 22:10:03 UTC
+Date/Publication: 2024-10-05 04:20:00 UTC
