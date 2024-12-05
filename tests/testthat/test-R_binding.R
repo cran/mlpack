@@ -281,13 +281,13 @@ test_that("TestNotMatrix", {
 })
 
 # If we pass labels that start from 0, we should get an error.
-#test_that("TestZeroLabels", {
-#  x <- vector(mode="integer", 10)
-#  expect_error(test_r_binding(4.0, 12, "hello", urow_in=x))
-#
-#  y <- matrix(0, 10, 1)
-#  expect_error(test_r_binding(4.0, 12, "hello", ucol_in=y))
-#})
+test_that("TestZeroLabels", {
+  x <- vector(mode="integer", 10)
+  expect_error(test_r_binding(4.0, 12, "hello", urow_in=x))
+
+  y <- matrix(0, 10, 1)
+  expect_error(test_r_binding(4.0, 12, "hello", ucol_in=y))
+})
 
 # First create a GaussianKernel object, then send it back and make sure we get
 # the right double value.

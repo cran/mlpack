@@ -15,7 +15,7 @@ then be integrated into larger-scale machine learning solutions.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://www.mlpack.org/doc/mlpack-git/r_documentation.html}
+  \item \url{https://www.mlpack.org/doc/user/bindings/r.html}
   \item \url{https://github.com/mlpack/mlpack}
   \item Report bugs at \url{https://github.com/mlpack/mlpack/issues}
 }
@@ -172,12 +172,12 @@ Other contributors:
   \item Roshan Nrusing Swain \email{swainroshan001@gmail.com} [contributor, copyright holder]
   \item Suvarsha Chennareddy \email{suvarshachennareddy@gmail.com} [contributor, copyright holder]
   \item Shubham Agrawal \email{shubham.agra1206@gmail.com} [contributor, copyright holder]
-  \item James Joseph Balamuta \email{balamut2@illinois.edu} [contributor, copyright holder]
   \item Sri Madhan M \email{srimadhan11@gmail.com} [contributor, copyright holder]
   \item Zhuojin Liu \email{zhuojinliu.cs@gmail.com} [contributor, copyright holder]
   \item Richèl Bilderbeek \email{richel@richelbilderbeek.nl} [contributor, copyright holder]
   \item Chetan Pandey \email{chetanpandey1266@gmail.com} [contributor, copyright holder]
   \item Nikolay Apanasov \email{nikolay@apanasov.org} [contributor, copyright holder]
+  \item Martin Lambertsen \email{github@lambertsen.one} [contributor, copyright holder]
 }
 
 }
