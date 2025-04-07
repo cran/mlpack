@@ -670,17 +670,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// image_converter_call
-void image_converter_call(SEXP params, SEXP timers);
-RcppExport SEXP _mlpack_image_converter_call(SEXP paramsSEXP, SEXP timersSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type timers(timersSEXP);
-    image_converter_call(params, timers);
-    return R_NilValue;
-END_RCPP
-}
 // kde_call
 void kde_call(SEXP params, SEXP timers);
 RcppExport SEXP _mlpack_kde_call(SEXP paramsSEXP, SEXP timersSEXP) {
@@ -2213,7 +2202,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_mlpack_SetParamHoeffdingTreeModelPtr", (DL_FUNC) &_mlpack_SetParamHoeffdingTreeModelPtr, 3},
     {"_mlpack_SerializeHoeffdingTreeModelPtr", (DL_FUNC) &_mlpack_SerializeHoeffdingTreeModelPtr, 1},
     {"_mlpack_DeserializeHoeffdingTreeModelPtr", (DL_FUNC) &_mlpack_DeserializeHoeffdingTreeModelPtr, 1},
-    {"_mlpack_image_converter_call", (DL_FUNC) &_mlpack_image_converter_call, 2},
     {"_mlpack_kde_call", (DL_FUNC) &_mlpack_kde_call, 2},
     {"_mlpack_GetParamKDEModelPtr", (DL_FUNC) &_mlpack_GetParamKDEModelPtr, 3},
     {"_mlpack_SetParamKDEModelPtr", (DL_FUNC) &_mlpack_SetParamKDEModelPtr, 3},

@@ -178,6 +178,8 @@ Other contributors:
   \item Chetan Pandey \email{chetanpandey1266@gmail.com} [contributor, copyright holder]
   \item Nikolay Apanasov \email{nikolay@apanasov.org} [contributor, copyright holder]
   \item Martin Lambertsen \email{github@lambertsen.one} [contributor, copyright holder]
+  \item Andrea Novellini \email{andre.novellini@gmail.com} [contributor, copyright holder]
+  \item Felix Patschkowski \email{felix.patschkowski@gmail.com} [contributor, copyright holder]
 }
 
 }
