@@ -1,7 +1,7 @@
 Package: mlpack
 Title: 'Rcpp' Integration for the 'mlpack' Library
-Version: 4.6.0
-Date: 2025-04-03
+Version: 4.6.1
+Date: 2025-05-14
 Authors@R: c(
     person("Yashwant", "Singh Parihar", email = "yashwantsingh.sngh@gmail.com", role = c("aut", "ctb", "cph")),
     person("Ryan", "Curtin", email = "ryan@ratml.org", role = c("aut", "ctb", "cph", "cre")),
@@ -153,7 +153,10 @@ Authors@R: c(
     person("Nikolay", "Apanasov", email = "nikolay@apanasov.org", role = c("ctb", "cph")),
     person("Martin", "Lambertsen", email = "github@lambertsen.one", role = c("ctb", "cph")),
     person("Andrea", "Novellini", email = "andre.novellini@gmail.com", role = c("ctb", "cph")),
-    person("Felix", "Patschkowski", email = "felix.patschkowski@gmail.com", role = c("ctb", "cph")))
+    person("Felix", "Patschkowski", email = "felix.patschkowski@gmail.com", role = c("ctb", "cph")),
+    person("Benjamin", "A. Beasley", email = "code@musicinmybrain.net", role = c("ctb", "cph")),
+    person("Maksym", "Prots", email = "imaxprots@gmail.com", role = c("ctb", "cph")),
+    person("Zachary", "Ng", email = "zachn716@gmail.com", role = c("ctb", "cph")))
 Description: A fast, flexible machine learning library, written in C++, that
              aims to provide fast, extensible implementations of cutting-edge
              machine learning algorithms.  See also Curtin et al. (2023)
@@ -172,7 +175,7 @@ BugReports: https://github.com/mlpack/mlpack/issues
 RoxygenNote: 7.3.2
 Encoding: UTF-8
 NeedsCompilation: yes
-Packaged: 2025-04-03 16:20:53 UTC; runner
+Packaged: 2025-05-14 19:26:17 UTC; runner
 Author: Yashwant Singh Parihar [aut, ctb, cph],
   Ryan Curtin [aut, ctb, cph, cre],
   Dirk Eddelbuettel [aut, ctb, cph],
@@ -323,7 +326,10 @@ Author: Yashwant Singh Parihar [aut, ctb, cph],
   Nikolay Apanasov [ctb, cph],
   Martin Lambertsen [ctb, cph],
   Andrea Novellini [ctb, cph],
-  Felix Patschkowski [ctb, cph]
+  Felix Patschkowski [ctb, cph],
+  Benjamin A. Beasley [ctb, cph],
+  Maksym Prots [ctb, cph],
+  Zachary Ng [ctb, cph]
 Maintainer: Ryan Curtin <ryan@ratml.org>
 Repository: CRAN
-Date/Publication: 2025-04-07 14:50:02 UTC
+Date/Publication: 2025-05-16 09:40:09 UTC

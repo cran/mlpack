@@ -229,6 +229,10 @@ DeserializeHoeffdingTreeModelPtr <- function(str) {
     .Call('_mlpack_DeserializeHoeffdingTreeModelPtr', PACKAGE = 'mlpack', str)
 }
 
+image_converter_call <- function(params, timers) {
+    invisible(.Call('_mlpack_image_converter_call', PACKAGE = 'mlpack', params, timers))
+}
+
 kde_call <- function(params, timers) {
     invisible(.Call('_mlpack_kde_call', PACKAGE = 'mlpack', params, timers))
 }

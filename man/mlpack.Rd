@@ -180,6 +180,9 @@ Other contributors:
   \item Martin Lambertsen \email{github@lambertsen.one} [contributor, copyright holder]
   \item Andrea Novellini \email{andre.novellini@gmail.com} [contributor, copyright holder]
   \item Felix Patschkowski \email{felix.patschkowski@gmail.com} [contributor, copyright holder]
+  \item Benjamin A. Beasley \email{code@musicinmybrain.net} [contributor, copyright holder]
+  \item Maksym Prots \email{imaxprots@gmail.com} [contributor, copyright holder]
+  \item Zachary Ng \email{zachn716@gmail.com} [contributor, copyright holder]
 }
 
 }
