@@ -1,4 +1,4 @@
-3b9b07bd067990de19a65bbd87860a1b *DESCRIPTION
+d12a67cb05d9dddb95b49b1ceac16e33 *DESCRIPTION
 bc80323df62309f30b16620e892c1218 *LICENSE
 daf1f3f67dfd8a78f7834a66e6071b34 *NAMESPACE
 699a69c1449c66e1cdb52c5ae3385f51 *R/RcppExports.R
@@ -139,7 +139,7 @@ d09eca61662e38dac7343f4e62f55b15 *inst/include/cereal/types/string.hpp
 62a516e3e0cc7a8e7b38f1591e1950be *inst/include/cereal/types/variant.hpp
 41439b33ba0b1213b231ed88078c7a4f *inst/include/cereal/types/vector.hpp
 1e33146cc7f608dd0fb12892580d2661 *inst/include/cereal/version.hpp
-07706bb31330b307995a99536bbb7605 *inst/include/mlpack.h
+e17a14f4ddc6b40d07101a123942c9b2 *inst/include/mlpack.h
 7382ff08ff71f86d7d1729930fee0c26 *inst/include/mlpack/base.hpp
 d176059d3d960fe3dfc7b5b3ca141d34 *inst/include/mlpack/bindings/util/camel_case.hpp
 2cc651bd10cb34ae412d06d14a15aa8d *inst/include/mlpack/bindings/util/strip_type.hpp
@@ -1284,7 +1284,7 @@ dfb32841df3c68b24baed65d573e3f56 *man/radical.Rd
 35fdbe759a9588b1174da2dd15eac0ab *man/softmax_regression.Rd
 08f4f0565b1b2bd755108a18b74ec4d7 *man/sparse_coding.Rd
 6aa3ec4a17f9dbfb9a1abc9be668508d *man/test_r_binding.Rd
-b5dac74065644a6837d6765dacc6c167 *src/Makevars
+ec382dd40d2ee27588484e70dd8eaeae *src/Makevars
 30311b047856ff81e57a27b037000732 *src/Makevars.win
 381e75d7c8c55a173277984748f9adc4 *src/RcppExports.cpp
 e9972071b069c46f40bbf63b832abdc5 *src/adaboost.cpp
@@ -1346,7 +1346,7 @@ f644e2f6b9575fc43d8c439187f309bc *src/preprocess_split.cpp
 eb591c83ebf118354c37a8ac00711b4f *src/r_util.cpp
 3207ef298967d8bcefb82a4c2f61db6d *src/radical.cpp
 dd5ab51850f0bf4f82005b772e14b0f2 *src/random_forest.cpp
-e4349729a1972e2422192c8ae051d405 *src/rcpp_mlpack.h
+7c0b730681da9f65f90d4587fc5d734d *src/rcpp_mlpack.h
 7c426b94edd36487835675a2225d9f5e *src/softmax_regression.cpp
 a264812dd18074c2c9413bddb07e70c7 *src/sparse_coding.cpp
 13cc54ff3a53d1aa2ef8b7f8bd44a09a *src/test_r_binding.cpp
