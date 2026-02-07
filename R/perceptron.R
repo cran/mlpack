@@ -17,7 +17,7 @@
 #'   parameters and timers at the end of execution.  Default value
 #'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{output_model}{Output for trained perceptron model
 #'   (PerceptronModel).}
 #' \item{predictions}{The matrix in which the predicted labels for the test
@@ -134,6 +134,8 @@ perceptron <- function(input_model=NA,
       "predictions" = GetParamURow(p, "predictions")
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_perceptron", "mlpack_model_binding", "list")
 
   return(out)
 }

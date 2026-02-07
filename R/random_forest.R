@@ -36,7 +36,7 @@
 #'   `input_model` then trains more trees on top of existing model.  Default
 #'   value "FALSE" (logical).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{output_model}{Model to save trained random forest to
 #'   (RandomForestModel).}
 #' \item{predictions}{Predicted classes for each point in the test set
@@ -199,6 +199,8 @@ random_forest <- function(input_model=NA,
       "probabilities" = GetParamMat(p, "probabilities")
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_random_forest", "mlpack_model_binding", "list")
 
   return(out)
 }

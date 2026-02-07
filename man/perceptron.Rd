@@ -31,7 +31,7 @@ parameters and timers at the end of execution.  Default value
 "getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
-A list with several components:
+A list with several components defining the class attributes:
 \item{output_model}{Output for trained perceptron model
   (PerceptronModel).}
 \item{predictions}{The matrix in which the predicted labels for the test

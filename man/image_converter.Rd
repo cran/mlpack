@@ -38,7 +38,7 @@ parameters and timers at the end of execution.  Default value
 \item{width}{Width of the image.  Default value "0" (integer).}
 }
 \value{
-A list with several components:
+A list with several components defining the class attributes:
 \item{output}{Matrix to save images data to, Onlyneeded if you are
   specifying 'save' option (numeric matrix).}
 }

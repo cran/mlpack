@@ -62,7 +62,7 @@ parameters and timers at the end of execution.  Default value
 "getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
-A list with several components:
+A list with several components defining the class attributes:
 \item{distances}{Matrix to output distances into (numeric matrix).}
 \item{neighbors}{Matrix to output neighbors into (integer matrix).}
 \item{output_model}{Output for trained LSH model (LSHSearch).}

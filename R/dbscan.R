@@ -23,7 +23,7 @@
 #'   parameters and timers at the end of execution.  Default value
 #'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{assignments}{Output matrix for assignments of each point (integer
 #'   row).}
 #' \item{centroids}{Matrix to save output centroids to (numeric matrix).}
@@ -121,6 +121,8 @@ dbscan <- function(input,
       "centroids" = GetParamMat(p, "centroids")
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_dbscan", "mlpack_model_binding", "list")
 
   return(out)
 }

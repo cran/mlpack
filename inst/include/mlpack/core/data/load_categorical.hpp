@@ -3,6 +3,7 @@
  * @author ThamNgapWei
  * @author Conrad Sanderson
  * @author Gopi M. Tatiraju
+ * @author Omar Shrit
  *
  * This csv parser is designed by taking reference from
  * armadillo's csv parser. In this mlpack's version, all
@@ -48,12 +49,9 @@
 
 #include "string_algorithms.hpp"
 #include "extension.hpp"
-#include "format.hpp"
 #include "dataset_mapper.hpp"
-#include "types.hpp"
 
 namespace mlpack {
-namespace data {
 
 /**
  * Load the csv file. This class contains functions
@@ -270,7 +268,6 @@ class LoadCSV
   char delim;
 };
 
-} // namespace data
 } // namespace mlpack
 
 #include "load_categorical_impl.hpp"

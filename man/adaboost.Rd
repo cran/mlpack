@@ -38,7 +38,7 @@ parameters and timers at the end of execution.  Default value
 or 'perceptron'.  Default value "decision_stump" (character).}
 }
 \value{
-A list with several components:
+A list with several components defining the class attributes:
 \item{output_model}{Output trained AdaBoost model (AdaBoostModel).}
 \item{predictions}{Predicted labels for the test set (integer row).}
 \item{probabilities}{Predicted class probabilities for each point in the

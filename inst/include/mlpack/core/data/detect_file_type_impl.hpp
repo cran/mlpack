@@ -15,7 +15,50 @@
 #include "detect_file_type.hpp"
 
 namespace mlpack {
-namespace data {
+
+template<typename DataOptionsType>
+bool OpenFile(const std::string& filename,
+              DataOptionsType& opts,
+              bool isLoading,
+              std::fstream& stream)
+{
+  if (isLoading)
+  {
+#ifdef  _WIN32 // Always open in binary mode on Windows.
+    stream.open(filename.c_str(), std::fstream::in
+        | std::fstream::binary);
+#else
+    stream.open(filename.c_str(), std::fstream::in);
+#endif
+  }
+  else
+  {
+#ifdef  _WIN32 // Always open in binary mode on Windows.
+    stream.open(filename.c_str(), std::fstream::out
+        | std::fstream::binary);
+#else
+    stream.open(filename.c_str(), std::fstream::out);
+#endif
+  }
+
+  if (!stream.is_open())
+  {
+    std::stringstream oss;
+    if (isLoading)
+    {
+      oss << "Cannot open file '" << filename << "' for loading.  "
+          << "Please check if the file exists.";
+      return HandleError(oss, opts);
+    }
+    else if (!isLoading)
+    {
+      oss << "Cannot open file '" << filename << "' for saving.  "
+          << "Please check if you have permissions for writing.";
+      return HandleError(oss, opts);
+    }
+  }
+  return true;
+}
 
 /**
  * Given an istream, attempt to guess the file type.  This is taken originally
@@ -78,7 +121,7 @@ inline FileType GuessFileType(std::istream& f)
   for (arma::uword i = 0; i < nUse; ++i)
   {
     const unsigned char val = dataMem[i];
-    if ((val <= 8) || (val >= 123))
+    if (val <= 8)
     {
       hasBinary = true;
       break;
@@ -127,7 +170,8 @@ inline FileType GuessFileType(std::istream& f)
  * @param filename Name of the file.
  * @return The detected file type.
  */
-inline FileType AutoDetect(std::fstream& stream, const std::string& filename)
+inline FileType AutoDetectFile(std::fstream& stream,
+                               const std::string& filename)
 {
   // Get the extension.
   std::string extension = Extension(filename);
@@ -234,9 +278,40 @@ inline FileType AutoDetect(std::fstream& stream, const std::string& filename)
   }
   else if (extension == "arff")
   {
-    return FileType::ARFFASCII;
+    detectedLoadType = FileType::ARFFASCII;
   }
-
+  else if (extension == "png")
+  {
+    detectedLoadType = FileType::PNG;
+  }
+  else if (extension == "jpg" || extension == "jpeg")
+  {
+    detectedLoadType = FileType::JPG;
+  }
+  else if (extension == "tga")
+  {
+    detectedLoadType = FileType::TGA;
+  }
+  else if (extension == "psd")
+  {
+    detectedLoadType = FileType::PSD;
+  }
+  else if (extension == "gif")
+  {
+    detectedLoadType = FileType::GIF;
+  }
+  else if (extension == "pic")
+  {
+    detectedLoadType = FileType::PIC;
+  }
+  else if (extension == "pnm")
+  {
+    detectedLoadType = FileType::PNM;
+  }
+  else if (extension == "bmp")
+  {
+    detectedLoadType = FileType::BMP;
+  }
   else // Unknown extension...
   {
     detectedLoadType = FileType::FileTypeUnknown;
@@ -246,12 +321,11 @@ inline FileType AutoDetect(std::fstream& stream, const std::string& filename)
 }
 
 /**
- * Return the type based only on the extension.
+ * Update FileType in DataOptions based on extension.
  *
  * @param filename Name of the file whose type we should detect.
- * @return Detected type of file.
  */
-template<typename MatType, typename DataOptionsType>
+template<typename ObjectType, typename DataOptionsType>
 void DetectFromExtension(const std::string& filename,
                          DataOptionsType& opts)
 {
@@ -263,12 +337,12 @@ void DetectFromExtension(const std::string& filename,
   }
   else if (extension == "txt")
   {
-    if (IsSparseMat<MatType>::value)
+    if (IsSparseMat<ObjectType>::value)
       opts.Format() = FileType::CoordASCII;
     else
       opts.Format() = FileType::RawASCII;
   }
-  else if (extension == "bin")
+  else if (!HasSerialize<ObjectType>::value && extension == "bin")
   {
     opts.Format() = FileType::ArmaBinary;
   }
@@ -285,10 +359,111 @@ void DetectFromExtension(const std::string& filename,
   {
     opts.Format() = FileType::ARFFASCII;
   }
+  else if (extension == "png")
+  {
+    opts.Format() = FileType::PNG;
+  }
+  else if (extension == "jpg" || extension == "jpeg")
+  {
+    opts.Format() = FileType::JPG;
+  }
+  else if (extension == "tga")
+  {
+    opts.Format() = FileType::TGA;
+  }
+  else if (extension == "psd")
+  {
+    opts.Format() = FileType::PSD;
+  }
+  else if (extension == "gif")
+  {
+    opts.Format() = FileType::GIF;
+  }
+  else if (extension == "pic")
+  {
+    opts.Format() = FileType::PIC;
+  }
+  else if (extension == "pnm")
+  {
+    opts.Format() = FileType::PNM;
+  }
+  else if (extension == "bmp")
+  {
+    opts.Format() = FileType::BMP;
+  }
   else
   {
     opts.Format() = FileType::FileTypeUnknown;
   }
+}
+
+template<typename ObjectType, typename DataOptionsType>
+void DetectFromSerializedExtension(const std::string& filename,
+                                   DataOptionsType& opts)
+{
+  const std::string extension = Extension(filename);
+  if (extension == "xml")
+  {
+    opts.Format() = FileType::XML;
+  }
+  else if (extension == "bin")
+  {
+    opts.Format() = FileType::BIN;
+  }
+  else if (extension == "json")
+  {
+    opts.Format() = FileType::JSON;
+  }
+  else
+  {
+    opts.Format() = FileType::FileTypeUnknown;
+  }
+}
+
+template<typename ObjectType, typename DataOptionsType>
+bool DetectFileType(const std::string& filename,
+                    DataOptionsType& opts,
+                    bool isLoading,
+                    std::fstream* stream)
+{
+  if constexpr (HasSerialize<ObjectType>::value)
+  {
+    if (opts.Format() == FileType::AutoDetect)
+    {
+      DetectFromSerializedExtension<ObjectType>(filename, opts);
+      if (opts.Format() == FileType::FileTypeUnknown)
+      {
+        std::stringstream oss;
+        oss << "Unable to detect type of '" << filename
+            << "'; incorrect extension? (allowed: xml/bin/json)";
+        return HandleError(oss, opts);
+      }
+    }
+  }
+  else
+  {
+    if (opts.Format() == FileType::AutoDetect)
+    {
+      if (isLoading)
+      {
+        // Attempt to auto-detect the type from the given file.
+        opts.Format() = AutoDetectFile(*stream, filename);
+      }
+      else
+      {
+        DetectFromExtension<ObjectType>(filename, opts);
+      }
+      // Provide error if we don't know the type.
+      if (opts.Format() == FileType::FileTypeUnknown)
+      {
+        std::stringstream oss;
+        oss <<  "Unable to detect type of '" << filename << "'; "
+            << "incorrect extension?";
+        return HandleError(oss, opts);
+      }
+    }
+  }
+  return true;
 }
 
 /**
@@ -318,5 +493,4 @@ inline size_t CountCols(std::fstream& f)
   return cols;
 }
 
-} // namespace data
 } // namespace mlpack

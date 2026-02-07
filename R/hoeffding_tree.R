@@ -39,7 +39,7 @@
 #'   parameters and timers at the end of execution.  Default value
 #'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{output_model}{Output for trained Hoeffding tree model
 #'   (HoeffdingTreeModel).}
 #' \item{predictions}{Matrix to output label predictions for test data into
@@ -202,6 +202,8 @@ hoeffding_tree <- function(batch_mode=FALSE,
       "probabilities" = GetParamMat(p, "probabilities")
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_hoeffding_tree", "mlpack_model_binding", "list")
 
   return(out)
 }

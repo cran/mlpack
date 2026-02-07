@@ -16,7 +16,7 @@ parameters and timers at the end of execution.  Default value
 "getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
-A list with several components:
+A list with several components defining the class attributes:
 \item{log_likelihood}{Log-likelihood of the sequence.  Default value "0"
   (numeric).}
 }

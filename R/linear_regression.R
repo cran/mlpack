@@ -20,7 +20,7 @@
 #'   parameters and timers at the end of execution.  Default value
 #'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{output_model}{Output LinearRegression model (LinearRegression).}
 #' \item{output_predictions}{If --test_file is specified, this matrix is
 #'   where the predicted responses will be saved (numeric row).}
@@ -127,6 +127,8 @@ linear_regression <- function(input_model=NA,
       "output_predictions" = GetParamRow(p, "output_predictions")
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_linear_regression", "mlpack_model_binding", "list")
 
   return(out)
 }

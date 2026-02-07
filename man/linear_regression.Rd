@@ -34,7 +34,7 @@ parameters and timers at the end of execution.  Default value
 "getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
-A list with several components:
+A list with several components defining the class attributes:
 \item{output_model}{Output LinearRegression model (LinearRegression).}
 \item{output_predictions}{If --test_file is specified, this matrix is
   where the predicted responses will be saved (numeric row).}

@@ -25,7 +25,7 @@
 #'   parameters and timers at the end of execution.  Default value
 #'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{output_model}{Output LARS model (LARS).}
 #' \item{output_predictions}{If --test_file is specified, this file is
 #'   where the predicted responses will be saved (numeric matrix).}
@@ -166,6 +166,8 @@ lars <- function(input=NA,
       "output_predictions" = GetParamMat(p, "output_predictions")
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_lars", "mlpack_model_binding", "list")
 
   return(out)
 }

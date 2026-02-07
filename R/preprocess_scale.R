@@ -1,8 +1,8 @@
 #' @title Scale Data
 #'
 #' @description
-#' A utility to perform feature scaling on datasets using one of sixtechniques. 
-#' Both scaling and inverse scaling are supported, andscalers can be saved and
+#' A utility to perform feature scaling on datasets using one of six techniques.
+#'  Both scaling and inverse scaling are supported, and scalers can be saved and
 #' then applied to other datasets.
 #'
 #' @param input Matrix containing data (numeric matrix).
@@ -23,7 +23,7 @@
 #'   parameters and timers at the end of execution.  Default value
 #'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{output}{Matrix to save scaled data to (numeric matrix).}
 #' \item{output_model}{Output scaling model (ScalingModel).}
 #'
@@ -153,6 +153,8 @@ preprocess_scale <- function(input,
       "output_model" = output_model
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_preprocess_scale", "mlpack_model_binding", "list")
 
   return(out)
 }

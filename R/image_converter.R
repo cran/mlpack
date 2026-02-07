@@ -20,7 +20,7 @@
 #'   "getOption("mlpack.verbose", FALSE)" (logical).
 #' @param width Width of the image.  Default value "0" (integer).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{output}{Matrix to save images data to, Onlyneeded if you are
 #'   specifying 'save' option (numeric matrix).}
 #'
@@ -111,6 +111,8 @@ image_converter <- function(input,
       "output" = GetParamMat(p, "output")
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_image_converter", "mlpack_model_binding", "list")
 
   return(out)
 }

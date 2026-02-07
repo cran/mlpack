@@ -77,7 +77,7 @@ parameters and timers at the end of execution.  Default value
 (numeric).}
 }
 \value{
-A list with several components:
+A list with several components defining the class attributes:
 \item{output}{Output matrix for learned distance matrix (numeric
   matrix).}
 }

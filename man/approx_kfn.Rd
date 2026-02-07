@@ -49,7 +49,7 @@ parameters and timers at the end of execution.  Default value
 "getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
-A list with several components:
+A list with several components defining the class attributes:
 \item{distances}{Matrix to save furthest neighbor distances to (numeric
   matrix).}
 \item{neighbors}{Matrix to save neighbor indices to (integer matrix).}

@@ -33,7 +33,7 @@
 #'   parameters and timers at the end of execution.  Default value
 #'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{codes}{Matrix to save the output sparse codes of the test matrix
 #'   (--test_file) to (numeric matrix).}
 #' \item{dictionary}{Matrix to save the output dictionary to (numeric
@@ -183,6 +183,8 @@ sparse_coding <- function(atoms=NA,
       "output_model" = output_model
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_sparse_coding", "mlpack_model_binding", "list")
 
   return(out)
 }

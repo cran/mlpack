@@ -23,7 +23,7 @@
 #'   parameters and timers at the end of execution.  Default value
 #'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{output_ic}{Matrix to save independent components to (numeric
 #'   matrix).}
 #' \item{output_unmixing}{Matrix to save unmixing matrix to (numeric
@@ -114,6 +114,8 @@ radical <- function(input,
       "output_unmixing" = GetParamMat(p, "output_unmixing")
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_radical", "mlpack_model_binding", "list")
 
   return(out)
 }

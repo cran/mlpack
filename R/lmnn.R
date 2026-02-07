@@ -46,7 +46,7 @@
 #'   parameters and timers at the end of execution.  Default value
 #'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{centered_data}{Output matrix for mean-centered dataset (numeric
 #'   matrix).}
 #' \item{output}{Output matrix for learned distance matrix (numeric
@@ -261,6 +261,8 @@ lmnn <- function(input,
       "transformed_data" = GetParamMat(p, "transformed_data")
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_lmnn", "mlpack_model_binding", "list")
 
   return(out)
 }

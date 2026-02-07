@@ -43,7 +43,7 @@ parameters and timers at the end of execution.  Default value
 "getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
-A list with several components:
+A list with several components defining the class attributes:
 \item{h}{Matrix to save the calculated H to (numeric matrix).}
 \item{w}{Matrix to save the calculated W to (numeric matrix).}
 }

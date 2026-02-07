@@ -32,7 +32,7 @@
 #'   parameters and timers at the end of execution.  Default value
 #'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{output_model}{Output for trained logistic regression model
 #'   (LogisticRegression).}
 #' \item{predictions}{If test data is specified, this matrix is where the
@@ -207,6 +207,8 @@ logistic_regression <- function(batch_size=NA,
       "probabilities" = GetParamMat(p, "probabilities")
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_logistic_regression", "mlpack_model_binding", "list")
 
   return(out)
 }

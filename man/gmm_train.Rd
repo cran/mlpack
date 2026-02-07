@@ -73,7 +73,7 @@ parameters and timers at the end of execution.  Default value
 "getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
-A list with several components:
+A list with several components defining the class attributes:
 \item{output_model}{Output for trained GMM model (GMM).}
 }
 \description{

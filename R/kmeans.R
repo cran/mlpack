@@ -40,7 +40,7 @@
 #'   parameters and timers at the end of execution.  Default value
 #'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{centroid}{If specified, the centroids of each cluster will  be
 #'   written to the given file (numeric matrix).}
 #' \item{output}{Matrix to store output labels or labeled data to (numeric
@@ -205,6 +205,8 @@ kmeans <- function(clusters,
       "output" = GetParamMat(p, "output")
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_kmeans", "mlpack_model_binding", "list")
 
   return(out)
 }

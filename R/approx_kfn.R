@@ -27,7 +27,7 @@
 #'   parameters and timers at the end of execution.  Default value
 #'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{distances}{Matrix to save furthest neighbor distances to (numeric
 #'   matrix).}
 #' \item{neighbors}{Matrix to save neighbor indices to (integer matrix).}
@@ -182,6 +182,8 @@ approx_kfn <- function(algorithm=NA,
       "output_model" = output_model
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_approx_kfn", "mlpack_model_binding", "list")
 
   return(out)
 }

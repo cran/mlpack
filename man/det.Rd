@@ -45,7 +45,7 @@ parameters and timers at the end of execution.  Default value
 "getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
-A list with several components:
+A list with several components defining the class attributes:
 \item{output_model}{Output to save trained density estimation tree to
   (DTree).}
 \item{tag_counters_file}{The file to output the number of points that

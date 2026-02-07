@@ -52,7 +52,7 @@ parameters and timers at the end of execution.  Default value
 \item{weights}{The weight of label (numeric matrix).}
 }
 \value{
-A list with several components:
+A list with several components defining the class attributes:
 \item{output_model}{Output for trained decision tree
   (DecisionTreeModel).}
 \item{predictions}{Class predictions for each test point (integer

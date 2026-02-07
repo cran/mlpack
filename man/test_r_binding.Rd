@@ -69,7 +69,7 @@ parameters and timers at the end of execution.  Default value
 "getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
-A list with several components:
+A list with several components defining the class attributes:
 \item{col_out}{Output column. 2x input colum (numeric column).}
 \item{double_out}{Output double, will be 5.0.  Default value "0"
   (numeric).}

@@ -60,7 +60,7 @@ parameters and timers at the end of execution.  Default value
 "getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
-A list with several components:
+A list with several components defining the class attributes:
 \item{indices}{Output matrix of indices (integer matrix).}
 \item{kernels}{Output matrix of kernels (numeric matrix).}
 \item{output_model}{Output for FastMKS model (FastMKSModel).}

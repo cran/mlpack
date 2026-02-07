@@ -12,7 +12,7 @@
 #'   parameters and timers at the end of execution.  Default value
 #'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{output}{File to save predicted state sequence to (integer
 #'   matrix).}
 #'
@@ -67,6 +67,8 @@ hmm_viterbi <- function(input,
       "output" = GetParamUMat(p, "output")
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_hmm_viterbi", "mlpack_model_binding", "list")
 
   return(out)
 }

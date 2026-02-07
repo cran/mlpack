@@ -61,7 +61,7 @@ parameters and timers at the end of execution.  Default value
 "getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
-A list with several components:
+A list with several components defining the class attributes:
 \item{codes}{Matrix to save the output sparse codes of the test matrix
   (--test_file) to (numeric matrix).}
 \item{dictionary}{Matrix to save the output dictionary to (numeric

@@ -28,7 +28,7 @@
 #'   "getOption("mlpack.verbose", FALSE)" (logical).
 #' @param weights The weight of label (numeric matrix).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{output_model}{Output for trained decision tree
 #'   (DecisionTreeModel).}
 #' \item{predictions}{Class predictions for each test point (integer
@@ -173,6 +173,8 @@ decision_tree <- function(input_model=NA,
       "probabilities" = GetParamMat(p, "probabilities")
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_decision_tree", "mlpack_model_binding", "list")
 
   return(out)
 }

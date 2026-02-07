@@ -36,7 +36,7 @@ parameters and timers at the end of execution.  Default value
 "getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
-A list with several components:
+A list with several components defining the class attributes:
 \item{test}{Matrix to save test data to (numeric matrix).}
 \item{test_labels}{Matrix to save test labels to (integer matrix).}
 \item{training}{Matrix to save training data to (numeric matrix).}

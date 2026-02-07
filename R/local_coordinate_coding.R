@@ -26,7 +26,7 @@
 #'   parameters and timers at the end of execution.  Default value
 #'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{codes}{Output codes matrix (numeric matrix).}
 #' \item{dictionary}{Output dictionary matrix (numeric matrix).}
 #' \item{output_model}{Output for trained LCC model
@@ -166,6 +166,8 @@ local_coordinate_coding <- function(atoms=NA,
       "output_model" = output_model
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_local_coordinate_coding", "mlpack_model_binding", "list")
 
   return(out)
 }

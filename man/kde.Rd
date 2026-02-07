@@ -70,7 +70,7 @@ parameters and timers at the end of execution.  Default value
 "getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
-A list with several components:
+A list with several components defining the class attributes:
 \item{output_model}{If specified, the KDE model will be saved here
   (KDEModel).}
 \item{predictions}{Vector to store density predictions (numeric

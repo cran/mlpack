@@ -25,16 +25,56 @@
 namespace mlpack {
 
 /**
+ * The KNNType class is the convenience template type of NeighborSearch that
+ * allows users to specify the behavior of k-nearest-neighbor search class.
+ */
+template<typename DistanceType = EuclideanDistance,
+         template<typename TreeDistanceType,
+                  typename TreeStatType,
+                  typename TreeMatType> class TreeType = KDTree,
+         typename MatType = arma::mat,
+         template<typename RuleType> class DualTreeTraversalType =
+             TreeType<DistanceType,
+                      NeighborSearchStat<NearestNeighborSort>,
+                      MatType>::template DualTreeTraverser,
+         template<typename RuleType> class SingleTreeTraversalType =
+             TreeType<DistanceType,
+                      NeighborSearchStat<NearestNeighborSort>,
+                      MatType>::template SingleTreeTraverser>
+using KNNType = NeighborSearch<NearestNeighborSort, DistanceType, MatType,
+    TreeType, DualTreeTraversalType, SingleTreeTraversalType>;
+
+/**
  * The KNN class is the k-nearest-neighbors method.  It returns L2 distances
  * (Euclidean distances) for each of the k nearest neighbors.
  */
-using KNN = NeighborSearch<NearestNeighborSort, EuclideanDistance>;
+using KNN = KNNType<>;
+
+/**
+ * The KFNType class is the convenience template type of NeighborSearch that
+ * allows users to specify the behavior of k-furthest-neighbor search class.
+ */
+template<typename DistanceType = EuclideanDistance,
+         template<typename TreeDistanceType,
+                  typename TreeStatType,
+                  typename TreeMatType> class TreeType = KDTree,
+         typename MatType = arma::mat,
+         template<typename RuleType> class DualTreeTraversalType =
+             TreeType<DistanceType,
+                      NeighborSearchStat<FurthestNeighborSort>,
+                      MatType>::template DualTreeTraverser,
+         template<typename RuleType> class SingleTreeTraversalType =
+             TreeType<DistanceType,
+                      NeighborSearchStat<FurthestNeighborSort>,
+                      MatType>::template SingleTreeTraverser>
+using KFNType = NeighborSearch<FurthestNeighborSort, DistanceType, MatType,
+    TreeType, DualTreeTraversalType, SingleTreeTraversalType>;
 
 /**
  * The KFN class is the k-furthest-neighbors method.  It returns L2 distances
  * (Euclidean distances) for each of the k furthest neighbors.
  */
-using KFN = NeighborSearch<FurthestNeighborSort, EuclideanDistance>;
+using KFN = KFNType<>;
 
 /**
  * The DefeatistKNN class is the k-nearest-neighbors method considering

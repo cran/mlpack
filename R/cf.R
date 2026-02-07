@@ -40,7 +40,7 @@
 #'   parameters and timers at the end of execution.  Default value
 #'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{output}{Matrix that will store output recommendations (integer
 #'   matrix).}
 #' \item{output_model}{Output for trained CF model (CFModel).}
@@ -244,6 +244,8 @@ cf <- function(algorithm=NA,
       "output_model" = output_model
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_cf", "mlpack_model_binding", "list")
 
   return(out)
 }

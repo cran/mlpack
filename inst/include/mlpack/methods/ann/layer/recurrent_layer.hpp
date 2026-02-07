@@ -58,7 +58,10 @@ template<typename MatType = arma::mat>
 class RecurrentLayer : public Layer<MatType>
 {
  public:
+  // Convenience typedefs.
+  using ElemType = typename MatType::elem_type;
   using CubeType = typename GetCubeType<MatType>::type;
+
   /**
    * Create the RecurrentLayer.
    */
@@ -123,6 +126,16 @@ class RecurrentLayer : public Layer<MatType>
   // (Don't do this inside of your recurrent layer's implementation!  This is
   // meant to be done by the enclosing network.)
   void CurrentStep(const size_t& step, const bool end = false);
+
+  /**
+   * Update the internal state of the layer when the step changes. This is
+   * meant to be called by the enclosing network. A child recurrent class
+   * should override this.
+   */
+  virtual void OnStepChanged(const size_t /* step */,
+                             const size_t /* batchSize */,
+                             const size_t /* activeBatchSize */,
+                             const bool /* backwards */) { }
 
   // Get the previous step.  This is a very simple function but can lead to
   // slightly more readable code in Forward(), Backward(), and Gradient()

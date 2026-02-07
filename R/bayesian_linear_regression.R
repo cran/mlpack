@@ -17,7 +17,7 @@
 #'   parameters and timers at the end of execution.  Default value
 #'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{output_model}{Output BayesianLinearRegression model
 #'   (BayesianLinearRegression).}
 #' \item{predictions}{If --test_file is specified, this file is where the
@@ -149,6 +149,8 @@ bayesian_linear_regression <- function(center=FALSE,
       "stds" = GetParamMat(p, "stds")
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_bayesian_linear_regression", "mlpack_model_binding", "list")
 
   return(out)
 }

@@ -34,7 +34,7 @@
 #'   parameters and timers at the end of execution.  Default value
 #'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{distances}{Matrix to output distances into (numeric matrix).}
 #' \item{neighbors}{Matrix to output neighbors into (integer matrix).}
 #' \item{output_model}{Output for trained LSH model (LSHSearch).}
@@ -166,6 +166,8 @@ lsh <- function(bucket_size=NA,
       "output_model" = output_model
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_lsh", "mlpack_model_binding", "list")
 
   return(out)
 }

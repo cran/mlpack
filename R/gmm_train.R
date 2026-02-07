@@ -40,7 +40,7 @@
 #'   parameters and timers at the end of execution.  Default value
 #'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{output_model}{Output for trained GMM model (GMM).}
 #'
 #' @details
@@ -200,6 +200,8 @@ gmm_train <- function(gaussians,
       "output_model" = output_model
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_gmm_train", "mlpack_model_binding", "list")
 
   return(out)
 }

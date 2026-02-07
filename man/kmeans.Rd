@@ -73,7 +73,7 @@ parameters and timers at the end of execution.  Default value
 "getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
-A list with several components:
+A list with several components defining the class attributes:
 \item{centroid}{If specified, the centroids of each cluster will  be
   written to the given file (numeric matrix).}
 \item{output}{Matrix to store output labels or labeled data to (numeric

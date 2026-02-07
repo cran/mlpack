@@ -18,7 +18,7 @@
 #'   parameters and timers at the end of execution.  Default value
 #'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{test}{Matrix to save test data to (numeric matrix).}
 #' \item{test_labels}{Matrix to save test labels to (integer matrix).}
 #' \item{training}{Matrix to save training data to (numeric matrix).}
@@ -143,6 +143,8 @@ preprocess_split <- function(input,
       "training_labels" = GetParamUMat(p, "training_labels")
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_preprocess_split", "mlpack_model_binding", "list")
 
   return(out)
 }

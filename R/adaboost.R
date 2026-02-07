@@ -19,7 +19,7 @@
 #' @param weak_learner The type of weak learner to use: 'decision_stump',
 #'   or 'perceptron'.  Default value "decision_stump" (character).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{output_model}{Output trained AdaBoost model (AdaBoostModel).}
 #' \item{predictions}{Predicted labels for the test set (integer row).}
 #' \item{probabilities}{Predicted class probabilities for each point in the
@@ -141,6 +141,8 @@ adaboost <- function(input_model=NA,
       "probabilities" = GetParamMat(p, "probabilities")
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_adaboost", "mlpack_model_binding", "list")
 
   return(out)
 }

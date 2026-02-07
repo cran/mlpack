@@ -12,7 +12,7 @@
 #'   parameters and timers at the end of execution.  Default value
 #'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{output}{Matrix to save output samples in (numeric matrix).}
 #'
 #' @details
@@ -71,6 +71,8 @@ gmm_generate <- function(input_model,
       "output" = GetParamMat(p, "output")
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_gmm_generate", "mlpack_model_binding", "list")
 
   return(out)
 }

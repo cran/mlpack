@@ -15,7 +15,7 @@
 #'   parameters and timers at the end of execution.  Default value
 #'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{output}{Matrix to save observation sequence to (numeric matrix).}
 #' \item{state}{Matrix to save hidden state sequence to (integer matrix).}
 #'
@@ -87,6 +87,8 @@ hmm_generate <- function(length,
       "state" = GetParamUMat(p, "state")
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_hmm_generate", "mlpack_model_binding", "list")
 
   return(out)
 }

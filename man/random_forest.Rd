@@ -66,7 +66,7 @@ parameters and timers at the end of execution.  Default value
 value "FALSE" (logical).}
 }
 \value{
-A list with several components:
+A list with several components defining the class attributes:
 \item{output_model}{Model to save trained random forest to
   (RandomForestModel).}
 \item{predictions}{Predicted classes for each point in the test set

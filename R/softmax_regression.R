@@ -28,7 +28,7 @@
 #'   parameters and timers at the end of execution.  Default value
 #'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{output_model}{File to save trained softmax regression model to
 #'   (SoftmaxRegression).}
 #' \item{predictions}{Matrix to save predictions for test dataset into
@@ -165,6 +165,8 @@ softmax_regression <- function(input_model=NA,
       "probabilities" = GetParamMat(p, "probabilities")
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_softmax_regression", "mlpack_model_binding", "list")
 
   return(out)
 }

@@ -30,7 +30,7 @@
 // number.
 //
 #ifndef MLPACK_GIT_VERSION
-#define MLPACK_GIT_VERSION
+// #define MLPACK_GIT_VERSION
 #endif
 
 //

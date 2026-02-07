@@ -28,7 +28,7 @@
 #'   parameters and timers at the end of execution.  Default value
 #'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{col_out}{Output column. 2x input colum (numeric column).}
 #' \item{double_out}{Output double, will be 5.0.  Default value "0"
 #'   (numeric).}
@@ -194,6 +194,8 @@ test_r_binding <- function(double_in,
       "vector_out" = GetParamVecInt(p, "vector_out")
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_test_R_binding", "mlpack_model_binding", "list")
 
   return(out)
 }

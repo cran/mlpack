@@ -107,6 +107,8 @@ preprocess_describe <- function(input,
 
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_preprocess_describe", "mlpack_model_binding", "list")
 
   return(out)
 }

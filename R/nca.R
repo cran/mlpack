@@ -41,7 +41,7 @@
 #' @param wolfe Wolfe condition parameter for L-BFGS.  Default value "0.9"
 #'   (numeric).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{output}{Output matrix for learned distance matrix (numeric
 #'   matrix).}
 #'
@@ -206,6 +206,8 @@ nca <- function(input,
       "output" = GetParamMat(p, "output")
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_nca", "mlpack_model_binding", "list")
 
   return(out)
 }

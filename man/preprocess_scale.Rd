@@ -44,13 +44,13 @@ parameters and timers at the end of execution.  Default value
 "getOption("mlpack.verbose", FALSE)" (logical).}
 }
 \value{
-A list with several components:
+A list with several components defining the class attributes:
 \item{output}{Matrix to save scaled data to (numeric matrix).}
 \item{output_model}{Output scaling model (ScalingModel).}
 }
 \description{
-A utility to perform feature scaling on datasets using one of sixtechniques. 
-Both scaling and inverse scaling are supported, andscalers can be saved and
+A utility to perform feature scaling on datasets using one of six techniques.
+ Both scaling and inverse scaling are supported, and scalers can be saved and
 then applied to other datasets.
 }
 \details{

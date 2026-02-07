@@ -18,16 +18,24 @@
 #define MLPACK_CORE_UTIL_USING_HPP
 
 #include "arma_traits.hpp"
+#include "coot_traits.hpp"
 
 namespace mlpack {
 
 #ifdef MLPACK_HAS_COOT
 
 /* using for bandicoot namespace*/
-using coot::exp;
+using coot::accu;
+using coot::all;
+using coot::conv_to;
 using coot::dot;
+using coot::exp;
+using coot::find;
+using coot::find_nan;
+using coot::find_nonfinite;
 using coot::join_cols;
 using coot::join_rows;
+using coot::linspace;
 using coot::log;
 using coot::min;
 using coot::max;
@@ -41,21 +49,38 @@ using coot::randn;
 using coot::randu;
 using coot::repmat;
 using coot::sign;
+using coot::size;
+using coot::sort_index;
 using coot::sqrt;
 using coot::square;
 using coot::sum;
 using coot::trans;
 using coot::vectorise;
 using coot::zeros;
+#else
+
+// Only use arma::conv_to if Bandicoot is not available: Bandicoot's conv_to
+// supports Armadillo types too.
+using arma::conv_to;
 
 #endif
 
 /* using for armadillo namespace */
-using arma::exp;
+using arma::accu;
+using arma::all;
 using arma::dot;
+using arma::exp;
+using arma::find;
+#if ARMA_VERSION_MAJOR > 11 || \
+    (ARMA_VERSION_MAJOR == 11 && ARMA_VERSION_MINOR >= 4)
+using arma::find_nan;
+#endif
+using arma::find_nonfinite;
 using arma::join_cols;
 using arma::join_rows;
+using arma::linspace;
 using arma::log;
+using arma::linspace;
 using arma::min;
 using arma::max;
 using arma::mean;
@@ -68,6 +93,8 @@ using arma::randn;
 using arma::randu;
 using arma::repmat;
 using arma::sign;
+using arma::size;
+using arma::sort_index;
 using arma::sqrt;
 using arma::square;
 using arma::sum;

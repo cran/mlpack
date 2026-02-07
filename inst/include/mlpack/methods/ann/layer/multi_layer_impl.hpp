@@ -81,6 +81,8 @@ MultiLayer<MatType>& MultiLayer<MatType>::operator=(const MultiLayer& other)
   {
     Layer<MatType>::operator=(other);
 
+    for (size_t i = 0; i < network.size(); ++i)
+      delete network[i];
     network.clear();
     layerOutputs.clear();
     layerDeltas.clear();
@@ -120,6 +122,8 @@ MultiLayer<MatType>& MultiLayer<MatType>::operator=(MultiLayer&& other)
     totalInputSize = std::move(other.totalInputSize);
     totalOutputSize = std::move(other.totalOutputSize);
 
+    for (size_t i = 0; i < network.size(); ++i)
+      delete network[i];
     network = std::move(other.network);
 
     layerOutputs.resize(network.size(), MatType());
@@ -138,11 +142,11 @@ template<typename MatType>
 void MultiLayer<MatType>::Forward(
     const MatType& input, MatType& output)
 {
-  Forward(input, output, 0, network.size() - 1);
+  PartialForward(input, output, 0, network.size() - 1);
 }
 
 template<typename MatType>
-void MultiLayer<MatType>::Forward(
+void MultiLayer<MatType>::PartialForward(
     const MatType& input,
     MatType& output,
     const size_t start,

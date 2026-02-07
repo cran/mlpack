@@ -32,8 +32,10 @@
 #include <mlpack/methods/ann/layer/dropconnect.hpp>
 #include <mlpack/methods/ann/layer/dropout.hpp>
 #include <mlpack/methods/ann/layer/elu.hpp>
+#include <mlpack/methods/ann/layer/embedding.hpp>
 #include <mlpack/methods/ann/layer/flexible_relu.hpp>
 #include <mlpack/methods/ann/layer/grouped_convolution.hpp>
+#include <mlpack/methods/ann/layer/gru.hpp>
 #include <mlpack/methods/ann/layer/hard_tanh.hpp>
 #include <mlpack/methods/ann/layer/identity.hpp>
 #include <mlpack/methods/ann/layer/layer_norm.hpp>
@@ -56,12 +58,13 @@
 #include <mlpack/methods/ann/layer/repeat.hpp>
 #include <mlpack/methods/ann/layer/softmax.hpp>
 #include <mlpack/methods/ann/layer/softmin.hpp>
+#include <mlpack/methods/ann/layer/sum_reduce.hpp>
 #include <mlpack/methods/ann/layer/ftswish.hpp>
 
 // Convolution modes.
 #include <mlpack/methods/ann/convolution_rules/border_modes.hpp>
-#include <mlpack/methods/ann/convolution_rules/fft_convolution.hpp>
 #include <mlpack/methods/ann/convolution_rules/naive_convolution.hpp>
+#include <mlpack/methods/ann/convolution_rules/im2col_convolution.hpp>
 
 // Regularizers.
 #include <mlpack/methods/ann/regularizer/no_regularizer.hpp>

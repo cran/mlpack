@@ -12,7 +12,7 @@
 #'   parameters and timers at the end of execution.  Default value
 #'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{output}{Matrix to save one-hot encoded features data to (numeric
 #'   matrix).}
 #'
@@ -75,6 +75,8 @@ preprocess_one_hot_encoding <- function(input,
       "output" = GetParamMat(p, "output")
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_preprocess_one_hot_encoding", "mlpack_model_binding", "list")
 
   return(out)
 }

@@ -32,7 +32,7 @@
 #'   parameters and timers at the end of execution.  Default value
 #'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{indices}{Output matrix of indices (integer matrix).}
 #' \item{kernels}{Output matrix of kernels (numeric matrix).}
 #' \item{output_model}{Output for FastMKS model (FastMKSModel).}
@@ -163,6 +163,8 @@ fastmks <- function(bandwidth=NA,
       "output_model" = output_model
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_fastmks", "mlpack_model_binding", "list")
 
   return(out)
 }

@@ -12,7 +12,7 @@
 #'   parameters and timers at the end of execution.  Default value
 #'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{log_likelihood}{Log-likelihood of the sequence.  Default value "0"
 #'   (numeric).}
 #'
@@ -65,6 +65,8 @@ hmm_loglik <- function(input,
       "log_likelihood" = GetParamDouble(p, "log_likelihood")
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_hmm_loglik", "mlpack_model_binding", "list")
 
   return(out)
 }

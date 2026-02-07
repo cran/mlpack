@@ -43,7 +43,7 @@
 #'   parameters and timers at the end of execution.  Default value
 #'   "getOption("mlpack.verbose", FALSE)" (logical).
 #'
-#' @return A list with several components:
+#' @return A list with several components defining the class attributes:
 #' \item{distances}{Matrix to output distances into (numeric matrix).}
 #' \item{neighbors}{Matrix to output neighbors into (integer matrix).}
 #' \item{output_model}{If specified, the kNN model will be output here
@@ -191,6 +191,8 @@ krann <- function(alpha=NA,
       "output_model" = output_model
   )
 
+  # Add binding name as class to the output.
+  class(out) <- c("mlpack_krann", "mlpack_model_binding", "list")
 
   return(out)
 }
